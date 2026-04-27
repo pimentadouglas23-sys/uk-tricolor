@@ -230,8 +230,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <div class="reg" style="margin-top:1rem">
       <h3>📋 Regulamento</h3>
       <div class="reg-item"><div class="reg-num">3</div><div class="reg-txt"><strong>Placar exato</strong> — 3 pontos</div></div>
-      <div class="reg-item"><div class="reg-num">1</div><div class="reg-txt"><strong>Resultado certo</strong> — 1 ponto</div></div>
-      <div class="reg-item"><div class="reg-num">£</div><div class="reg-txt"><strong>Premiação</strong> — os 3 primeiros dividem o prêmio</div></div>
+            <div class="reg-item"><div class="reg-num">£</div><div class="reg-txt"><strong>Premiação</strong> — os 3 primeiros dividem o prêmio</div></div>
     </div>
   </div>
 </div>
@@ -635,7 +634,6 @@ function calcPontos(uid){
     if(p.casa === j.golsCasa && p.fora === j.golsFora){ pts += 3; return; }
     var rj = j.golsCasa > j.golsFora ? "H" : j.golsCasa < j.golsFora ? "A" : "D";
     var rp = p.casa > p.fora ? "H" : p.casa < p.fora ? "A" : "D";
-    if(rj === rp) pts += 1;
   });
   return pts;
 }
@@ -692,7 +690,7 @@ function renderBolao(){
         var exact = p && p.casa === j.golsCasa && p.fora === j.golsFora;
         var rj = j.golsCasa > j.golsFora ? "H" : j.golsCasa < j.golsFora ? "A" : "D";
         var rp = p ? (p.casa > p.fora ? "H" : p.casa < p.fora ? "A" : "D") : null;
-        var certo = p && !exact && rj === rp;
+        var certo = false;
         html += '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:1.2rem;margin-bottom:0.8rem">' +
           '<div style="font-size:0.68rem;color:#4ade80;font-weight:700;letter-spacing:1px;margin-bottom:0.5rem;font-family:Barlow Condensed,sans-serif">✅ ENCERRADO</div>' +
           '<div style="font-family:Barlow Condensed,sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.8rem">' + j.casa + ' × ' + j.fora + '</div>' +
