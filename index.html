@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -139,12 +139,12 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <input class="inp" placeholder="Seu nome" id="c-nome">
     <label class="label">Email</label>
     <input class="inp" type="email" placeholder="seu@email.com" id="c-email">
-    <label class="label">Cidade no UK</label>
-    <select class="sel" id="c-cidade">
-      <option value="">Selecione...</option>
-      <option>Londres</option><option>Manchester</option><option>Birmingham</option>
-      <option>Leeds</option><option>Bristol</option><option>Edimburgo</option><option>Outra</option>
-    </select>
+    <label class="label">Cidade</label>
+    <input class="inp" placeholder="Ex: London" id="c-cidade">
+    <label class="label">Bairro / Área</label>
+    <input class="inp" placeholder="Ex: Hackney, Brixton..." id="c-bairro">
+    <label class="label">Postcode</label>
+    <input class="inp" placeholder="Ex: E8 1AA" id="c-postcode">
     <label class="label">Senha</label>
     <input class="inp" type="password" placeholder="Mínimo 6 caracteres" id="c-senha">
     <p class="erro" id="c-erro"></p>
@@ -191,6 +191,13 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <div class="stat"><div class="stat-n" id="st-prods">4</div><div class="stat-l">Produtos</div></div>
   </div>
 
+
+  <!-- NOTICIAS -->
+  <div class="sec" style="padding-top:0">
+    <div class="sec-titulo">📰 <span>Novidades</span></div>
+    <div class="sec-sub">Últimas notícias da embaixada</div>
+    <div id="home-noticias" style="display:grid;gap:0.8rem"></div>
+  </div>
   <!-- MISSÃO -->
   <div style="background:rgba(0,20,60,0.4);border-left:4px solid var(--vermelho);margin:0;padding:1.5rem">
     <div style="max-width:700px;margin:0 auto;display:flex;gap:1rem;align-items:flex-start">
@@ -322,6 +329,8 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
       <button class="tab-btn" id="adm-tab-membros" onclick="trocarTabAdmin('membros')">👥 Membros</button>
       <button class="tab-btn" id="adm-tab-galeria" onclick="trocarTabAdmin('galeria')">📸 Galeria</button>
       <button class="tab-btn" id="adm-tab-loja" onclick="trocarTabAdmin('loja')">🛒 Loja</button>
+      <button class="tab-btn" id="adm-tab-noticias" onclick="trocarTabAdmin('noticias')">📰 Notícias</button>
+      <button class="tab-btn" id="adm-tab-relatorio" onclick="trocarTabAdmin('relatorio')">📊 Relatório</button>
     </div>
 
     <!-- SITE -->
@@ -440,6 +449,50 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
       </div>
     </div>
 
+
+    <!-- NOTICIAS ADM -->
+    <div class="tab-conteudo" id="adm-noticias">
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card" style="margin-top:1rem">
+          <div class="admin-card-titulo">➕ Adicionar Notícia</div>
+          <input class="inp" placeholder="Título da notícia" id="n-titulo">
+          <textarea class="inp" placeholder="Texto curto..." id="n-texto" rows="3" style="resize:vertical"></textarea>
+          <input class="inp" placeholder="Link da imagem (imgbb) — opcional" id="n-foto">
+          <button class="btn-adm" onclick="adicionarNoticia()">PUBLICAR NOTÍCIA</button>
+        </div>
+        <div class="admin-card">
+          <div class="admin-card-titulo">📋 Notícias Publicadas</div>
+          <div id="adm-noticias-lista"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATORIO ADM -->
+    <div class="tab-conteudo" id="adm-relatorio">
+      <div class="admin-wrap" style="max-width:600px">
+        <div class="admin-card" style="margin-top:1rem">
+          <div class="admin-card-titulo">📊 Relatório de Membros</div>
+          <div id="relatorio-resumo" style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.8rem;margin-bottom:1rem"></div>
+          <div id="relatorio-lista"></div>
+          <button class="btn-adm" onclick="exportarRelatorio()" style="margin-top:1rem;background:#166534">📥 EXPORTAR CSV</button>
+        </div>
+        <div class="admin-card">
+          <div class="admin-card-titulo">🔐 Redefinir Senha de Membro</div>
+          <select class="sel" id="reset-membro"><option value="">Selecione o membro...</option></select>
+          <input class="inp" type="password" placeholder="Nova senha" id="reset-senha">
+          <button class="btn-adm" onclick="redefinirSenha()">REDEFINIR SENHA</button>
+        </div>
+        <div class="admin-card">
+          <div class="admin-card-titulo">💾 Backup de Dados</div>
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;font-family:'Barlow Condensed',sans-serif">Exporte seus dados para não perder nada ao trocar de celular.</p>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button class="btn-adm" onclick="exportarDados()">📤 EXPORTAR BACKUP</button>
+            <button class="btn-adm" onclick="document.getElementById('import-file').click()" style="background:#0059b8">📥 IMPORTAR BACKUP</button>
+          </div>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importarDados(this)">
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -555,6 +608,8 @@ function trocarTabAdmin(t){
   document.querySelectorAll("#admin-panel .tab-conteudo").forEach(function(c){ c.classList.remove("ativo"); });
   document.getElementById("adm-tab-" + t).classList.add("ativo");
   document.getElementById("adm-" + t).classList.add("ativo");
+  if(t==="relatorio") renderRelatorio();
+  if(t==="noticias") renderNoticias();
 }
 
 function aplicarConfig(){
@@ -767,6 +822,7 @@ function salvarPalpite(jogoId){
   if(idx >= 0) DB.palpites[idx] = np;
   else DB.palpites.push(np);
   salvar(); toast("✅ Palpite salvo!"); renderBolao();
+renderNoticias();
 }
 
 function entrar(){
@@ -781,6 +837,7 @@ function entrar(){
   fecharModal();
   toast("✅ Bem-vindo, " + u.nome + "!");
   renderBolao();
+renderNoticias();
 }
 
 function cadastrar(){
@@ -792,9 +849,9 @@ function cadastrar(){
   if(!nome || !email || !cidade || !senha){ erro.textContent = "Preencha todos os campos!"; erro.style.display = "block"; return; }
   if(senha.length < 6){ erro.textContent = "Senha mínimo 6 caracteres."; erro.style.display = "block"; return; }
   if(DB.usuarios.find(function(u){ return u.email.toLowerCase() === email; })){ erro.textContent = "Email já cadastrado."; erro.style.display = "block"; return; }
-  var nu = {id: Date.now(), nome: nome, email: email, senha: senha, aprovado: false, cidade: cidade};
+  var nu = {id: Date.now(), nome: nome, email: email, senha: senha, aprovado: false, cidade: cidade, bairro: bairro||"", postcode: postcode||""};
   DB.usuarios.push(nu);
-  DB.pendentes.push({id: nu.id, nome: nome, email: email, cidade: cidade, desde: new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"})});
+  DB.pendentes.push({id: nu.id, nome: nome, email: email, cidade: cidade, bairro: bairro||"", postcode: postcode||"", desde: new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"})});
   salvar();
   erro.style.display = "none";
   fecharModal();
@@ -854,6 +911,7 @@ function carregarDadosAdmin(){
   renderGaleria();
   renderAdmProdutos();
   popularSelectPontos();
+  renderNoticias();
 }
 
 function salvarCapa(){
@@ -1017,8 +1075,177 @@ function deletarProduto(id){
   salvar(); renderAdmProdutos(); renderLoja(); toast("✅ Removido!");
 }
 
+
+// NOTICIAS
+function renderNoticias(){
+  var el = document.getElementById("home-noticias");
+  var adm = document.getElementById("adm-noticias-lista");
+  if(!DB.noticias) DB.noticias = [];
+  
+  if(el){
+    if(!DB.noticias.length){
+      el.innerHTML = '<p style="color:rgba(255,255,255,0.3);font-size:0.82rem;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">Nenhuma novidade ainda.</p>';
+    } else {
+      el.innerHTML = DB.noticias.slice().reverse().map(function(n){
+        return '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;display:flex;gap:0">' +
+          (n.foto ? '<div style="width:100px;min-width:100px;overflow:hidden"><img src="' + n.foto + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>' : '') +
+          '<div style="padding:0.9rem;flex:1">' +
+            '<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:1px;margin-bottom:0.3rem">' + n.titulo + '</div>' +
+            '<div style="font-size:0.8rem;color:rgba(255,255,255,0.65);line-height:1.5">' + n.texto + '</div>' +
+            '<div style="font-size:0.68rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;font-family:Barlow Condensed,sans-serif">' + n.data + '</div>' +
+          '</div></div>';
+      }).join("");
+    }
+  }
+
+  if(adm){
+    if(!DB.noticias.length){
+      adm.innerHTML = '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhuma notícia.</p>';
+    } else {
+      adm.innerHTML = DB.noticias.slice().reverse().map(function(n, i){
+        var idx = DB.noticias.length - 1 - i;
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)">' +
+          '<div><div style="font-weight:700;font-size:0.88rem">' + n.titulo + '</div><div style="font-size:0.72rem;opacity:0.5">' + n.data + '</div></div>' +
+          '<button onclick="deletarNoticia(' + idx + ')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button>' +
+        '</div>';
+      }).join("");
+    }
+  }
+}
+
+function adicionarNoticia(){
+  var titulo = document.getElementById("n-titulo").value.trim();
+  var texto = document.getElementById("n-texto").value.trim();
+  if(!titulo || !texto){ toast("⚠️ Preencha título e texto","err"); return; }
+  if(!DB.noticias) DB.noticias = [];
+  DB.noticias.push({
+    id: Date.now(),
+    titulo: titulo,
+    texto: texto,
+    foto: document.getElementById("n-foto").value.trim(),
+    data: new Date().toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"})
+  });
+  document.getElementById("n-titulo").value = "";
+  document.getElementById("n-texto").value = "";
+  document.getElementById("n-foto").value = "";
+  salvar(); renderNoticias(); toast("✅ Notícia publicada!");
+}
+
+function deletarNoticia(idx){
+  if(!confirm("Remover notícia?")) return;
+  DB.noticias.splice(idx, 1);
+  salvar(); renderNoticias(); toast("✅ Removida!");
+}
+
+// RELATORIO
+function renderRelatorio(){
+  var resumo = document.getElementById("relatorio-resumo");
+  var lista = document.getElementById("relatorio-lista");
+  var resetSel = document.getElementById("reset-membro");
+  if(!resumo) return;
+
+  var ativos = DB.membros.filter(function(m){ return m.status === "ativo"; });
+  
+  // Group by city
+  var cidades = {};
+  ativos.forEach(function(m){
+    var c = m.cidade || "Não informado";
+    cidades[c] = (cidades[c] || 0) + 1;
+  });
+
+  resumo.innerHTML = Object.keys(cidades).map(function(c){
+    return '<div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:0.8rem;text-align:center">' +
+      '<div style="font-family:Bebas Neue,sans-serif;font-size:1.5rem;color:var(--vermelho)">' + cidades[c] + '</div>' +
+      '<div style="font-family:Barlow Condensed,sans-serif;font-size:0.75rem;letter-spacing:1px;opacity:0.7;text-transform:uppercase">' + c + '</div>' +
+    '</div>';
+  }).join("") + '<div style="background:rgba(0,71,145,0.4);border-radius:8px;padding:0.8rem;text-align:center;border:1px solid rgba(255,255,255,0.2)">' +
+    '<div style="font-family:Bebas Neue,sans-serif;font-size:1.5rem;color:#4ade80">' + ativos.length + '</div>' +
+    '<div style="font-family:Barlow Condensed,sans-serif;font-size:0.75rem;letter-spacing:1px;opacity:0.7;text-transform:uppercase">Total</div>' +
+  '</div>';
+
+  lista.innerHTML = '<table style="width:100%;border-collapse:collapse;font-size:0.82rem">' +
+    '<thead><tr>' +
+      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Nome</th>' +
+      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Cidade</th>' +
+      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Bairro</th>' +
+      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Postcode</th>' +
+      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Email</th>' +
+    '</tr></thead><tbody>' +
+    ativos.map(function(m){
+      var u = DB.usuarios.find(function(x){ return x.email === m.email; });
+      return '<tr>' +
+        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07);font-weight:700">' + m.nome + '</td>' +
+        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07)">' + (m.cidade||"—") + '</td>' +
+        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07)">' + (u&&u.bairro||m.bairro||"—") + '</td>' +
+        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07)">' + (u&&u.postcode||m.postcode||"—") + '</td>' +
+        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.75rem;opacity:0.7">' + (m.email||"—") + '</td>' +
+      '</tr>';
+    }).join("") +
+    '</tbody></table>';
+
+  if(resetSel){
+    resetSel.innerHTML = '<option value="">Selecione...</option>' + DB.usuarios.filter(function(u){ return u.aprovado; }).map(function(u){
+      return '<option value="' + u.id + '">' + u.nome + '</option>';
+    }).join("");
+  }
+}
+
+function exportarRelatorio(){
+  var ativos = DB.membros.filter(function(m){ return m.status === "ativo"; });
+  var csv = "Nome,Email,Cidade,Bairro,Postcode,Desde\n";
+  ativos.forEach(function(m){
+    var u = DB.usuarios.find(function(x){ return x.email === m.email; });
+    csv += '"' + m.nome + '","' + (m.email||"") + '","' + (m.cidade||"") + '","' + (u&&u.bairro||m.bairro||"") + '","' + (u&&u.postcode||m.postcode||"") + '","' + (m.desde||"") + '"\n';
+  });
+  var blob = new Blob([csv], {type:"text/csv"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "membros-uk-tricolor.csv";
+  a.click();
+  toast("✅ CSV exportado!");
+}
+
+function redefinirSenha(){
+  var uid = Number(document.getElementById("reset-membro").value);
+  var nova = document.getElementById("reset-senha").value;
+  if(!uid){ toast("⚠️ Selecione o membro","err"); return; }
+  if(!nova || nova.length < 6){ toast("⚠️ Senha mínimo 6 caracteres","err"); return; }
+  DB.usuarios = DB.usuarios.map(function(u){ return u.id === uid ? Object.assign({}, u, {senha: nova}) : u; });
+  document.getElementById("reset-senha").value = "";
+  salvar(); toast("✅ Senha redefinida!");
+}
+
+function exportarDados(){
+  var json = JSON.stringify(DB, null, 2);
+  var blob = new Blob([json], {type:"application/json"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "backup-uk-tricolor-" + new Date().toISOString().split("T")[0] + ".json";
+  a.click();
+  toast("✅ Backup exportado!");
+}
+
+function importarDados(input){
+  var file = input.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      var dados = JSON.parse(e.target.result);
+      DB = dados;
+      salvar();
+      aplicarConfig(); renderGaleria(); renderLoja(); renderMembros(); renderBolao(); renderNoticias();
+      toast("✅ Dados importados com sucesso!");
+    }catch(err){
+      toast("⚠️ Arquivo inválido","err");
+    }
+  };
+  reader.readAsText(file);
+}
+
 // INIT
 aplicarConfig();
+if(!DB.noticias) DB.noticias = [];
 renderGaleria();
 renderLoja();
 renderMembros();
