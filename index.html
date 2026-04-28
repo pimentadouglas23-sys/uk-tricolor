@@ -190,6 +190,17 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <div class="stat"><div class="stat-n" id="st-membros">1</div><div class="stat-l">Membros</div></div>
     <div class="stat"><div class="stat-n" id="st-prods">4</div><div class="stat-l">Produtos</div></div>
   </div>
+
+  <!-- MISSÃO -->
+  <div style="background:rgba(0,20,60,0.4);border-left:4px solid var(--vermelho);margin:0;padding:1.5rem">
+    <div style="max-width:700px;margin:0 auto;display:flex;gap:1rem;align-items:flex-start">
+      <span style="font-size:1.5rem;flex-shrink:0">🔴</span>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;margin-bottom:0.4rem">Nossa <span style="color:var(--vermelho)">Missão</span></div>
+        <p style="color:rgba(255,255,255,0.82);font-size:0.92rem;line-height:1.7">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p>
+      </div>
+    </div>
+  </div>
   <div class="sec">
     <div class="sec-titulo">Loja <span>UK Tricolor</span></div>
     <div class="sec-sub">Produtos oficiais e exclusivos</div>
@@ -201,6 +212,11 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <div class="sec-sub">Momentos da nossa torcida</div>
     <div class="galeria" id="home-galeria"></div>
     <div style="text-align:center;margin-top:1rem"><button class="btn-b" onclick="ir('sobre')" style="font-size:0.82rem;padding:9px 18px">Ver todas as fotos →</button></div>
+  </div>
+
+  <div class="sec" style="padding-top:0">
+    <div class="sec-titulo">🎬 <span>Vídeo</span></div>
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4" allowfullscreen></iframe></div>
   </div>
   <div class="sec" style="padding-top:0">
     <a href="https://www.instagram.com/uktricolor" target="_blank" class="insta-link">
@@ -366,6 +382,16 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
         <div class="admin-card">
           <div class="admin-card-titulo">✅ Membros Ativos</div>
           <div id="adm-ativos"></div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-titulo">🏅 Ajustar Pontos de Membro</div>
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px">Use para adicionar pontos de jogos anteriores ao sistema.</p>
+          <select class="sel" id="pts-membro" style="margin-bottom:7px"><option value="">Selecione o membro...</option></select>
+          <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
+            <input class="inp" type="number" placeholder="Pontos a adicionar" id="pts-valor" style="margin-bottom:0">
+          </div>
+          <button class="btn-adm" onclick="ajustarPontos()" style="background:#166534">ADICIONAR PONTOS</button>
         </div>
         <div class="admin-card">
           <div class="admin-card-titulo">➕ Adicionar Manualmente</div>
@@ -793,6 +819,29 @@ function entrarAdmin(){
   } else { toast("⚠️ Senha incorreta","err"); }
 }
 
+
+function popularSelectPontos(){
+  var sel = document.getElementById("pts-membro");
+  if(!sel) return;
+  var aprov = DB.usuarios.filter(function(u){ return u.aprovado; });
+  sel.innerHTML = '<option value="">Selecione o membro...</option>' + aprov.map(function(u){
+    return '<option value="' + u.id + '">' + u.nome + ' (atual: ' + calcPontos(u.id) + ' pts)</option>';
+  }).join("");
+}
+
+function ajustarPontos(){
+  var uid = Number(document.getElementById("pts-membro").value);
+  var pts = Number(document.getElementById("pts-valor").value);
+  if(!uid){ toast("⚠️ Selecione o membro","err"); return; }
+  if(!pts || pts <= 0){ toast("⚠️ Digite os pontos","err"); return; }
+  // Add a fake finished game with exact score for this user
+  var jogoId = Date.now();
+  DB.jogos.push({id: jogoId, casa: "Pontos Extras", fora: "Admin", data: new Date().toISOString().split("T")[0], rodada: 0, golsCasa: pts, golsFora: 0, encerrado: true});
+  DB.palpites.push({jogoId: jogoId, usuarioId: uid, casa: pts, fora: 0});
+  document.getElementById("pts-valor").value = "";
+  salvar(); popularSelectPontos(); renderBolao(); toast("✅ " + pts + " pontos adicionados!");
+}
+
 function carregarDadosAdmin(){
   var c = DB.config;
   document.getElementById("cfg-capa").value = c.capa || "";
@@ -804,6 +853,7 @@ function carregarDadosAdmin(){
   renderAdmMembros();
   renderGaleria();
   renderAdmProdutos();
+  popularSelectPontos();
 }
 
 function salvarCapa(){
