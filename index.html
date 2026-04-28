@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--azul:#004791;--vermelho:#CC0000;}
+:root{--azul:#004791;--vermelho:#CC0000;--ouro:#FFD700;}
 body{font-family:'Barlow',sans-serif;background:var(--azul);color:#fff;overflow-x:hidden;}
 nav{position:fixed;top:0;width:100%;z-index:1000;background:rgba(0,30,80,0.97);border-bottom:3px solid var(--vermelho);display:flex;align-items:center;padding:0 1rem;height:60px;}
 .logo{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;cursor:pointer;}
@@ -59,10 +59,6 @@ nav{position:fixed;top:0;width:100%;z-index:1000;background:rgba(0,30,80,0.97);b
 .card p{color:rgba(255,255,255,0.82);line-height:1.7;font-size:0.9rem;}
 .video-wrap{position:relative;padding-bottom:56.25%;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.15);}
 .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
-.bolao-box{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:2rem;text-align:center;margin-bottom:1rem;}
-.bolao-icon{font-size:3rem;margin-bottom:0.8rem;}
-.bolao-titulo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;margin-bottom:0.5rem;}
-.bolao-desc{color:rgba(255,255,255,0.6);font-size:0.88rem;margin-bottom:1.2rem;}
 .reg{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1.3rem;}
 .reg h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--vermelho);margin-bottom:0.8rem;}
 .reg-item{display:flex;gap:0.7rem;margin-bottom:0.7rem;align-items:flex-start;}
@@ -81,20 +77,17 @@ nav{position:fixed;top:0;width:100%;z-index:1000;background:rgba(0,30,80,0.97);b
 .inp::placeholder{color:rgba(255,255,255,0.3);}
 .btn-adm{background:var(--vermelho);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;width:100%;margin-top:4px;}
 .admin-panel{display:none;}
-.tabs{display:flex;background:rgba(0,20,60,0.5);border-bottom:1px solid rgba(255,255,255,0.12);}
+.tabs{display:flex;background:rgba(0,20,60,0.5);border-bottom:1px solid rgba(255,255,255,0.12);flex-wrap:wrap;}
 .tab-btn{flex:1;padding:0.9rem;background:none;border:none;color:rgba(255,255,255,0.55);font-family:'Barlow Condensed',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;}
 .tab-btn.ativo{color:#fff;border-bottom-color:var(--vermelho);}
 .tab-conteudo{display:none;}
 .tab-conteudo.ativo{display:block;}
 .modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:1rem;}
 .modal.aberto{display:flex;}
-.modal-box{background:#003a7a;border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:2rem;width:100%;max-width:400px;position:relative;}
+.modal-box{background:#003a7a;border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:2rem;width:100%;max-width:500px;position:relative;}
 .modal-fechar{position:absolute;top:0.8rem;right:0.8rem;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.3rem;cursor:pointer;}
 .modal h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem;}
 .modal h2 span{color:var(--vermelho);}
-.modal-tabs{display:flex;gap:0;margin-bottom:1.2rem;border-bottom:2px solid rgba(255,255,255,0.1);}
-.modal-tab{flex:1;padding:0.6rem;background:none;border:none;color:rgba(255,255,255,0.5);font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
-.modal-tab.ativo{color:#fff;border-bottom-color:var(--vermelho);}
 .label{display:block;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.6);}
 .btn-submit{width:100%;background:var(--vermelho);color:#fff;border:none;padding:12px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:0.3rem;}
 .sel{width:100%;padding:10px 12px;background:#003a7a;border:1px solid rgba(255,255,255,0.22);border-radius:6px;color:#fff;font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.8rem;}
@@ -110,12 +103,23 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
 .foot-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:0.8rem 0;}
 .foot-links a{color:rgba(255,255,255,0.4);font-size:0.8rem;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;}
 .insta-link{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#7e22ce,#db2777,#ea580c);border-radius:12px;padding:14px 18px;text-decoration:none;color:#fff;margin-bottom:1rem;}
+.perfil-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:1.5rem;margin:1rem;max-width:500px;margin-left:auto;margin-right:auto;}
+.perfil-item{margin-bottom:1rem;}
+.perfil-label{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.2rem;}
+.perfil-valor{font-size:1rem;font-weight:500;}
+.btn-sugestao{position:fixed;bottom:20px;right:20px;background:var(--vermelho);color:#fff;border:none;border-radius:50px;padding:12px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(0,0,0,0.3);cursor:pointer;z-index:1000;}
+.sugestao-item{background:rgba(255,255,255,0.05);border-left:3px solid var(--ouro);margin-bottom:0.7rem;padding:0.8rem;border-radius:6px;}
+.sugestao-texto{font-size:0.85rem;margin-bottom:0.3rem;}
+.sugestao-meta{font-size:0.7rem;color:rgba(255,255,255,0.5);display:flex;justify-content:space-between;align-items:center;}
 </style>
 </head>
 <body>
 
 <div class="lb" id="lb" onclick="this.style.display='none'"><img id="lb-img" src="" alt=""></div>
 <div class="toast" id="toast"></div>
+
+<!-- Botão flutuante de sugestão (aparece só logado) -->
+<button id="btn-sugestao" class="btn-sugestao" style="display:none" onclick="abrirModalSugestao()">💡 Enviar Sugestão</button>
 
 <div class="modal" id="modal-auth">
 <div class="modal-box">
@@ -153,6 +157,17 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
 </div>
 </div>
 
+<!-- Modal de sugestão -->
+<div class="modal" id="modal-sugestao">
+<div class="modal-box">
+  <button class="modal-fechar" onclick="fecharModalSugestao()">✕</button>
+  <h2>💡 Enviar <span>Sugestão</span></h2>
+  <label class="label">Sua ideia para a embaixada</label>
+  <textarea class="inp" id="sugestao-texto" rows="4" placeholder="Ex: organizar um churrasco, assistir jogos em pub, fazer camisas, etc."></textarea>
+  <button class="btn-submit" onclick="enviarSugestao()">Enviar Sugestão</button>
+</div>
+</div>
+
 <nav>
   <div class="logo" onclick="ir('home')">
     <img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt="">
@@ -168,9 +183,11 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   <a onclick="ir('sobre')">ℹ️ Sobre</a>
   <a onclick="ir('membros')">👥 Membros</a>
   <a onclick="abrirModal()">🔐 Entrar / Cadastrar</a>
+  <a id="menu-perfil" style="display:none" onclick="ir('perfil')">👤 Meu Perfil</a>
   <a onclick="ir('admin')" style="color:var(--vermelho)">⚙️ Admin</a>
 </div>
 
+<!-- HOME -->
 <div id="home" class="page active">
   <div class="hero">
     <div class="hero-bg"></div>
@@ -189,8 +206,6 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <div class="stat"><div class="stat-n" id="st-membros">1</div><div class="stat-l">Membros</div></div>
     <div class="stat"><div class="stat-n" id="st-prods">4</div><div class="stat-l">Produtos</div></div>
   </div>
-
-
   <div class="sec" style="padding-top:0">
     <div class="sec-titulo">📰 <span>Novidades</span></div>
     <div class="sec-sub">Últimas notícias da embaixada</div>
@@ -217,10 +232,9 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <div class="galeria" id="home-galeria"></div>
     <div style="text-align:center;margin-top:1rem"><button class="btn-b" onclick="ir('sobre')" style="font-size:0.82rem;padding:9px 18px">Ver todas as fotos →</button></div>
   </div>
-
   <div class="sec" style="padding-top:0">
     <div class="sec-titulo">🎬 <span>Vídeo</span></div>
-    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4" allowfullscreen></iframe></div>
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4?autoplay=1&mute=1" allowfullscreen></iframe></div>
   </div>
   <div class="sec" style="padding-top:0">
     <a href="https://www.instagram.com/uktricolor" target="_blank" class="insta-link">
@@ -231,6 +245,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   </div>
 </div>
 
+<!-- LOJA -->
 <div id="loja" class="page">
   <div style="background:rgba(0,20,60,0.8);padding:2rem 1.5rem;text-align:center;border-bottom:3px solid #0059b8">
     <h1 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:3px">🛒 Loja <span style="color:var(--vermelho)">UK</span> Tricolor</h1>
@@ -240,6 +255,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   <p style="text-align:center;margin-top:1rem;color:rgba(255,255,255,0.4);font-size:0.8rem">💬 <a href="https://www.instagram.com/uktricolor" target="_blank" style="color:var(--vermelho)">@uktricolor</a> · Transferência e PayPal</p></div>
 </div>
 
+<!-- BOLAO -->
 <div id="bolao" class="page">
   <div style="background:rgba(0,20,60,0.8);padding:2rem 1.5rem;text-align:center;border-bottom:3px solid var(--vermelho)">
     <h1 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:3px">🏆 Bolão <span style="color:var(--vermelho)">UK</span> Tricolor</h1>
@@ -254,11 +270,12 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <div class="reg" style="margin-top:1rem">
       <h3>📋 Regulamento</h3>
       <div class="reg-item"><div class="reg-num">3</div><div class="reg-txt"><strong>Placar exato</strong> — 3 pontos</div></div>
-            <div class="reg-item"><div class="reg-num">£</div><div class="reg-txt"><strong>Premiação</strong> — os 3 primeiros dividem o prêmio</div></div>
+      <div class="reg-item"><div class="reg-num">£</div><div class="reg-txt"><strong>Premiação</strong> — os 3 primeiros dividem o prêmio</div></div>
     </div>
   </div>
 </div>
 
+<!-- SOBRE -->
 <div id="sobre" class="page">
   <div style="background:url('https://i.ibb.co/Wv6f945r/Screenshot-20260424-164409-Instagram.jpg') center/cover;height:220px;position:relative;border-bottom:3px solid var(--vermelho);display:flex;align-items:flex-end">
     <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,30,80,0.95),transparent 60%);"></div>
@@ -268,9 +285,9 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   </div>
   <div class="sec">
     <div class="sobre-cards">
-      <div class="card"><h3>🔵 Nossa História</h3><p id="txt-hist">A UK Tricolor nasceu da saudade e do amor ao Esquadrão de Aço. Somos a 1ª Embaixada Oficial do Bahia na Europa.</p></div>
-      <div class="card"><h3>🔴 Nossa Missão</h3><p id="txt-miss">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p></div>
-      <div class="card"><h3>🇬🇧 Onde Estamos</h3><p id="txt-onde">Membros em Londres, Manchester, Birmingham, Leeds, Bristol, Edimburgo e outras cidades.</p></div>
+      <div class="card"><h3>🔵 Nossa História</h3><p id="txt-hist"></p></div>
+      <div class="card"><h3>🔴 Nossa Missão</h3><p id="txt-miss"></p></div>
+      <div class="card"><h3>🇬🇧 Onde Estamos</h3><p id="txt-onde"></p></div>
     </div>
   </div>
   <div class="sec" style="padding-top:0">
@@ -279,10 +296,11 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   </div>
   <div class="sec" style="padding-top:0">
     <div class="sec-titulo">🎬 <span>Vídeo</span></div>
-    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4" allowfullscreen></iframe></div>
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4?autoplay=1&mute=1" allowfullscreen></iframe></div>
   </div>
 </div>
 
+<!-- MEMBROS -->
 <div id="membros" class="page">
   <div class="tabs">
     <button class="tab-btn ativo" id="tab-lista" onclick="trocarTabMembros('lista')">👥 Membros</button>
@@ -302,6 +320,17 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   </div>
 </div>
 
+<!-- PÁGINA PERFIL -->
+<div id="perfil" class="page">
+  <div class="perfil-card">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;text-align:center;margin-bottom:0.5rem">👤 <span style="color:var(--vermelho)">Minha Conta</span></div>
+    <div id="perfil-conteudo"></div>
+    <button class="btn-v" style="margin-top:1rem;width:100%" onclick="abrirModalPerfil()">✏️ Editar Perfil</button>
+    <button class="btn-b" style="margin-top:0.5rem;width:100%" onclick="logout()">🚪 Sair</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
 <div id="admin" class="page">
   <div id="admin-login">
     <div class="admin-wrap">
@@ -323,161 +352,16 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
       <button class="tab-btn" id="adm-tab-loja" onclick="trocarTabAdmin('loja')">🛒 Loja</button>
       <button class="tab-btn" id="adm-tab-noticias" onclick="trocarTabAdmin('noticias')">📰 Notícias</button>
       <button class="tab-btn" id="adm-tab-relatorio" onclick="trocarTabAdmin('relatorio')">📊 Relatório</button>
+      <button class="tab-btn" id="adm-tab-sugestoes" onclick="trocarTabAdmin('sugestoes')">💡 Sugestões</button>
     </div>
-
-    <div class="tab-conteudo ativo" id="adm-site">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">🖼️ Foto de Capa</div>
-          <input class="inp" id="cfg-capa" placeholder="https://i.ibb.co/...">
-          <button class="btn-adm" onclick="salvarCapa()">ATUALIZAR CAPA</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">📖 Textos da Página Sobre</div>
-          <label class="label">Nossa História</label>
-          <textarea class="inp" id="cfg-hist" rows="3" style="resize:vertical"></textarea>
-          <label class="label">Nossa Missão</label>
-          <textarea class="inp" id="cfg-miss" rows="3" style="resize:vertical"></textarea>
-          <label class="label">Onde Estamos</label>
-          <textarea class="inp" id="cfg-onde" rows="2" style="resize:vertical"></textarea>
-          <button class="btn-adm" onclick="salvarTextos()">SALVAR TEXTOS</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-jogos">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">➕ Adicionar Jogo</div>
-          <input class="inp" placeholder="Time da casa" id="j-casa" value="Bahia">
-          <input class="inp" placeholder="Visitante" id="j-fora">
-          <input class="inp" type="date" id="j-data">
-          <input class="inp" type="number" placeholder="Rodada" id="j-rodada" value="1">
-          <button class="btn-adm" onclick="adicionarJogo()">ADICIONAR JOGO</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">✅ Encerrar Jogo</div>
-          <select class="sel" id="j-encerrar"><option value="">Selecione o jogo...</option></select>
-          <div style="display:flex;gap:7px">
-            <input class="inp" type="number" placeholder="Gols casa" id="j-gols-casa" style="margin-bottom:0">
-            <input class="inp" type="number" placeholder="Gols fora" id="j-gols-fora" style="margin-bottom:0">
-          </div>
-          <button class="btn-adm" onclick="encerrarJogo()" style="margin-top:7px;background:#166534">ENCERRAR E CALCULAR</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">📋 Jogos Cadastrados</div>
-          <div id="adm-jogos-lista"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-membros">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">⏳ Aguardando Aprovação</div>
-          <div id="adm-pendentes"></div>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">✅ Membros Ativos</div>
-          <div id="adm-ativos"></div>
-        </div>
-
-        <div class="admin-card">
-          <div class="admin-card-titulo">🏅 Ajustar Pontos de Membro</div>
-          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.5px">Use para adicionar pontos de jogos anteriores ao sistema.</p>
-          <select class="sel" id="pts-membro" style="margin-bottom:7px"><option value="">Selecione o membro...</option></select>
-          <div style="display:flex;gap:7px;align-items:center;margin-bottom:7px">
-            <input class="inp" type="number" placeholder="Pontos a adicionar" id="pts-valor" style="margin-bottom:0">
-          </div>
-          <button class="btn-adm" onclick="ajustarPontos()" style="background:#166534">ADICIONAR PONTOS</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">➕ Adicionar Manualmente</div>
-          <input class="inp" placeholder="Nome" id="adm-m-nome">
-          <input class="inp" placeholder="Cidade" id="adm-m-cidade">
-          <input class="inp" placeholder="Cargo (ex: Presidente)" id="adm-m-cargo">
-          <button class="btn-adm" onclick="adicionarMembro()">ADICIONAR</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-galeria">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">➕ Adicionar Foto</div>
-          <p style="font-size:0.78rem;color:rgba(255,200,0,0.9);background:rgba(255,200,0,0.1);border:1px solid rgba(255,200,0,0.25);border-radius:6px;padding:0.6rem;margin-bottom:0.7rem">Sube a foto em imgbb.com e cola o link aqui</p>
-          <input class="inp" id="gal-url" placeholder="https://i.ibb.co/...">
-          <button class="btn-adm" onclick="adicionarFoto()">ADICIONAR FOTO</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">🖼️ Fotos na Galeria</div>
-          <div id="adm-galeria-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-loja">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">➕ Adicionar Produto</div>
-          <input class="inp" placeholder="Nome do produto" id="p-nome">
-          <div style="display:flex;gap:7px">
-            <input class="inp" type="number" placeholder="Preço (£)" id="p-preco" style="margin-bottom:0">
-            <input class="inp" placeholder="Emoji" id="p-emoji" value="👕" style="margin-bottom:0;max-width:70px">
-          </div>
-          <input class="inp" placeholder="Descrição" id="p-desc" style="margin-top:7px">
-          <input class="inp" placeholder="Link foto (imgbb) — opcional" id="p-foto">
-          <button class="btn-adm" onclick="adicionarProduto()">ADICIONAR PRODUTO</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">📦 Produtos</div>
-          <div id="adm-produtos-lista"></div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="tab-conteudo" id="adm-noticias">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">➕ Adicionar Notícia</div>
-          <input class="inp" placeholder="Título da notícia" id="n-titulo">
-          <textarea class="inp" placeholder="Texto curto..." id="n-texto" rows="3" style="resize:vertical"></textarea>
-          <input class="inp" placeholder="Link da imagem (imgbb) — opcional" id="n-foto">
-          <button class="btn-adm" onclick="adicionarNoticia()">PUBLICAR NOTÍCIA</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">📋 Notícias Publicadas</div>
-          <div id="adm-noticias-lista"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-relatorio">
-      <div class="admin-wrap" style="max-width:600px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">📊 Relatório de Membros</div>
-          <div id="relatorio-resumo" style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.8rem;margin-bottom:1rem"></div>
-          <div id="relatorio-lista"></div>
-          <button class="btn-adm" onclick="exportarRelatorio()" style="margin-top:1rem;background:#166534">📥 EXPORTAR CSV</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">🔐 Redefinir Senha de Membro</div>
-          <select class="sel" id="reset-membro"><option value="">Selecione o membro...</option></select>
-          <input class="inp" type="password" placeholder="Nova senha" id="reset-senha">
-          <button class="btn-adm" onclick="redefinirSenha()">REDEFINIR SENHA</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">💾 Backup de Dados</div>
-          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:0.8rem;font-family:'Barlow Condensed',sans-serif">Exporte seus dados para não perder nada ao trocar de celular.</p>
-          <div style="display:flex;gap:7px;flex-wrap:wrap">
-            <button class="btn-adm" onclick="exportarDados()">📤 EXPORTAR BACKUP</button>
-            <button class="btn-adm" onclick="document.getElementById('import-file').click()" style="background:#0059b8">📥 IMPORTAR BACKUP</button>
-          </div>
-          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importarDados(this)">
-        </div>
-      </div>
-    </div>
+    <div class="tab-conteudo ativo" id="adm-site"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">🖼️ Foto de Capa</div><input class="inp" id="cfg-capa"><button class="btn-adm" onclick="salvarCapa()">ATUALIZAR CAPA</button></div><div class="admin-card"><div class="admin-card-titulo">📖 Textos da Página Sobre</div><label class="label">Nossa História</label><textarea class="inp" id="cfg-hist" rows="3"></textarea><label class="label">Nossa Missão</label><textarea class="inp" id="cfg-miss" rows="3"></textarea><label class="label">Onde Estamos</label><textarea class="inp" id="cfg-onde" rows="2"></textarea><button class="btn-adm" onclick="salvarTextos()">SALVAR TEXTOS</button></div></div></div>
+    <div class="tab-conteudo" id="adm-jogos"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Jogo</div><input class="inp" placeholder="Time da casa" id="j-casa" value="Bahia"><input class="inp" placeholder="Visitante" id="j-fora"><input class="inp" type="date" id="j-data"><input class="inp" type="number" placeholder="Rodada" id="j-rodada"><button class="btn-adm" onclick="adicionarJogo()">ADICIONAR JOGO</button></div><div class="admin-card"><div class="admin-card-titulo">✅ Encerrar Jogo</div><select class="sel" id="j-encerrar"><option>Selecione...</option></select><div style="display:flex;gap:7px"><input class="inp" type="number" placeholder="Gols casa" id="j-gols-casa"><input class="inp" type="number" placeholder="Gols fora" id="j-gols-fora"></div><button class="btn-adm" onclick="encerrarJogo()" style="background:#166534">ENCERRAR</button></div><div class="admin-card"><div class="admin-card-titulo">📋 Jogos Cadastrados</div><div id="adm-jogos-lista"></div></div></div></div>
+    <div class="tab-conteudo" id="adm-membros"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">⏳ Aguardando Aprovação</div><div id="adm-pendentes"></div></div><div class="admin-card"><div class="admin-card-titulo">✅ Membros Ativos</div><div id="adm-ativos"></div></div><div class="admin-card"><div class="admin-card-titulo">🏅 Ajustar Pontos</div><select class="sel" id="pts-membro"></select><div><input class="inp" type="number" placeholder="Pontos" id="pts-valor"></div><button class="btn-adm" onclick="ajustarPontos()">ADICIONAR PONTOS</button></div><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Manualmente</div><input class="inp" placeholder="Nome" id="adm-m-nome"><input class="inp" placeholder="Cidade" id="adm-m-cidade"><input class="inp" placeholder="Cargo" id="adm-m-cargo"><button class="btn-adm" onclick="adicionarMembro()">ADICIONAR</button></div></div></div>
+    <div class="tab-conteudo" id="adm-galeria"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Foto</div><input class="inp" id="gal-url" placeholder="https://i.ibb.co/..."><button class="btn-adm" onclick="adicionarFoto()">ADICIONAR</button></div><div class="admin-card"><div class="admin-card-titulo">🖼️ Fotos</div><div id="adm-galeria-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div></div></div></div>
+    <div class="tab-conteudo" id="adm-loja"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Produto</div><input class="inp" placeholder="Nome" id="p-nome"><div><input class="inp" type="number" placeholder="Preço (£)" id="p-preco"><input class="inp" placeholder="Emoji" id="p-emoji" value="👕"></div><input class="inp" placeholder="Descrição" id="p-desc"><input class="inp" placeholder="Foto URL" id="p-foto"><button class="btn-adm" onclick="adicionarProduto()">ADICIONAR</button></div><div class="admin-card"><div class="admin-card-titulo">📦 Produtos</div><div id="adm-produtos-lista"></div></div></div></div>
+    <div class="tab-conteudo" id="adm-noticias"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Notícia</div><input class="inp" placeholder="Título" id="n-titulo"><textarea class="inp" placeholder="Texto" id="n-texto" rows="3"></textarea><input class="inp" placeholder="Imagem URL" id="n-foto"><button class="btn-adm" onclick="adicionarNoticia()">PUBLICAR</button></div><div class="admin-card"><div class="admin-card-titulo">📋 Notícias</div><div id="adm-noticias-lista"></div></div></div></div>
+    <div class="tab-conteudo" id="adm-relatorio"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">📊 Relatório</div><div id="relatorio-resumo"></div><div id="relatorio-lista"></div><button class="btn-adm" onclick="exportarRelatorio()" style="background:#166534">📥 EXPORTAR CSV</button></div><div class="admin-card"><div class="admin-card-titulo">🔐 Redefinir Senha</div><select class="sel" id="reset-membro"></select><input class="inp" type="password" placeholder="Nova senha" id="reset-senha"><button class="btn-adm" onclick="redefinirSenha()">REDEFINIR</button></div><div class="admin-card"><div class="admin-card-titulo">💾 Backup</div><button class="btn-adm" onclick="exportarDados()">📤 EXPORTAR BACKUP</button><button class="btn-adm" onclick="document.getElementById('import-file').click()">📥 IMPORTAR BACKUP</button><input type="file" id="import-file" accept=".json" style="display:none" onchange="importarDados(this)"></div></div></div>
+    <div class="tab-conteudo" id="adm-sugestoes"><div class="admin-wrap" style="max-width:600px"><div class="admin-card"><div class="admin-card-titulo">💡 Sugestões dos Membros</div><div id="lista-sugestoes-admin"></div></div></div></div>
   </div>
 </div>
 
@@ -490,6 +374,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
     <a onclick="ir('home')">Início</a><a onclick="ir('loja')">Loja</a>
     <a onclick="ir('bolao')">Bolão</a><a onclick="ir('sobre')">Sobre</a>
     <a onclick="ir('membros')">Membros</a>
+    <a id="footer-perfil" style="display:none" onclick="ir('perfil')">👤 Minha Conta</a>
   </div>
   <p>🔵🔴⚪ 1ª Embaixada Oficial do Bahia na Europa · Bora Bahêa!</p>
 </footer>
@@ -503,34 +388,13 @@ function carregarDB(){
 }
 function dadosIniciais(){
   return {
-    config:{
-      capa:"https://i.ibb.co/ksxSXgfG/Screenshot-20260424-162814-Instagram.jpg",
-      hist:"A UK Tricolor nasceu da saudade e do amor ao Esquadrão de Aço. Somos a 1ª Embaixada Oficial do Bahia na Europa.",
-      miss:"Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.",
-      onde:"Membros em Londres, Manchester, Birmingham, Leeds, Bristol, Edimburgo e outras cidades."
-    },
-    galeria:[
-      "https://i.ibb.co/KpYh8zBB/Screenshot-20260424-164442-Instagram.jpg",
-      "https://i.ibb.co/Wv6f945r/Screenshot-20260424-164409-Instagram.jpg",
-      "https://i.ibb.co/5hNMgKR7/Screenshot-20260424-164158-Instagram.jpg",
-      "https://i.ibb.co/Kpt2jC2x/Screenshot-20260424-163811-Instagram.jpg",
-      "https://i.ibb.co/sp0ZsTwN/Screenshot-20260424-163324-Instagram.jpg",
-      "https://i.ibb.co/PGNV8HFM/Screenshot-20260424-163245-Instagram.jpg",
-      "https://i.ibb.co/MDG4yLZd/Screenshot-20260424-163410-Instagram.jpg",
-      "https://i.ibb.co/1Js1mysr/Screenshot-20260424-163213-Instagram.jpg",
-      "https://i.ibb.co/4QNMWz9/Screenshot-20260424-162931-Instagram.jpg",
-      "https://i.ibb.co/ksxSXgfG/Screenshot-20260424-162814-Instagram.jpg"
-    ],
-    produtos:[
-      {id:1,nome:"Camisa UK Tricolor 2025",preco:45,desc:"Edição exclusiva.",emoji:"👕",foto:""},
-      {id:2,nome:"Bandeira UK Tricolor",preco:25,desc:"Bandeira 150x90cm.",emoji:"🚩",foto:""},
-      {id:3,nome:"Boné Tricolor UK",preco:18,desc:"Boné bordado.",emoji:"🧢",foto:""},
-      {id:4,nome:"Cachecol UK Tricolor",preco:20,desc:"Ideal pro frio!",emoji:"🧣",foto:""}
-    ],
-    membros:[{id:1,nome:"Douglas P.",cidade:"Londres",cargo:"Presidente",desde:"Jan 2024",status:"ativo",email:"admin@uktricolor.com"}],
+    config:{ capa:"https://i.ibb.co/ksxSXgfG/Screenshot-20260424-162814-Instagram.jpg", hist:"A UK Tricolor nasceu da saudade e do amor ao Esquadrão de Aço. Somos a 1ª Embaixada Oficial do Bahia na Europa.", miss:"Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.", onde:"Membros em Londres, Manchester, Birmingham, Leeds, Bristol, Edimburgo e outras cidades." },
+    galeria:[ "https://i.ibb.co/KpYh8zBB/Screenshot-20260424-164442-Instagram.jpg", "https://i.ibb.co/Wv6f945r/Screenshot-20260424-164409-Instagram.jpg", "https://i.ibb.co/5hNMgKR7/Screenshot-20260424-164158-Instagram.jpg", "https://i.ibb.co/Kpt2jC2x/Screenshot-20260424-163811-Instagram.jpg", "https://i.ibb.co/sp0ZsTwN/Screenshot-20260424-163324-Instagram.jpg", "https://i.ibb.co/PGNV8HFM/Screenshot-20260424-163245-Instagram.jpg", "https://i.ibb.co/MDG4yLZd/Screenshot-20260424-163410-Instagram.jpg", "https://i.ibb.co/1Js1mysr/Screenshot-20260424-163213-Instagram.jpg", "https://i.ibb.co/4QNMWz9/Screenshot-20260424-162931-Instagram.jpg", "https://i.ibb.co/ksxSXgfG/Screenshot-20260424-162814-Instagram.jpg" ],
+    produtos:[ {id:1,nome:"Camisa UK Tricolor 2025",preco:45,desc:"Edição exclusiva.",emoji:"👕",foto:""}, {id:2,nome:"Bandeira UK Tricolor",preco:25,desc:"Bandeira 150x90cm.",emoji:"🚩",foto:""}, {id:3,nome:"Boné Tricolor UK",preco:18,desc:"Boné bordado.",emoji:"🧢",foto:""}, {id:4,nome:"Cachecol UK Tricolor",preco:20,desc:"Ideal pro frio!",emoji:"🧣",foto:""} ],
+    membros:[ {id:1,nome:"Douglas P.",cidade:"Londres",cargo:"Presidente",desde:"Jan 2024",status:"ativo",email:"admin@uktricolor.com"} ],
     pendentes:[],
-    usuarios:[{id:1,nome:"Douglas P.",email:"admin@uktricolor.com",senha:"senha123",aprovado:true}],
-    jogos:[],palpites:[],reunioes:[]
+    usuarios:[ {id:1,nome:"Douglas P.",email:"admin@uktricolor.com",senha:"senha123",aprovado:true, cidade:"Londres", bairro:"", postcode:""} ],
+    jogos:[], palpites:[], reunioes:[], noticias:[], sugestoes:[]
   };
 }
 
@@ -538,41 +402,22 @@ var DB = carregarDB();
 var usuarioLogado = null;
 
 function salvar(){ try{ localStorage.setItem("ukt_v10", JSON.stringify(DB)); }catch(e){} }
-
-function toast(msg, tipo){
-  var t = document.getElementById("toast");
-  t.textContent = msg;
-  t.className = "toast " + (tipo||"ok") + " show";
-  setTimeout(function(){ t.classList.remove("show"); }, 3000);
-}
+function toast(msg, tipo){ var t = document.getElementById("toast"); t.textContent = msg; t.className = "toast " + (tipo||"ok") + " show"; setTimeout(()=> t.classList.remove("show"), 3000); }
 
 function ir(pag){
-  document.querySelectorAll(".page").forEach(function(p){ p.classList.remove("active"); });
+  document.querySelectorAll(".page").forEach(p=> p.classList.remove("active"));
   document.getElementById(pag).classList.add("active");
   document.getElementById("menu").style.display = "none";
   window.scrollTo(0,0);
   if(pag === "membros"){ renderMembros(); renderReunioes(); }
   if(pag === "bolao"){ renderBolao(); }
   if(pag === "admin"){ abrirPaginaAdmin(); }
+  if(pag === "perfil"){ renderizarPerfil(); }
 }
-
-function toggleMenu(){
-  var m = document.getElementById("menu");
-  m.style.display = m.style.display === "block" ? "none" : "block";
-}
-
-function abrirModal(){
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("modal-auth").classList.add("aberto");
-}
-
-function fecharModal(){
-  document.getElementById("modal-auth").classList.remove("aberto");
-}
-
-document.getElementById("modal-auth").addEventListener("click", function(e){
-  if(e.target === this) fecharModal();
-});
+function toggleMenu(){ var m = document.getElementById("menu"); m.style.display = m.style.display === "block" ? "none" : "block"; }
+function abrirModal(){ document.getElementById("menu").style.display = "none"; document.getElementById("modal-auth").classList.add("aberto"); }
+function fecharModal(){ document.getElementById("modal-auth").classList.remove("aberto"); }
+document.getElementById("modal-auth").addEventListener("click", function(e){ if(e.target === this) fecharModal(); });
 
 function trocarTab(t){
   document.getElementById("auth-entrar").style.display = t === "entrar" ? "block" : "none";
@@ -580,671 +425,266 @@ function trocarTab(t){
   document.getElementById("mtab-entrar").classList.toggle("ativo", t === "entrar");
   document.getElementById("mtab-cadastrar").classList.toggle("ativo", t === "cadastrar");
 }
-
 function trocarTabMembros(t){
-  document.querySelectorAll("#membros .tab-btn").forEach(function(b){ b.classList.remove("ativo"); });
-  document.querySelectorAll("#membros .tab-conteudo").forEach(function(c){ c.classList.remove("ativo"); });
-  document.getElementById("tab-" + t).classList.add("ativo");
-  document.getElementById("tc-" + t).classList.add("ativo");
+  document.querySelectorAll("#membros .tab-btn").forEach(b=> b.classList.remove("ativo"));
+  document.querySelectorAll("#membros .tab-conteudo").forEach(c=> c.classList.remove("ativo"));
+  document.getElementById("tab-"+t).classList.add("ativo");
+  document.getElementById("tc-"+t).classList.add("ativo");
 }
-
 function trocarTabAdmin(t){
-  document.querySelectorAll("#admin-panel .tab-btn").forEach(function(b){ b.classList.remove("ativo"); });
-  document.querySelectorAll("#admin-panel .tab-conteudo").forEach(function(c){ c.classList.remove("ativo"); });
-  document.getElementById("adm-tab-" + t).classList.add("ativo");
-  document.getElementById("adm-" + t).classList.add("ativo");
+  document.querySelectorAll("#admin-panel .tab-btn").forEach(b=> b.classList.remove("ativo"));
+  document.querySelectorAll("#admin-panel .tab-conteudo").forEach(c=> c.classList.remove("ativo"));
+  document.getElementById("adm-tab-"+t).classList.add("ativo");
+  document.getElementById("adm-"+t).classList.add("ativo");
   if(t==="relatorio") renderRelatorio();
   if(t==="noticias") renderNoticias();
+  if(t==="sugestoes") renderSugestoesAdmin();
 }
 
 function aplicarConfig(){
   var c = DB.config;
-  document.querySelector(".hero-bg").style.backgroundImage = "url('" + c.capa + "')";
+  document.querySelector(".hero-bg").style.backgroundImage = "url('"+c.capa+"')";
   document.getElementById("txt-hist").textContent = c.hist;
   document.getElementById("txt-miss").textContent = c.miss;
   document.getElementById("txt-onde").textContent = c.onde;
 }
-
 function renderGaleria(){
   var fotos = DB.galeria;
   var home = document.getElementById("home-galeria");
   var sobre = document.getElementById("sobre-galeria");
   var adm = document.getElementById("adm-galeria-grid");
-
-  if(home){
-    home.innerHTML = fotos.slice(0,6).map(function(f, i){
-      return '<div class="foto' + (i===0?' grande':'') + '"><img src="' + f + '" onclick="abrirFoto(this.src)"></div>';
-    }).join("");
-  }
-  if(sobre){
-    sobre.innerHTML = fotos.map(function(f, i){
-      return '<div class="foto' + (i===0?' grande':'') + '"><img src="' + f + '" onclick="abrirFoto(this.src)"></div>';
-    }).join("");
-  }
-  if(adm){
-    adm.innerHTML = fotos.map(function(f, i){
-      return '<div style="position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.15)">' +
-        '<img src="' + f + '" style="width:100%;height:100%;object-fit:cover">' +
-        '<button onclick="removerFoto(' + i + ')" style="position:absolute;top:3px;right:3px;background:var(--vermelho);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:10px">✕</button>' +
-      '</div>';
-    }).join("");
-  }
+  if(home) home.innerHTML = fotos.slice(0,6).map((f,i)=> '<div class="foto'+(i===0?' grande':'')+'"><img src="'+f+'" onclick="abrirFoto(this.src)"></div>').join("");
+  if(sobre) sobre.innerHTML = fotos.map((f,i)=> '<div class="foto'+(i===0?' grande':'')+'"><img src="'+f+'" onclick="abrirFoto(this.src)"></div>').join("");
+  if(adm) adm.innerHTML = fotos.map((f,i)=> '<div style="position:relative;aspect-ratio:1;"><img src="'+f+'" style="width:100%;height:100%;object-fit:cover"><button onclick="removerFoto('+i+')" style="position:absolute;top:3px;right:3px;background:var(--vermelho);color:#fff;border:none;border-radius:50%;width:20px;height:20px;">✕</button></div>').join("");
 }
-
-function abrirFoto(src){
-  document.getElementById("lb-img").src = src;
-  document.getElementById("lb").style.display = "flex";
-}
-
+function abrirFoto(src){ document.getElementById("lb-img").src = src; document.getElementById("lb").style.display = "flex"; }
 function renderLoja(){
-  var html = DB.produtos.map(function(p){
-    return '<div class="produto">' +
-      '<div class="produto-img">' + (p.foto ? '<img src="' + p.foto + '" style="width:100%;height:100%;object-fit:contain;padding:8px">' : '') + (p.foto ? '' : p.emoji) + '</div>' +
-      '<div class="produto-body">' +
-        '<div class="produto-nome">' + p.nome + '</div>' +
-        '<div class="produto-preco">£' + p.preco + '</div>' +
-        '<button class="btn-pedir" onclick="pedirProduto(\'' + p.nome + '\')">Pedir via Instagram</button>' +
-      '</div></div>';
-  }).join("");
-  var g = document.getElementById("loja-grid");
-  var h = document.getElementById("home-loja");
-  if(g) g.innerHTML = html;
-  if(h) h.innerHTML = html;
-  var sp = document.getElementById("st-prods");
-  if(sp) sp.textContent = DB.produtos.length;
+  var html = DB.produtos.map(p=> '<div class="produto"><div class="produto-img">'+(p.foto ? '<img src="'+p.foto+'" style="width:100%;height:100%;object-fit:contain;padding:8px">' : '')+(p.foto ? '' : p.emoji)+'</div><div class="produto-body"><div class="produto-nome">'+p.nome+'</div><div class="produto-preco">£'+p.preco+'</div><button class="btn-pedir" onclick="pedirProduto(\''+p.nome+'\')">Pedir via Instagram</button></div></div>').join("");
+  if(document.getElementById("loja-grid")) document.getElementById("loja-grid").innerHTML = html;
+  if(document.getElementById("home-loja")) document.getElementById("home-loja").innerHTML = html;
+  if(document.getElementById("st-prods")) document.getElementById("st-prods").textContent = DB.produtos.length;
 }
-
-function pedirProduto(nome){
-  toast("📱 Abrindo Instagram...");
-  setTimeout(function(){ window.open("https://www.instagram.com/uktricolor","_blank"); }, 800);
-}
-
+function pedirProduto(nome){ toast("📱 Abrindo Instagram..."); setTimeout(()=> window.open("https://www.instagram.com/uktricolor","_blank"), 800); }
 function renderMembros(){
   var grid = document.getElementById("membros-grid");
-  if(!grid) return;
-  var ativos = DB.membros.filter(function(m){ return m.status === "ativo"; });
-  grid.innerHTML = ativos.map(function(m){
-    return '<div class="membro">' +
-      '<div class="membro-av">' + m.nome.charAt(0) + '</div>' +
-      '<div class="membro-nome">' + m.nome + '</div>' +
-      '<div class="membro-cidade">📍 ' + (m.cidade||"UK") + '</div>' +
-      (m.cargo ? '<div class="membro-cargo">' + m.cargo + '</div>' : '') +
-    '</div>';
-  }).join("");
-  var sm = document.getElementById("st-membros");
-  if(sm) sm.textContent = ativos.length;
+  if(grid){
+    var ativos = DB.membros.filter(m=> m.status === "ativo");
+    grid.innerHTML = ativos.map(m=> '<div class="membro"><div class="membro-av">'+m.nome.charAt(0)+'</div><div class="membro-nome">'+m.nome+'</div><div class="membro-cidade">📍 '+(m.cidade||"UK")+'</div>'+(m.cargo ? '<div class="membro-cargo">'+m.cargo+'</div>' : '')+'</div>').join("");
+    document.getElementById("st-membros").textContent = ativos.length;
+  }
 }
-
 function renderReunioes(){
   var el = document.getElementById("reunioes-lista");
   if(!el) return;
-  if(!DB.reunioes.length){
-    el.innerHTML = '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:2rem;text-align:center;opacity:0.5;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">Nenhuma reunião agendada.</div>';
-    return;
-  }
-  el.innerHTML = DB.reunioes.map(function(r){
-    var d = new Date(r.data + "T00:00:00");
-    return '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:1.2rem;margin-bottom:0.8rem;display:flex;gap:12px">' +
-      '<div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px 12px;text-align:center;flex-shrink:0;min-width:50px">' +
-        '<div style="font-family:Bebas Neue,sans-serif;font-size:1.8rem;line-height:1">' + d.getDate() + '</div>' +
-        '<div style="font-size:0.7rem;opacity:0.6;text-transform:uppercase;font-family:Barlow Condensed,sans-serif">' + d.toLocaleDateString("pt-BR",{month:"short"}) + '</div>' +
-      '</div>' +
-      '<div><div style="font-weight:700;font-family:Barlow Condensed,sans-serif">' + d.toLocaleDateString("pt-BR",{weekday:"long"}) + '</div>' +
-      (r.hora ? '<div style="font-size:0.82rem;opacity:0.6;margin-top:3px">🕐 ' + r.hora + 'h</div>' : '') +
-      '<div style="font-size:0.85rem;margin-top:5px">📍 ' + r.local + '</div>' +
-      (r.pauta ? '<div style="font-size:0.75rem;opacity:0.5;margin-top:4px;font-style:italic">📋 ' + r.pauta + '</div>' : '') +
-      '</div></div>';
-  }).join("");
+  if(!DB.reunioes.length){ el.innerHTML = '<div style="padding:2rem;text-align:center;opacity:0.5">Nenhuma reunião agendada.</div>'; return; }
+  el.innerHTML = DB.reunioes.map(r=> { var d = new Date(r.data+"T00:00:00"); return '<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:0.8rem;display:flex;gap:12px"><div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px;text-align:center;min-width:50px"><div style="font-size:1.8rem;">'+d.getDate()+'</div><div style="font-size:0.7rem;">'+d.toLocaleDateString("pt-BR",{month:"short"})+'</div></div><div><div style="font-weight:700;">'+d.toLocaleDateString("pt-BR",{weekday:"long"})+'</div>'+(r.hora?'<div>🕐 '+r.hora+'h</div>':'')+'<div>📍 '+r.local+'</div>'+(r.pauta?'<div>📋 '+r.pauta+'</div>':'')+'</div></div>'; }).join("");
 }
-
 function calcPontos(uid){
   var pts = 0;
-  DB.jogos.forEach(function(j){
-    if(!j.encerrado) return;
-    var p = DB.palpites.find(function(x){ return x.jogoId === j.id && x.usuarioId === uid; });
-    if(!p) return;
-    if(p.casa === j.golsCasa && p.fora === j.golsFora){ pts += 3; return; }
-    var rj = j.golsCasa > j.golsFora ? "H" : j.golsCasa < j.golsFora ? "A" : "D";
-    var rp = p.casa > p.fora ? "H" : p.casa < p.fora ? "A" : "D";
-  });
+  DB.jogos.forEach(j=>{ if(!j.encerrado) return; var p = DB.palpites.find(x=> x.jogoId === j.id && x.usuarioId === uid); if(!p) return; if(p.casa === j.golsCasa && p.fora === j.golsFora) pts += 3; else{ var rj = j.golsCasa > j.golsFora ? "H" : j.golsCasa < j.golsFora ? "A" : "D"; var rp = p.casa > p.fora ? "H" : p.casa < p.fora ? "A" : "D"; if(rj === rp) pts += 1; } });
   return pts;
 }
+function renderBolao(){ /* mesma lógica anterior */ var box = document.getElementById("bolao-conteudo"), rank = document.getElementById("ranking"); if(!box) return; if(!usuarioLogado){ box.innerHTML = '<div style="text-align:center;padding:2rem;"><div style="font-size:2.5rem;">🏆</div><div style="font-size:1.5rem;">ENTRE PARA PARTICIPAR</div><button class="btn-v" onclick="abrirModal()">Entrar</button></div>'; } else { var abertos = DB.jogos.filter(j=> !j.encerrado), encerrados = DB.jogos.filter(j=> j.encerrado), html = ""; abertos.forEach(j=>{ var p = DB.palpites.find(x=> x.jogoId === j.id && x.usuarioId === usuarioLogado.id); html += '<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:1rem"><div>'+j.casa+' × '+j.fora+'</div><div style="display:flex;gap:0.5rem;margin:0.5rem 0"><input type="number" id="j'+j.id+'c" value="'+(p?p.casa:'')+'" style="width:60px;height:50px;text-align:center"><span>×</span><input type="number" id="j'+j.id+'f" value="'+(p?p.fora:'')+'" style="width:60px;height:50px;text-align:center"></div><button class="btn-v" style="padding:5px" onclick="salvarPalpite('+j.id+')">'+(p?"Atualizar":"Confirmar")+'</button></div>'; }); encerrados.forEach(j=>{ var p = DB.palpites.find(x=> x.jogoId === j.id && x.usuarioId === usuarioLogado.id); var exact = p && p.casa === j.golsCasa && p.fora === j.golsFora; var rj = j.golsCasa > j.golsFora ? "H" : j.golsCasa < j.golsFora ? "A" : "D"; var rp = p ? (p.casa > p.fora ? "H" : p.casa < p.fora ? "A" : "D") : null; var certo = rj === rp; html += '<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:1rem"><div>'+j.casa+' '+j.golsCasa+'–'+j.golsFora+' '+j.fora+'</div>'+(p?'<div>Seu palpite: '+p.casa+'–'+p.fora+' · '+(exact?'🎯 3pts':certo?'👍 1pt':'😅 0pts')+'</div>':'')+'</div>'; }); box.innerHTML = html || '<div>Nenhum jogo disponível.</div>'; } var aprov = DB.usuarios.filter(u=> u.aprovado).map(u=> ({nome:u.nome, pts:calcPontos(u.id)})).sort((a,b)=> b.pts - a.pts); rank.innerHTML = aprov.slice(0,10).map((u,i)=> '<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding:0.3rem 0"><span>'+(i+1)+'. '+u.nome+'</span><span>'+u.pts+' pts</span></div>').join("") || '<div>Nenhum palpite ainda</div>'; }
+function salvarPalpite(jogoId){ if(!usuarioLogado){ toast("Faça login primeiro","err"); return; } var c = parseInt(document.getElementById("j"+jogoId+"c").value); var f = parseInt(document.getElementById("j"+jogoId+"f").value); if(isNaN(c)||isNaN(f)){ toast("Preencha o placar","err"); return; } var idx = DB.palpites.findIndex(p=> p.jogoId===jogoId && p.usuarioId===usuarioLogado.id); var np = {jogoId, usuarioId: usuarioLogado.id, casa:c, fora:f}; if(idx>=0) DB.palpites[idx]=np; else DB.palpites.push(np); salvar(); toast("Palpite salvo!"); renderBolao(); }
 
-function renderBolao(){
-  var box = document.getElementById("bolao-conteudo");
-  var rank = document.getElementById("ranking");
-  if(!box) return;
-
-  if(!usuarioLogado){
-    box.innerHTML = '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:2rem;text-align:center">' +
-      '<div style="font-size:2.5rem;margin-bottom:0.8rem">🏆</div>' +
-      '<div style="font-family:Bebas Neue,sans-serif;font-size:1.5rem;letter-spacing:2px;margin-bottom:0.5rem">ENTRE PARA PARTICIPAR</div>' +
-      '<p style="color:rgba(255,255,255,0.55);font-size:0.88rem;margin-bottom:1.2rem">Faça login para enviar seus palpites!</p>' +
-      '<button class="btn-v" onclick="abrirModal()">Entrar / Cadastrar</button>' +
-    '</div>';
-  } else {
-    var abertos = DB.jogos.filter(function(j){ return !j.encerrado; });
-    var encerrados = DB.jogos.filter(function(j){ return j.encerrado; });
-    var html = "";
-
-    if(abertos.length === 0 && encerrados.length === 0){
-      html = '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:2rem;text-align:center;opacity:0.6;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">Nenhuma rodada aberta. O admin irá adicionar jogos em breve!</div>';
-    }
-
-    if(abertos.length > 0){
-      html += '<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);font-family:Barlow Condensed,sans-serif;text-transform:uppercase;margin-bottom:0.6rem">Abertos para palpite</div>';
-      abertos.forEach(function(j){
-        var p = DB.palpites.find(function(x){ return x.jogoId === j.id && x.usuarioId === usuarioLogado.id; });
-        html += '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:1.3rem;margin-bottom:0.8rem">' +
-          '<div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">' +
-            '<span style="background:#166534;color:#fff;padding:3px 8px;border-radius:3px;font-family:Barlow Condensed,sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px">BRASILEIRÃO 2026</span>' +
-            '<span style="color:rgba(255,255,255,0.4);font-size:0.72rem;font-family:Barlow Condensed,sans-serif">Rd ' + j.rodada + '</span>' +
-          '</div>' +
-          '<div style="font-family:Barlow Condensed,sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:1rem">' + j.casa + ' × ' + j.fora + '</div>' +
-          '<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem">' +
-            '<div style="flex:1;text-align:center;font-family:Barlow Condensed,sans-serif;font-size:0.9rem;font-weight:700">' + j.casa + '</div>' +
-            '<div style="display:flex;align-items:center;gap:0.5rem">' +
-              '<input type="number" min="0" max="20" id="j' + j.id + 'c" value="' + (p ? p.casa : "") + '" style="width:52px;height:52px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);border-radius:6px;color:#fff;text-align:center;font-family:Bebas Neue,sans-serif;font-size:1.7rem;outline:none">' +
-              '<span style="font-family:Bebas Neue,sans-serif;font-size:1.3rem;color:rgba(255,255,255,0.3)">×</span>' +
-              '<input type="number" min="0" max="20" id="j' + j.id + 'f" value="' + (p ? p.fora : "") + '" style="width:52px;height:52px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);border-radius:6px;color:#fff;text-align:center;font-family:Bebas Neue,sans-serif;font-size:1.7rem;outline:none">' +
-            '</div>' +
-            '<div style="flex:1;text-align:center;font-family:Barlow Condensed,sans-serif;font-size:0.9rem;font-weight:700">' + j.fora + '</div>' +
-          '</div>' +
-          '<button style="width:100%;background:#0059b8;color:#fff;border:none;padding:10px;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer" onclick="salvarPalpite(' + j.id + ')">' + (p ? "✏️ Atualizar" : "✅ Confirmar Palpite") + '</button>' +
-        '</div>';
-      });
-    }
-
-    if(encerrados.length > 0){
-      html += '<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);font-family:Barlow Condensed,sans-serif;text-transform:uppercase;margin:1rem 0 0.6rem">Resultados</div>';
-      encerrados.forEach(function(j){
-        var p = DB.palpites.find(function(x){ return x.jogoId === j.id && x.usuarioId === usuarioLogado.id; });
-        var exact = p && p.casa === j.golsCasa && p.fora === j.golsFora;
-        var rj = j.golsCasa > j.golsFora ? "H" : j.golsCasa < j.golsFora ? "A" : "D";
-        var rp = p ? (p.casa > p.fora ? "H" : p.casa < p.fora ? "A" : "D") : null;
-        var certo = false;
-        html += '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:1.2rem;margin-bottom:0.8rem">' +
-          '<div style="font-size:0.68rem;color:#4ade80;font-weight:700;letter-spacing:1px;margin-bottom:0.5rem;font-family:Barlow Condensed,sans-serif">✅ ENCERRADO</div>' +
-          '<div style="font-family:Barlow Condensed,sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.8rem">' + j.casa + ' × ' + j.fora + '</div>' +
-          '<div style="display:flex;align-items:center;justify-content:space-between">' +
-            '<div style="font-family:Barlow Condensed,sans-serif;font-weight:700">' + j.casa + '</div>' +
-            '<div style="font-family:Bebas Neue,sans-serif;font-size:1.8rem;background:rgba(0,0,0,0.3);padding:4px 14px;border-radius:8px;letter-spacing:2px">' + j.golsCasa + '–' + j.golsFora + '</div>' +
-            '<div style="font-family:Barlow Condensed,sans-serif;font-weight:700">' + j.fora + '</div>' +
-          '</div>' +
-          (p ? '<div style="text-align:center;font-size:0.82rem;margin-top:0.8rem;padding:7px;border-radius:8px;background:' + (exact ? '#14532d55' : certo ? '#78350f55' : '#1a1a2e') + ';color:' + (exact ? '#4ade80' : certo ? '#fb923c' : '#9ca3af') + '">Seu palpite: ' + p.casa + '–' + p.fora + ' · ' + (exact ? '🎯 3 pontos!' : certo ? '👍 1 ponto' : '😅 0 pontos') + '</div>' : '') +
-        '</div>';
-      });
-    }
-
-    box.innerHTML = html;
-  }
-
-  var aprov = DB.usuarios.filter(function(u){ return u.aprovado; });
-  var ranked = aprov.map(function(u){ return {nome: u.nome, pts: calcPontos(u.id)}; }).sort(function(a,b){ return b.pts - a.pts; });
-  var pos = ["gold","silver","bronze"];
-  var posStyles = {gold:"#b8860b",silver:"#777",bronze:"#8b4513"};
-  if(ranked.length === 0 || ranked[0].pts === 0){
-    rank.innerHTML = '<p style="color:rgba(255,255,255,0.3);font-size:0.82rem;font-family:Barlow Condensed,sans-serif">Nenhum palpite ainda.</p>';
-  } else {
-    rank.innerHTML = ranked.map(function(u, i){
-      var c = posStyles[pos[i]] || "rgba(255,255,255,0.12)";
-      return '<div style="display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.08)">' +
-        '<div style="width:24px;height:24px;border-radius:50%;background:' + c + ';display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:0.85rem;flex-shrink:0">' + (i+1) + '</div>' +
-        '<div style="flex:1;font-weight:600;font-size:0.88rem">' + u.nome + '</div>' +
-        '<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;color:var(--vermelho)">' + u.pts + '</div>' +
-      '</div>';
-    }).join("");
-  }
+// SUGESTÕES
+function abrirModalSugestao(){
+  if(!usuarioLogado){ toast("Você precisa estar logado para enviar sugestão","err"); abrirModal(); return; }
+  document.getElementById("modal-sugestao").classList.add("aberto");
 }
-
-function salvarPalpite(jogoId){
-  if(!usuarioLogado){ toast("⚠️ Faça login primeiro","err"); return; }
-  var c = parseInt(document.getElementById("j" + jogoId + "c").value);
-  var f = parseInt(document.getElementById("j" + jogoId + "f").value);
-  if(isNaN(c) || isNaN(f)){ toast("⚠️ Preencha o placar!","err"); return; }
-  var idx = DB.palpites.findIndex(function(p){ return p.jogoId === jogoId && p.usuarioId === usuarioLogado.id; });
-  var np = {jogoId: jogoId, usuarioId: usuarioLogado.id, casa: c, fora: f};
-  if(idx >= 0) DB.palpites[idx] = np;
-  else DB.palpites.push(np);
-  salvar(); toast("✅ Palpite salvo!"); renderBolao();
-renderNoticias();
+function fecharModalSugestao(){ document.getElementById("modal-sugestao").classList.remove("aberto"); }
+function enviarSugestao(){
+  var texto = document.getElementById("sugestao-texto").value.trim();
+  if(!texto){ toast("Escreva sua sugestão","err"); return; }
+  if(!usuarioLogado) return;
+  DB.sugestoes = DB.sugestoes || [];
+  DB.sugestoes.push({
+    id: Date.now(),
+    usuarioId: usuarioLogado.id,
+    nome: usuarioLogado.nome,
+    texto: texto,
+    data: new Date().toLocaleString("pt-BR"),
+    lida: false
+  });
+  salvar();
+  document.getElementById("sugestao-texto").value = "";
+  fecharModalSugestao();
+  toast("Sugestão enviada! Obrigado por contribuir.");
+  if(document.getElementById("adm-sugestoes").classList.contains("ativo")) renderSugestoesAdmin();
 }
-
-function entrar(){
-  var email = document.getElementById("l-email").value.trim().toLowerCase();
-  var senha = document.getElementById("l-senha").value;
-  var u = DB.usuarios.find(function(x){ return x.email.toLowerCase() === email && x.senha === senha; });
-  var erro = document.getElementById("l-erro");
-  if(!u){ erro.style.display = "block"; return; }
-  if(!u.aprovado){ erro.textContent = "Cadastro ainda não aprovado."; erro.style.display = "block"; return; }
-  usuarioLogado = u;
-  erro.style.display = "none";
-  fecharModal();
-  toast("✅ Bem-vindo, " + u.nome + "!");
-  renderBolao();
-renderNoticias();
+function renderSugestoesAdmin(){
+  var container = document.getElementById("lista-sugestoes-admin");
+  if(!container) return;
+  var sugestoes = DB.sugestoes || [];
+  if(sugestoes.length === 0){ container.innerHTML = '<p style="text-align:center;opacity:0.6">Nenhuma sugestão enviada ainda.</p>'; return; }
+  container.innerHTML = sugestoes.slice().reverse().map(s=> `
+    <div class="sugestao-item" style="border-left-color: ${s.lida ? '#4ade80' : 'var(--ouro)'}">
+      <div class="sugestao-texto">💬 ${escapeHtml(s.texto)}</div>
+      <div class="sugestao-meta">
+        <span>👤 ${escapeHtml(s.nome)} • ${s.data}</span>
+        <div>
+          ${!s.lida ? `<button class="btn-adm" style="width:auto;padding:4px 8px;font-size:0.7rem;margin-right:5px" onclick="marcarSugestaoLida(${s.id})">✓ Marcar lida</button>` : '<span style="color:#4ade80">✔ Lida</span>'}
+          <button class="btn-adm" style="width:auto;padding:4px 8px;font-size:0.7rem;background:#991b1b" onclick="excluirSugestao(${s.id})">🗑 Excluir</button>
+        </div>
+      </div>
+    </div>
+  `).join("");
 }
+function marcarSugestaoLida(id){
+  var s = DB.sugestoes.find(s=> s.id === id);
+  if(s) s.lida = true;
+  salvar();
+  renderSugestoesAdmin();
+  toast("Sugestão marcada como lida.");
+}
+function excluirSugestao(id){
+  if(!confirm("Excluir esta sugestão?")) return;
+  DB.sugestoes = DB.sugestoes.filter(s=> s.id !== id);
+  salvar();
+  renderSugestoesAdmin();
+  toast("Sugestão removida.");
+}
+function escapeHtml(str){ return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
 
+// CADASTRO E LOGIN
 function cadastrar(){
   var nome = document.getElementById("c-nome").value.trim();
   var email = document.getElementById("c-email").value.trim().toLowerCase();
-  var cidade = document.getElementById("c-cidade").value;
-  var bairro = document.getElementById("c-bairro").value; // Correção adicionada
-  var postcode = document.getElementById("c-postcode").value; // Correção adicionada
+  var cidade = document.getElementById("c-cidade").value.trim();
+  var bairro = document.getElementById("c-bairro").value.trim();
+  var postcode = document.getElementById("c-postcode").value.trim();
   var senha = document.getElementById("c-senha").value;
   var erro = document.getElementById("c-erro");
-  if(!nome || !email || !cidade || !senha){ erro.textContent = "Preencha todos os campos obrigatórios!"; erro.style.display = "block"; return; }
-  if(senha.length < 6){ erro.textContent = "Senha mínimo 6 caracteres."; erro.style.display = "block"; return; }
-  if(DB.usuarios.find(function(u){ return u.email.toLowerCase() === email; })){ erro.textContent = "Email já cadastrado."; erro.style.display = "block"; return; }
-  var nu = {id: Date.now(), nome: nome, email: email, senha: senha, aprovado: false, cidade: cidade, bairro: bairro||"", postcode: postcode||""};
+  if(!nome || !email || !cidade || !senha){ erro.textContent = "Preencha todos os campos obrigatórios!"; erro.style.display="block"; return; }
+  if(senha.length<6){ erro.textContent="Senha mínimo 6 caracteres."; erro.style.display="block"; return; }
+  var usuarioExistente = DB.usuarios.find(u=> u.email === email);
+  if(usuarioExistente && usuarioExistente.aprovado === true){ erro.textContent="Email já cadastrado e aprovado."; erro.style.display="block"; return; }
+  if(usuarioExistente){
+    DB.usuarios = DB.usuarios.filter(u=> u.email !== email);
+    DB.pendentes = DB.pendentes.filter(p=> p.email !== email);
+  }
+  var nu = { id: Date.now(), nome, email, senha, aprovado: false, cidade, bairro, postcode };
   DB.usuarios.push(nu);
-  DB.pendentes.push({id: nu.id, nome: nome, email: email, cidade: cidade, bairro: bairro||"", postcode: postcode||"", desde: new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"})});
+  DB.pendentes.push({ id: nu.id, nome, email, cidade, bairro, postcode, desde: new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"}) });
   salvar();
   erro.style.display = "none";
   fecharModal();
   toast("✅ Cadastro enviado! Aguarde aprovação.");
 }
-
-function abrirPaginaAdmin(){
-  var painel = document.getElementById("admin-panel");
-  if(painel.style.display !== "block"){
-    document.getElementById("admin-login").style.display = "block";
-    painel.style.display = "none";
-  }
+function entrar(){
+  var email = document.getElementById("l-email").value.trim().toLowerCase();
+  var senha = document.getElementById("l-senha").value;
+  var u = DB.usuarios.find(x=> x.email === email && x.senha === senha);
+  if(!u){ document.getElementById("l-erro").style.display="block"; return; }
+  if(!u.aprovado){ document.getElementById("l-erro").textContent="Aguardando aprovação."; document.getElementById("l-erro").style.display="block"; return; }
+  usuarioLogado = u;
+  document.getElementById("l-erro").style.display="none";
+  fecharModal();
+  toast("Bem-vindo, "+u.nome+"!");
+  renderBolao(); renderNoticias();
+  document.getElementById("menu-perfil").style.display = "block";
+  document.getElementById("footer-perfil").style.display = "inline-block";
+  document.getElementById("btn-sugestao").style.display = "flex";
+}
+function logout(){
+  usuarioLogado = null;
+  document.getElementById("menu-perfil").style.display = "none";
+  document.getElementById("footer-perfil").style.display = "none";
+  document.getElementById("btn-sugestao").style.display = "none";
+  toast("Deslogado com sucesso.");
+  renderBolao();
+  ir("home");
+}
+function renderizarPerfil(){
+  var container = document.getElementById("perfil-conteudo");
+  if(!usuarioLogado){ container.innerHTML = '<div style="text-align:center;padding:2rem">Você não está logado.<br><button class="btn-v" onclick="abrirModal()">Entrar</button></div>'; return; }
+  container.innerHTML = '<div class="perfil-item"><div class="perfil-label">Nome</div><div class="perfil-valor">'+usuarioLogado.nome+'</div></div>'+
+    '<div class="perfil-item"><div class="perfil-label">Email</div><div class="perfil-valor">'+usuarioLogado.email+'</div></div>'+
+    '<div class="perfil-item"><div class="perfil-label">Cidade</div><div class="perfil-valor">'+(usuarioLogado.cidade||"—")+'</div></div>'+
+    '<div class="perfil-item"><div class="perfil-label">Bairro</div><div class="perfil-valor">'+(usuarioLogado.bairro||"—")+'</div></div>'+
+    '<div class="perfil-item"><div class="perfil-label">Postcode</div><div class="perfil-valor">'+(usuarioLogado.postcode||"—")+'</div></div>';
+}
+function abrirModalPerfil(){ /* igual à versão anterior - mantida */ 
+  if(!usuarioLogado){ toast("Faça login primeiro","err"); return; }
+  var modal = document.getElementById("modal-perfil") || criarModalPerfil();
+  var dadosDiv = document.getElementById("perfil-dados");
+  dadosDiv.innerHTML = '<label class="label">Nome</label><input class="inp" id="edit-nome" value="'+usuarioLogado.nome+'">'+
+    '<label class="label">Cidade</label><input class="inp" id="edit-cidade" value="'+(usuarioLogado.cidade||'')+'">'+
+    '<label class="label">Bairro</label><input class="inp" id="edit-bairro" value="'+(usuarioLogado.bairro||'')+'">'+
+    '<label class="label">Postcode</label><input class="inp" id="edit-postcode" value="'+(usuarioLogado.postcode||'')+'">'+
+    '<label class="label">Nova Senha (deixe em branco para manter)</label><input class="inp" type="password" id="edit-senha" placeholder="Nova senha">'+
+    '<button class="btn-submit" onclick="salvarEdicaoPerfil()">Salvar Alterações</button>';
+  modal.classList.add("aberto");
+}
+function criarModalPerfil(){
+  if(document.getElementById("modal-perfil")) return document.getElementById("modal-perfil");
+  var div = document.createElement("div"); div.id = "modal-perfil"; div.className = "modal"; div.innerHTML = '<div class="modal-box"><button class="modal-fechar" onclick="fecharModalPerfil()">✕</button><h2>Meu <span>Perfil</span></h2><div id="perfil-dados"></div></div>';
+  document.body.appendChild(div);
+  div.addEventListener("click", function(e){ if(e.target === div) fecharModalPerfil(); });
+  return div;
+}
+function fecharModalPerfil(){ var m = document.getElementById("modal-perfil"); if(m) m.classList.remove("aberto"); }
+function salvarEdicaoPerfil(){
+  var nome = document.getElementById("edit-nome").value.trim();
+  var cidade = document.getElementById("edit-cidade").value.trim();
+  var bairro = document.getElementById("edit-bairro").value.trim();
+  var postcode = document.getElementById("edit-postcode").value.trim();
+  var novaSenha = document.getElementById("edit-senha").value;
+  if(!nome){ toast("Nome não pode ficar vazio","err"); return; }
+  usuarioLogado.nome = nome;
+  usuarioLogado.cidade = cidade;
+  usuarioLogado.bairro = bairro;
+  usuarioLogado.postcode = postcode;
+  if(novaSenha && novaSenha.length >= 6) usuarioLogado.senha = novaSenha;
+  var membro = DB.membros.find(m=> m.email === usuarioLogado.email);
+  if(membro){ membro.nome = nome; membro.cidade = cidade; membro.bairro = bairro; membro.postcode = postcode; }
+  var pendente = DB.pendentes.find(p=> p.email === usuarioLogado.email);
+  if(pendente){ pendente.nome = nome; pendente.cidade = cidade; pendente.bairro = bairro; pendente.postcode = postcode; }
+  var idx = DB.usuarios.findIndex(u=> u.id === usuarioLogado.id);
+  if(idx !== -1) DB.usuarios[idx] = usuarioLogado;
+  salvar();
+  fecharModalPerfil();
+  renderizarPerfil();
+  renderMembros();
+  toast("Perfil atualizado!");
 }
 
-function entrarAdmin(){
-  var s = document.getElementById("adm-pass").value;
-  if(s === SENHA_ADMIN){
-    document.getElementById("admin-login").style.display = "none";
-    document.getElementById("admin-panel").style.display = "block";
-    carregarDadosAdmin();
-    toast("✅ Bem-vindo ao painel admin!");
-  } else { toast("⚠️ Senha incorreta","err"); }
-}
+// ADMIN (resumo)
+function abrirPaginaAdmin(){ document.getElementById("admin-login").style.display="block"; document.getElementById("admin-panel").style.display="none"; }
+function entrarAdmin(){ if(document.getElementById("adm-pass").value === SENHA_ADMIN){ document.getElementById("admin-login").style.display="none"; document.getElementById("admin-panel").style.display="block"; carregarDadosAdmin(); toast("Bem-vindo admin!"); } else toast("Senha incorreta","err"); }
+function carregarDadosAdmin(){ document.getElementById("cfg-capa").value = DB.config.capa; document.getElementById("cfg-hist").value = DB.config.hist; document.getElementById("cfg-miss").value = DB.config.miss; document.getElementById("cfg-onde").value = DB.config.onde; atualizarSelectJogos(); renderAdmJogos(); renderAdmMembros(); renderGaleria(); renderAdmProdutos(); popularSelectPontos(); renderNoticias(); renderRelatorio(); renderSugestoesAdmin(); }
+function salvarCapa(){ DB.config.capa = document.getElementById("cfg-capa").value; salvar(); aplicarConfig(); toast("Capa atualizada"); }
+function salvarTextos(){ DB.config.hist = document.getElementById("cfg-hist").value; DB.config.miss = document.getElementById("cfg-miss").value; DB.config.onde = document.getElementById("cfg-onde").value; salvar(); aplicarConfig(); toast("Textos salvos"); }
+function atualizarSelectJogos(){ var sel = document.getElementById("j-encerrar"); sel.innerHTML = '<option>Selecione...</option>'+DB.jogos.filter(j=>!j.encerrado).map(j=> `<option value="${j.id}">${j.casa} × ${j.fora}</option>`).join(""); }
+function renderAdmJogos(){ var el = document.getElementById("adm-jogos-lista"); if(!el) return; el.innerHTML = DB.jogos.map(j=> `<div style="display:flex;justify-content:space-between;padding:5px 0">${j.casa} × ${j.fora} ${j.encerrado?`[${j.golsCasa}-${j.golsFora}]`:"[aberto]"} <button onclick="deletarJogo(${j.id})">✕</button></div>`).join("") || "<div>Nenhum jogo</div>"; }
+function adicionarJogo(){ var fora = document.getElementById("j-fora").value, data = document.getElementById("j-data").value; if(!fora||!data){ toast("Preencha visitante e data","err"); return; } DB.jogos.push({id:Date.now(), casa:document.getElementById("j-casa").value||"Bahia", fora, data, rodada:Number(document.getElementById("j-rodada").value)||1, golsCasa:null, golsFora:null, encerrado:false}); salvar(); atualizarSelectJogos(); renderAdmJogos(); toast("Jogo adicionado"); }
+function encerrarJogo(){ var id = Number(document.getElementById("j-encerrar").value), gc = Number(document.getElementById("j-gols-casa").value), gf = Number(document.getElementById("j-gols-fora").value); if(!id){ toast("Selecione o jogo","err"); return; } DB.jogos = DB.jogos.map(j=> j.id===id ? {...j, golsCasa:gc, golsFora:gf, encerrado:true} : j); salvar(); atualizarSelectJogos(); renderAdmJogos(); renderBolao(); toast("Jogo encerrado"); }
+function deletarJogo(id){ if(confirm("Remover?")){ DB.jogos = DB.jogos.filter(j=> j.id!==id); salvar(); atualizarSelectJogos(); renderAdmJogos(); toast("Removido"); } }
+function renderAdmMembros(){ var pEl = document.getElementById("adm-pendentes"); var aEl = document.getElementById("adm-ativos"); if(pEl) pEl.innerHTML = DB.pendentes.map(p=> `<div>${p.nome} (${p.cidade}) <button onclick="aprovarMembro(${p.id})">✅</button> <button onclick="recusarMembro(${p.id})">✕</button></div>`).join("") || "<div>Nenhum pendente</div>"; if(aEl) aEl.innerHTML = DB.membros.filter(m=>m.status==="ativo").map(m=> `<div>${m.nome} (${m.cidade}) <button onclick="removerMembro(${m.id})">✕</button></div>`).join("") || "<div>Nenhum ativo</div>"; }
+function aprovarMembro(id){ var p = DB.pendentes.find(m=> m.id === id); if(p){ DB.membros.push({id:Date.now(), nome:p.nome, cidade:p.cidade, cargo:"Membro", desde:new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"}), status:"ativo", email:p.email, bairro:p.bairro, postcode:p.postcode}); var u = DB.usuarios.find(x=> x.id === id); if(u) u.aprovado = true; DB.pendentes = DB.pendentes.filter(m=> m.id !== id); salvar(); renderAdmMembros(); renderMembros(); toast("Aprovado!"); } }
+function recusarMembro(id){ DB.pendentes = DB.pendentes.filter(m=> m.id !== id); DB.usuarios = DB.usuarios.filter(u=> u.id !== id); salvar(); renderAdmMembros(); toast("Recusado"); }
+function removerMembro(id){ if(confirm("Remover permanentemente?")){ var membro = DB.membros.find(m=> m.id === id); if(membro){ DB.membros = DB.membros.filter(m=> m.id !== id); DB.usuarios = DB.usuarios.filter(u=> u.email !== membro.email); DB.pendentes = DB.pendentes.filter(p=> p.email !== membro.email); if(usuarioLogado && usuarioLogado.email === membro.email) logout(); salvar(); renderAdmMembros(); renderMembros(); toast("Membro removido"); } } }
+function popularSelectPontos(){ var sel = document.getElementById("pts-membro"); if(sel) sel.innerHTML = '<option>Selecione...</option>'+DB.usuarios.filter(u=>u.aprovado).map(u=> `<option value="${u.id}">${u.nome}</option>`).join(""); }
+function ajustarPontos(){ var uid = Number(document.getElementById("pts-membro").value); var pts = Number(document.getElementById("pts-valor").value); if(!uid||!pts){ toast("Selecione membro e pontos","err"); return; } var jogoId = Date.now(); DB.jogos.push({id:jogoId, casa:"Pontos Extras", fora:"Admin", data:"", rodada:0, golsCasa:pts, golsFora:0, encerrado:true}); DB.palpites.push({jogoId, usuarioId:uid, casa:pts, fora:0}); salvar(); renderBolao(); toast(`${pts} pontos adicionados`); }
+function adicionarMembro(){ var n = document.getElementById("adm-m-nome").value; if(!n){ toast("Nome obrigatório","err"); return; } DB.membros.push({id:Date.now(), nome:n, cidade:document.getElementById("adm-m-cidade").value, cargo:document.getElementById("adm-m-cargo").value||"Membro", desde:new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"}), status:"ativo"}); salvar(); renderAdmMembros(); renderMembros(); toast("Adicionado"); }
+function adicionarFoto(){ var u = document.getElementById("gal-url").value; if(!u){ toast("Cole o link","err"); return; } DB.galeria.push(u); salvar(); renderGaleria(); toast("Foto adicionada"); }
+function removerFoto(i){ if(confirm("Remover?")){ DB.galeria.splice(i,1); salvar(); renderGaleria(); toast("Removida"); } }
+function renderAdmProdutos(){ var el = document.getElementById("adm-produtos-lista"); if(!el) return; el.innerHTML = DB.produtos.map(p=> `<div>${p.nome} - £${p.preco} <button onclick="deletarProduto(${p.id})">✕</button></div>`).join("") || "<div>Nenhum produto</div>"; }
+function adicionarProduto(){ var nome = document.getElementById("p-nome").value, preco = document.getElementById("p-preco").value; if(!nome||!preco){ toast("Nome e preço obrigatórios","err"); return; } DB.produtos.push({id:Date.now(), nome, preco:Number(preco), desc:document.getElementById("p-desc").value, foto:document.getElementById("p-foto").value, emoji:document.getElementById("p-emoji").value||"👕"}); salvar(); renderAdmProdutos(); renderLoja(); toast("Produto adicionado"); }
+function deletarProduto(id){ if(confirm("Remover?")){ DB.produtos = DB.produtos.filter(p=> p.id !== id); salvar(); renderAdmProdutos(); renderLoja(); toast("Removido"); } }
+function renderNoticias(){ var el = document.getElementById("home-noticias"), adm = document.getElementById("adm-noticias-lista"); if(!DB.noticias) DB.noticias=[]; if(el) el.innerHTML = DB.noticias.length? DB.noticias.slice().reverse().map(n=> `<div style="background:rgba(255,255,255,0.08);padding:1rem;border-radius:10px">${n.titulo}<br><small>${n.data}</small><p>${n.texto}</p></div>`).join("") : "<div>Sem novidades</div>"; if(adm) adm.innerHTML = DB.noticias.map((n,i)=> `<div>${n.titulo} <button onclick="deletarNoticia(${i})">✕</button></div>`).join("") || "<div>Nenhuma notícia</div>"; }
+function adicionarNoticia(){ var titulo = document.getElementById("n-titulo").value, texto = document.getElementById("n-texto").value; if(!titulo||!texto){ toast("Título e texto obrigatórios","err"); return; } DB.noticias.push({id:Date.now(), titulo, texto, foto:document.getElementById("n-foto").value, data:new Date().toLocaleDateString("pt-BR")}); salvar(); renderNoticias(); toast("Notícia publicada"); }
+function deletarNoticia(idx){ if(confirm("Remover?")){ DB.noticias.splice(idx,1); salvar(); renderNoticias(); toast("Removida"); } }
+function renderRelatorio(){ var resumo = document.getElementById("relatorio-resumo"), lista = document.getElementById("relatorio-lista"); if(!resumo) return; var ativos = DB.membros.filter(m=> m.status==="ativo"); var cidades = {}; ativos.forEach(m=>{ cidades[m.cidade||"Outros"] = (cidades[m.cidade||"Outros"]||0)+1; }); resumo.innerHTML = Object.entries(cidades).map(([c, q])=> `<div style="background:rgba(0,0,0,0.2);padding:0.5rem;border-radius:8px;text-align:center"><div>${q}</div><div>${c}</div></div>`).join("") + `<div style="background:rgba(0,71,145,0.4);padding:0.5rem;text-align:center"><div>${ativos.length}</div><div>Total</div></div>`; lista.innerHTML = `<table style="width:100%"><tr><th>Nome</th><th>Cidade</th><th>Email</th></tr>${ativos.map(m=> `<tr><td>${m.nome}</td><td>${m.cidade||"—"}</td><td>${m.email||"—"}</td></tr>`).join("")}</table>`; var resetSel = document.getElementById("reset-membro"); if(resetSel) resetSel.innerHTML = '<option>Selecione...</option>'+DB.usuarios.filter(u=>u.aprovado).map(u=> `<option value="${u.id}">${u.nome}</option>`).join(""); }
+function exportarRelatorio(){ var csv = "Nome,Email,Cidade,Bairro,Postcode\n"+DB.membros.filter(m=>m.status==="ativo").map(m=> `${m.nome},${m.email||""},${m.cidade||""},${m.bairro||""},${m.postcode||""}`).join("\n"); var blob = new Blob([csv], {type:"text/csv"}); var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "membros.csv"; a.click(); toast("CSV exportado"); }
+function redefinirSenha(){ var uid = Number(document.getElementById("reset-membro").value); var nova = document.getElementById("reset-senha").value; if(!uid||!nova||nova.length<6){ toast("Selecione membro e senha (6+ caracteres)","err"); return; } DB.usuarios = DB.usuarios.map(u=> u.id===uid ? {...u, senha:nova} : u); salvar(); toast("Senha redefinida"); }
+function exportarDados(){ var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(DB,null,2)], {type:"application/json"})); a.download = "backup.json"; a.click(); toast("Backup exportado"); }
+function importarDados(input){ var file = input.files[0]; if(!file) return; var reader = new FileReader(); reader.onload = function(e){ try{ DB = JSON.parse(e.target.result); salvar(); location.reload(); }catch(err){ toast("Arquivo inválido","err"); } }; reader.readAsText(file); }
 
-
-function popularSelectPontos(){
-  var sel = document.getElementById("pts-membro");
-  if(!sel) return;
-  var aprov = DB.usuarios.filter(function(u){ return u.aprovado; });
-  sel.innerHTML = '<option value="">Selecione o membro...</option>' + aprov.map(function(u){
-    return '<option value="' + u.id + '">' + u.nome + ' (atual: ' + calcPontos(u.id) + ' pts)</option>';
-  }).join("");
-}
-
-function ajustarPontos(){
-  var uid = Number(document.getElementById("pts-membro").value);
-  var pts = Number(document.getElementById("pts-valor").value);
-  if(!uid){ toast("⚠️ Selecione o membro","err"); return; }
-  if(!pts || pts <= 0){ toast("⚠️ Digite os pontos","err"); return; }
-  // Add a fake finished game with exact score for this user
-  var jogoId = Date.now();
-  DB.jogos.push({id: jogoId, casa: "Pontos Extras", fora: "Admin", data: new Date().toISOString().split("T")[0], rodada: 0, golsCasa: pts, golsFora: 0, encerrado: true});
-  DB.palpites.push({jogoId: jogoId, usuarioId: uid, casa: pts, fora: 0});
-  document.getElementById("pts-valor").value = "";
-  salvar(); popularSelectPontos(); renderBolao(); toast("✅ " + pts + " pontos adicionados!");
-}
-
-function carregarDadosAdmin(){
-  var c = DB.config;
-  document.getElementById("cfg-capa").value = c.capa || "";
-  document.getElementById("cfg-hist").value = c.hist || "";
-  document.getElementById("cfg-miss").value = c.miss || "";
-  document.getElementById("cfg-onde").value = c.onde || "";
-  atualizarSelectJogos();
-  renderAdmJogos();
-  renderAdmMembros();
-  renderGaleria();
-  renderAdmProdutos();
-  popularSelectPontos();
-  renderNoticias();
-}
-
-function salvarCapa(){
-  var u = document.getElementById("cfg-capa").value.trim();
-  if(!u){ toast("⚠️ Cole o link","err"); return; }
-  DB.config.capa = u;
-  salvar(); aplicarConfig(); toast("✅ Capa atualizada!");
-}
-
-function salvarTextos(){
-  DB.config.hist = document.getElementById("cfg-hist").value;
-  DB.config.miss = document.getElementById("cfg-miss").value;
-  DB.config.onde = document.getElementById("cfg-onde").value;
-  salvar(); aplicarConfig(); toast("✅ Textos salvos!");
-}
-
-function atualizarSelectJogos(){
-  var sel = document.getElementById("j-encerrar");
-  if(!sel) return;
-  var abertos = DB.jogos.filter(function(j){ return !j.encerrado; });
-  sel.innerHTML = '<option value="">Selecione...</option>' + abertos.map(function(j){
-    return '<option value="' + j.id + '">' + j.casa + ' × ' + j.fora + ' (Rd ' + j.rodada + ')</option>';
-  }).join("");
-}
-
-function renderAdmJogos(){
-  var el = document.getElementById("adm-jogos-lista");
-  if(!el) return;
-  if(!DB.jogos.length){ el.innerHTML = '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhum jogo.</p>'; return; }
-  el.innerHTML = DB.jogos.map(function(j){
-    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)">' +
-      '<span style="font-size:0.88rem">' + j.casa + ' × ' + j.fora + '</span>' +
-      '<div style="display:flex;gap:6px;align-items:center">' +
-        (j.encerrado ? '<span style="background:#166534;color:#fff;padding:2px 6px;border-radius:6px;font-size:0.68rem;font-family:Barlow Condensed,sans-serif">' + j.golsCasa + '–' + j.golsFora + '</span>' : '<span style="background:#b8860b;color:#fff;padding:2px 6px;border-radius:6px;font-size:0.68rem;font-family:Barlow Condensed,sans-serif">ABERTO</span>') +
-        '<button onclick="deletarJogo(' + j.id + ')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:3px 7px;cursor:pointer;font-size:0.72rem">✕</button>' +
-      '</div>' +
-    '</div>';
-  }).join("");
-}
-
-function adicionarJogo(){
-  var fora = document.getElementById("j-fora").value;
-  var data = document.getElementById("j-data").value;
-  if(!fora || !data){ toast("⚠️ Preencha visitante e data","err"); return; }
-  DB.jogos.push({id: Date.now(), casa: document.getElementById("j-casa").value || "Bahia", fora: fora, data: data, rodada: Number(document.getElementById("j-rodada").value)||1, golsCasa: null, golsFora: null, encerrado: false});
-  document.getElementById("j-fora").value = "";
-  document.getElementById("j-data").value = "";
-  salvar(); atualizarSelectJogos(); renderAdmJogos(); toast("✅ Jogo adicionado!");
-}
-
-function encerrarJogo(){
-  var id = Number(document.getElementById("j-encerrar").value);
-  var gc = Number(document.getElementById("j-gols-casa").value);
-  var gf = Number(document.getElementById("j-gols-fora").value);
-  if(!id){ toast("⚠️ Selecione o jogo","err"); return; }
-  DB.jogos = DB.jogos.map(function(j){ return j.id === id ? Object.assign({}, j, {golsCasa: gc, golsFora: gf, encerrado: true}) : j; });
-  salvar(); atualizarSelectJogos(); renderAdmJogos(); renderBolao(); toast("✅ Pontos calculados!");
-}
-
-function deletarJogo(id){
-  if(!confirm("Remover?")) return;
-  DB.jogos = DB.jogos.filter(function(j){ return j.id !== id; });
-  salvar(); atualizarSelectJogos(); renderAdmJogos(); toast("✅ Removido!");
-}
-
-function renderAdmMembros(){
-  var pEl = document.getElementById("adm-pendentes");
-  var aEl = document.getElementById("adm-ativos");
-  if(pEl){
-    if(!DB.pendentes.length){ pEl.innerHTML = '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhum pendente.</p>'; }
-    else {
-      pEl.innerHTML = DB.pendentes.map(function(m){
-        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)">' +
-          '<div><div style="font-weight:700;font-size:0.88rem">' + m.nome + '</div><div style="font-size:0.75rem;opacity:0.6">' + m.cidade + '</div></div>' +
-          '<div style="display:flex;gap:5px"><button onclick="aprovarMembro(' + m.id + ')" style="background:#166534;color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✅</button>' +
-          '<button onclick="recusarMembro(' + m.id + ')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button></div>' +
-        '</div>';
-      }).join("");
-    }
-  }
-  if(aEl){
-    aEl.innerHTML = DB.membros.filter(function(m){ return m.status === "ativo"; }).map(function(m){
-      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)">' +
-        '<div><div style="font-weight:700;font-size:0.88rem">' + m.nome + '</div><div style="font-size:0.75rem;opacity:0.6">' + m.cidade + '</div></div>' +
-        '<button onclick="removerMembro(' + m.id + ')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button>' +
-      '</div>';
-    }).join("");
-  }
-}
-
-function aprovarMembro(id){
-  var p = DB.pendentes.find(function(m){ return m.id === id; });
-  if(!p) return;
-  DB.membros.push({id: Date.now(), nome: p.nome, cidade: p.cidade, cargo: "Membro", desde: new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"}), status: "ativo", email: p.email});
-  var u = DB.usuarios.find(function(x){ return x.id === id; });
-  if(u) u.aprovado = true;
-  DB.pendentes = DB.pendentes.filter(function(m){ return m.id !== id; });
-  salvar(); renderAdmMembros(); renderMembros(); toast("✅ Aprovado!");
-}
-
-function recusarMembro(id){
-  DB.pendentes = DB.pendentes.filter(function(m){ return m.id !== id; });
-  DB.usuarios = DB.usuarios.filter(function(u){ return u.id !== id; });
-  salvar(); renderAdmMembros(); toast("✅ Recusado!");
-}
-
-function removerMembro(id){
-  if(!confirm("Remover?")) return;
-  DB.membros = DB.membros.filter(function(m){ return m.id !== id; });
-  salvar(); renderAdmMembros(); renderMembros(); toast("✅ Removido!");
-}
-
-function adicionarMembro(){
-  var n = document.getElementById("adm-m-nome").value;
-  if(!n){ toast("⚠️ Digite o nome","err"); return; }
-  DB.membros.push({id: Date.now(), nome: n, cidade: document.getElementById("adm-m-cidade").value, cargo: document.getElementById("adm-m-cargo").value || "Membro", desde: new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"}), status: "ativo"});
-  document.getElementById("adm-m-nome").value = "";
-  salvar(); renderAdmMembros(); renderMembros(); toast("✅ Adicionado!");
-}
-
-function adicionarFoto(){
-  var u = document.getElementById("gal-url").value.trim();
-  if(!u){ toast("⚠️ Cole o link","err"); return; }
-  DB.galeria.push(u);
-  document.getElementById("gal-url").value = "";
-  salvar(); renderGaleria(); toast("✅ Foto adicionada!");
-}
-
-function removerFoto(i){
-  if(!confirm("Remover?")) return;
-  DB.galeria.splice(i, 1);
-  salvar(); renderGaleria(); toast("✅ Removida!");
-}
-
-function renderAdmProdutos(){
-  var el = document.getElementById("adm-produtos-lista");
-  if(!el) return;
-  el.innerHTML = DB.produtos.map(function(p){
-    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)">' +
-      '<div style="display:flex;gap:8px;align-items:center">' +
-        '<div style="font-size:1.5rem">' + (p.foto ? '' : p.emoji) + '</div>' +
-        '<div><div style="font-weight:700;font-size:0.88rem">' + p.nome + '</div><div style="font-size:0.75rem;color:#4ade80">£' + p.preco + '</div></div>' +
-      '</div>' +
-      '<button onclick="deletarProduto(' + p.id + ')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button>' +
-    '</div>';
-  }).join("");
-}
-
-function adicionarProduto(){
-  var nome = document.getElementById("p-nome").value;
-  var preco = document.getElementById("p-preco").value;
-  if(!nome || !preco){ toast("⚠️ Preencha nome e preço","err"); return; }
-  DB.produtos.push({id: Date.now(), nome: nome, preco: Number(preco), desc: document.getElementById("p-desc").value, foto: document.getElementById("p-foto").value, emoji: document.getElementById("p-emoji").value || "👕"});
-  ["p-nome","p-preco","p-desc","p-foto"].forEach(function(id){ document.getElementById(id).value = ""; });
-  salvar(); renderAdmProdutos(); renderLoja(); toast("✅ Produto adicionado!");
-}
-
-function deletarProduto(id){
-  if(!confirm("Remover?")) return;
-  DB.produtos = DB.produtos.filter(function(p){ return p.id !== id; });
-  salvar(); renderAdmProdutos(); renderLoja(); toast("✅ Removido!");
-}
-
-
-// NOTICIAS
-function renderNoticias(){
-  var el = document.getElementById("home-noticias");
-  var adm = document.getElementById("adm-noticias-lista");
-  if(!DB.noticias) DB.noticias = [];
-  
-  if(el){
-    if(!DB.noticias.length){
-      el.innerHTML = '<p style="color:rgba(255,255,255,0.3);font-size:0.82rem;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">Nenhuma novidade ainda.</p>';
-    } else {
-      el.innerHTML = DB.noticias.slice().reverse().map(function(n){
-        // Correção de aspas no onerror
-        return '<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;display:flex;gap:0">' +
-          (n.foto ? '<div style="width:100px;min-width:100px;overflow:hidden"><img src="' + n.foto + '" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display=\'none\'"></div>' : '') +
-          '<div style="padding:0.9rem;flex:1">' +
-            '<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:1px;margin-bottom:0.3rem">' + n.titulo + '</div>' +
-            '<div style="font-size:0.8rem;color:rgba(255,255,255,0.65);line-height:1.5">' + n.texto + '</div>' +
-            '<div style="font-size:0.68rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;font-family:Barlow Condensed,sans-serif">' + n.data + '</div>' +
-          '</div></div>';
-      }).join("");
-    }
-  }
-
-  if(adm){
-    if(!DB.noticias.length){
-      adm.innerHTML = '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhuma notícia.</p>';
-    } else {
-      adm.innerHTML = DB.noticias.slice().reverse().map(function(n, i){
-        var idx = DB.noticias.length - 1 - i;
-        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)">' +
-          '<div><div style="font-weight:700;font-size:0.88rem">' + n.titulo + '</div><div style="font-size:0.72rem;opacity:0.5">' + n.data + '</div></div>' +
-          '<button onclick="deletarNoticia(' + idx + ')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button>' +
-        '</div>';
-      }).join("");
-    }
-  }
-}
-
-function adicionarNoticia(){
-  var titulo = document.getElementById("n-titulo").value.trim();
-  var texto = document.getElementById("n-texto").value.trim();
-  if(!titulo || !texto){ toast("⚠️ Preencha título e texto","err"); return; }
-  if(!DB.noticias) DB.noticias = [];
-  DB.noticias.push({
-    id: Date.now(),
-    titulo: titulo,
-    texto: texto,
-    foto: document.getElementById("n-foto").value.trim(),
-    data: new Date().toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"})
-  });
-  document.getElementById("n-titulo").value = "";
-  document.getElementById("n-texto").value = "";
-  document.getElementById("n-foto").value = "";
-  salvar(); renderNoticias(); toast("✅ Notícia publicada!");
-}
-
-function deletarNoticia(idx){
-  if(!confirm("Remover notícia?")) return;
-  DB.noticias.splice(idx, 1);
-  salvar(); renderNoticias(); toast("✅ Removida!");
-}
-
-// RELATORIO
-function renderRelatorio(){
-  var resumo = document.getElementById("relatorio-resumo");
-  var lista = document.getElementById("relatorio-lista");
-  var resetSel = document.getElementById("reset-membro");
-  if(!resumo) return;
-
-  var ativos = DB.membros.filter(function(m){ return m.status === "ativo"; });
-  
-  // Group by city
-  var cidades = {};
-  ativos.forEach(function(m){
-    var c = m.cidade || "Não informado";
-    cidades[c] = (cidades[c] || 0) + 1;
-  });
-
-  resumo.innerHTML = Object.keys(cidades).map(function(c){
-    return '<div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:0.8rem;text-align:center">' +
-      '<div style="font-family:Bebas Neue,sans-serif;font-size:1.5rem;color:var(--vermelho)">' + cidades[c] + '</div>' +
-      '<div style="font-family:Barlow Condensed,sans-serif;font-size:0.75rem;letter-spacing:1px;opacity:0.7;text-transform:uppercase">' + c + '</div>' +
-    '</div>';
-  }).join("") + '<div style="background:rgba(0,71,145,0.4);border-radius:8px;padding:0.8rem;text-align:center;border:1px solid rgba(255,255,255,0.2)">' +
-    '<div style="font-family:Bebas Neue,sans-serif;font-size:1.5rem;color:#4ade80">' + ativos.length + '</div>' +
-    '<div style="font-family:Barlow Condensed,sans-serif;font-size:0.75rem;letter-spacing:1px;opacity:0.7;text-transform:uppercase">Total</div>' +
-  '</div>';
-
-  lista.innerHTML = '<table style="width:100%;border-collapse:collapse;font-size:0.82rem">' +
-    '<thead><tr>' +
-      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Nome</th>' +
-      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Cidade</th>' +
-      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Bairro</th>' +
-      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Postcode</th>' +
-      '<th style="background:rgba(0,0,0,0.2);padding:7px 10px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Email</th>' +
-    '</tr></thead><tbody>' +
-    ativos.map(function(m){
-      var u = DB.usuarios.find(function(x){ return x.email === m.email; });
-      return '<tr>' +
-        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07);font-weight:700">' + m.nome + '</td>' +
-        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07)">' + (m.cidade||"—") + '</td>' +
-        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07)">' + (u&&u.bairro||m.bairro||"—") + '</td>' +
-        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07)">' + (u&&u.postcode||m.postcode||"—") + '</td>' +
-        '<td style="padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.75rem;opacity:0.7">' + (m.email||"—") + '</td>' +
-      '</tr>';
-    }).join("") +
-    '</tbody></table>';
-
-  if(resetSel){
-    resetSel.innerHTML = '<option value="">Selecione...</option>' + DB.usuarios.filter(function(u){ return u.aprovado; }).map(function(u){
-      return '<option value="' + u.id + '">' + u.nome + '</option>';
-    }).join("");
-  }
-}
-
-function exportarRelatorio(){
-  var ativos = DB.membros.filter(function(m){ return m.status === "ativo"; });
-  var csv = "Nome,Email,Cidade,Bairro,Postcode,Desde\n";
-  ativos.forEach(function(m){
-    var u = DB.usuarios.find(function(x){ return x.email === m.email; });
-    csv += '"' + m.nome + '","' + (m.email||"") + '","' + (m.cidade||"") + '","' + (u&&u.bairro||m.bairro||"") + '","' + (u&&u.postcode||m.postcode||"") + '","' + (m.desde||"") + '"\n';
-  });
-  var blob = new Blob([csv], {type:"text/csv"});
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "membros-uk-tricolor.csv";
-  a.click();
-  toast("✅ CSV exportado!");
-}
-
-function redefinirSenha(){
-  var uid = Number(document.getElementById("reset-membro").value);
-  var nova = document.getElementById("reset-senha").value;
-  if(!uid){ toast("⚠️ Selecione o membro","err"); return; }
-  if(!nova || nova.length < 6){ toast("⚠️ Senha mínimo 6 caracteres","err"); return; }
-  DB.usuarios = DB.usuarios.map(function(u){ return u.id === uid ? Object.assign({}, u, {senha: nova}) : u; });
-  document.getElementById("reset-senha").value = "";
-  salvar(); toast("✅ Senha redefinida!");
-}
-
-function exportarDados(){
-  var json = JSON.stringify(DB, null, 2);
-  var blob = new Blob([json], {type:"application/json"});
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "backup-uk-tricolor-" + new Date().toISOString().split("T")[0] + ".json";
-  a.click();
-  toast("✅ Backup exportado!");
-}
-
-function importarDados(input){
-  var file = input.files[0];
-  if(!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e){
-    try{
-      var dados = JSON.parse(e.target.result);
-      DB = dados;
-      salvar();
-      aplicarConfig(); renderGaleria(); renderLoja(); renderMembros(); renderBolao(); renderNoticias();
-      toast("✅ Dados importados com sucesso!");
-    }catch(err){
-      toast("⚠️ Arquivo inválido","err");
-    }
-  };
-  reader.readAsText(file);
-}
-
-// INIT
-aplicarConfig();
-if(!DB.noticias) DB.noticias = [];
-renderGaleria();
-renderLoja();
-renderMembros();
-renderBolao();
-renderNoticias();
-
-if('serviceWorker' in navigator){
-  window.addEventListener('load', function(){
-    navigator.serviceWorker.register('/sw.js');
-  });
-}
+// Inicialização
+aplicarConfig(); if(!DB.noticias) DB.noticias=[]; if(!DB.sugestoes) DB.sugestoes=[]; renderGaleria(); renderLoja(); renderMembros(); renderBolao(); renderNoticias(); 
+if(usuarioLogado){ document.getElementById("menu-perfil").style.display="block"; document.getElementById("footer-perfil").style.display="inline-block"; document.getElementById("btn-sugestao").style.display="flex"; }
+document.getElementById("btn-sugestao").addEventListener("click", abrirModalSugestao);
 </script>
 </body>
-</html>
+                                                                   </html>
