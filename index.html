@@ -1,295 +1,371 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UK Tricolor</title>
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#004791">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="UK Tricolor">
-<link rel="apple-touch-icon" href="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp">
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
-<style>
-/* ========== SEU CSS ORIGINAL (sem alterações) ========== */
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{--azul:#004791;--vermelho:#CC0000;--ouro:#FFD700;}
-body{font-family:'Barlow',sans-serif;background:var(--azul);color:#fff;overflow-x:hidden;}
-nav{position:fixed;top:0;width:100%;z-index:1000;background:rgba(0,30,80,0.97);border-bottom:3px solid var(--vermelho);display:flex;align-items:center;padding:0 1rem;height:60px;}
-.logo{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;cursor:pointer;}
-.logo img{width:36px;height:36px;border-radius:50%;border:2px solid #fff;}
-.menu-btn{margin-left:auto;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;padding:4px 10px;}
-.menu-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:#003070;z-index:999;border-bottom:3px solid var(--vermelho);}
-.menu-mobile a{display:block;padding:1rem 1.5rem;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.1);cursor:pointer;}
-.page{display:none;min-height:100vh;padding-top:60px;}
-.page.active{display:block;}
-.hero{position:relative;min-height:85vh;display:flex;align-items:flex-end;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:url('https://i.ibb.co/ksxSXgfG/Screenshot-20260424-162814-Instagram.jpg') center/cover;filter:brightness(0.3);}
-.hero-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,30,80,0.97) 0%,transparent 60%);}
-.hero-content{position:relative;z-index:2;padding:2rem 1.5rem;}
-.hero h1{font-family:'Bebas Neue',sans-serif;font-size:5rem;line-height:0.9;letter-spacing:3px;margin-bottom:0.8rem;}
-.hero h1 span{color:var(--vermelho);}
-.hero p{font-family:'Barlow Condensed',sans-serif;font-size:1rem;color:rgba(255,255,255,0.7);margin-bottom:1.5rem;letter-spacing:2px;text-transform:uppercase;}
-.btns{display:flex;gap:0.8rem;flex-wrap:wrap;}
-.btn-v{background:var(--vermelho);color:#fff;border:none;padding:12px 22px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
-.btn-b{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.4);padding:12px 22px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);background:rgba(0,20,60,0.5);border-top:1px solid rgba(255,255,255,0.12);border-bottom:1px solid rgba(255,255,255,0.12);}
-.stat{padding:1.2rem;text-align:center;border-right:1px solid rgba(255,255,255,0.1);}
-.stat:last-child{border-right:none;}
-.stat-n{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--vermelho);}
-.stat-l{font-family:'Barlow Condensed',sans-serif;color:rgba(255,255,255,0.5);font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;}
-.sec{padding:2rem 1.5rem;}
-.sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:0.2rem;}
-.sec-titulo span{color:var(--vermelho);}
-.sec-sub{color:rgba(255,255,255,0.45);font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:1.2rem;font-family:'Barlow Condensed',sans-serif;}
-.galeria{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
-.foto{aspect-ratio:1;overflow:hidden;border-radius:6px;cursor:pointer;}
-.foto img{width:100%;height:100%;object-fit:cover;}
-.foto.grande{grid-column:span 2;}
-.loja-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
-.produto{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;}
-.produto-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:rgba(0,50,120,0.3);overflow:hidden;}
-.produto-body{padding:0.8rem;}
-.produto-nome{font-family:'Barlow Condensed',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:2px;}
-.produto-preco{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#4ade80;margin-bottom:0.5rem;}
-.btn-pedir{width:100%;background:#0059b8;color:#fff;border:none;padding:7px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
-.sobre-cards{display:grid;gap:1rem;}
-.card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:1.3rem;border-top:3px solid var(--vermelho);}
-.card h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;margin-bottom:0.6rem;}
-.card p{color:rgba(255,255,255,0.82);line-height:1.7;font-size:0.9rem;}
-.video-wrap{position:relative;padding-bottom:56.25%;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.15);}
-.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
-.reg{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1.3rem;}
-.reg h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--vermelho);margin-bottom:0.8rem;}
-.reg-item{display:flex;gap:0.7rem;margin-bottom:0.7rem;align-items:flex-start;}
-.reg-num{background:var(--vermelho);color:#fff;width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;flex-shrink:0;}
-.reg-txt{color:rgba(255,255,255,0.8);font-size:0.88rem;line-height:1.6;}
-.membros-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.8rem;}
-.membro{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:1rem;text-align:center;}
-.membro-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#0059b8,var(--vermelho));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;margin:0 auto 0.5rem;}
-.membro-nome{font-weight:700;font-size:0.85rem;}
-.membro-cidade{color:rgba(255,255,255,0.5);font-size:0.75rem;}
-.membro-cargo{background:var(--vermelho);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:0.62rem;letter-spacing:1px;padding:2px 6px;border-radius:8px;text-transform:uppercase;margin-top:3px;display:inline-block;}
-.admin-wrap{max-width:360px;margin:2rem auto;padding:0 1.5rem;}
-.admin-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:1.3rem;margin-bottom:1rem;}
-.admin-card-titulo{font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.9rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(255,255,255,0.1);}
-.inp{width:100%;padding:9px 12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);border-radius:6px;color:#fff;font-family:'Barlow',sans-serif;font-size:0.88rem;outline:none;margin-bottom:7px;}
-.inp::placeholder{color:rgba(255,255,255,0.3);}
-.btn-adm{background:var(--vermelho);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;width:100%;margin-top:4px;}
-.admin-panel{display:none;}
-.tabs{display:flex;background:rgba(0,20,60,0.5);border-bottom:1px solid rgba(255,255,255,0.12);flex-wrap:wrap;}
-.tab-btn{flex:1;padding:0.9rem;background:none;border:none;color:rgba(255,255,255,0.55);font-family:'Barlow Condensed',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;}
-.tab-btn.ativo{color:#fff;border-bottom-color:var(--vermelho);}
-.tab-conteudo{display:none;}
-.tab-conteudo.ativo{display:block;}
-.modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:1rem;}
-.modal.aberto{display:flex;}
-.modal-box{background:#003a7a;border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:2rem;width:100%;max-width:500px;position:relative;}
-.modal-fechar{position:absolute;top:0.8rem;right:0.8rem;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.3rem;cursor:pointer;}
-.modal h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem;}
-.modal h2 span{color:var(--vermelho);}
-.label{display:block;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.6);}
-.btn-submit{width:100%;background:var(--vermelho);color:#fff;border:none;padding:12px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:0.3rem;}
-.sel{width:100%;padding:10px 12px;background:#003a7a;border:1px solid rgba(255,255,255,0.22);border-radius:6px;color:#fff;font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.8rem;}
-.erro{color:#f87171;font-size:0.8rem;margin-bottom:0.6rem;display:none;}
-.toast{position:fixed;bottom:1.2rem;right:1.2rem;z-index:4000;background:#003a7a;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:0.8rem 1.2rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;font-size:0.85rem;transform:translateY(60px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:280px;}
-.toast.show{transform:translateY(0);opacity:1;}
-.toast.ok{border-color:#4ade80;}
-.toast.err{border-color:var(--vermelho);}
-.lb{position:fixed;inset:0;background:rgba(0,0,0,0.96);display:none;align-items:center;justify-content:center;z-index:3000;cursor:pointer;padding:16px;}
-.lb img{max-width:100%;max-height:90vh;border-radius:8px;}
-footer{background:rgba(0,0,0,0.4);border-top:3px solid var(--vermelho);padding:1.5rem;text-align:center;}
-footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
-.foot-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:0.8rem 0;}
-.foot-links a{color:rgba(255,255,255,0.4);font-size:0.8rem;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;}
-.insta-link{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#7e22ce,#db2777,#ea580c);border-radius:12px;padding:14px 18px;text-decoration:none;color:#fff;margin-bottom:1rem;}
-.perfil-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:1.5rem;margin:1rem;max-width:500px;margin-left:auto;margin-right:auto;}
-.perfil-item{margin-bottom:1rem;}
-.perfil-label{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.2rem;}
-.perfil-valor{font-size:1rem;font-weight:500;}
-.btn-sugestao{position:fixed;bottom:20px;right:20px;background:var(--vermelho);color:#fff;border:none;border-radius:50px;padding:12px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 2px 10px rgba(0,0,0,0.3);cursor:pointer;z-index:1000;}
-.sugestao-item{background:rgba(255,255,255,0.05);border-left:3px solid var(--ouro);margin-bottom:0.7rem;padding:0.8rem;border-radius:6px;}
-.sugestao-texto{font-size:0.85rem;margin-bottom:0.3rem;}
-.sugestao-meta{font-size:0.7rem;color:rgba(255,255,255,0.5);display:flex;justify-content:space-between;align-items:center;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Tricolor | Embaixada Oficial</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#004791">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        :root{--azul:#004791;--vermelho:#CC0000;--ouro:#FFD700;}
+        body{font-family:'Barlow',sans-serif;background:var(--azul);color:#fff;overflow-x:hidden;}
+        nav{position:fixed;top:0;width:100%;z-index:1000;background:rgba(0,30,80,0.97);border-bottom:3px solid var(--vermelho);display:flex;align-items:center;padding:0 1rem;height:60px;}
+        .logo{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;cursor:pointer;}
+        .logo img{width:36px;height:36px;border-radius:50%;border:2px solid #fff;}
+        .menu-btn{margin-left:auto;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;padding:4px 10px;}
+        .menu-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:#003070;z-index:999;border-bottom:3px solid var(--vermelho);}
+        .menu-mobile a{display:block;padding:1rem 1.5rem;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.1);cursor:pointer;}
+        .page{display:none;min-height:100vh;padding-top:60px;}
+        .page.active{display:block;}
+        .hero{position:relative;min-height:85vh;display:flex;align-items:flex-end;overflow:hidden;}
+        .hero-bg{position:absolute;inset:0;background:url('https://i.ibb.co/ksxSXgfG/Screenshot-20260424-162814-Instagram.jpg') center/cover;filter:brightness(0.3);}
+        .hero-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,30,80,0.97) 0%,transparent 60%);}
+        .hero-content{position:relative;z-index:2;padding:2rem 1.5rem;}
+        .hero h1{font-family:'Bebas Neue',sans-serif;font-size:5rem;line-height:0.9;letter-spacing:3px;margin-bottom:0.8rem;}
+        .hero h1 span{color:var(--vermelho);}
+        .hero p{font-family:'Barlow Condensed',sans-serif;font-size:1rem;color:rgba(255,255,255,0.7);margin-bottom:1.5rem;letter-spacing:2px;text-transform:uppercase;}
+        .btns{display:flex;gap:0.8rem;flex-wrap:wrap;}
+        .btn-v{background:var(--vermelho);color:#fff;border:none;padding:12px 22px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
+        .btn-b{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.4);padding:12px 22px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
+        .sec{padding:2rem 1.5rem;}
+        .sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:0.2rem;}
+        .sec-titulo span{color:var(--vermelho);}
+        .loja-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+        .produto{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;}
+        .produto-img{height:150px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:rgba(0,50,120,0.3);}
+        .produto-body{padding:0.8rem;}
+        .btn-pedir{width:100%;background:#0059b8;color:#fff;border:none;padding:7px;border-radius:4px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;}
+        .modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:1rem;}
+        .modal.aberto{display:flex;}
+        .modal-box{background:#003a7a;border-radius:12px;padding:2rem;width:100%;max-width:400px;position:relative;}
+        .modal-fechar{position:absolute;top:0.8rem;right:0.8rem;background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;}
+        .inp{width:100%;padding:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:#fff;margin-bottom:10px;}
+        .label{display:block;font-size:0.7rem;text-transform:uppercase;margin-bottom:4px;color:rgba(255,255,255,0.6);}
+        .toast{position:fixed;bottom:1.2rem;right:1.2rem;z-index:4000;background:#003a7a;border:1px solid #4ade80;border-radius:8px;padding:0.8rem 1.2rem;transform:translateY(100px);transition:0.3s;opacity:0;}
+        .toast.show{transform:translateY(0);opacity:1;}
+        .btn-sugestao{position:fixed;bottom:20px;right:20px;background:var(--vermelho);color:#fff;border:none;border-radius:50px;padding:12px 20px;font-weight:700;cursor:pointer;z-index:1000;display:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);}
+        footer{background:rgba(0,0,0,0.4);padding:2rem;text-align:center;border-top:3px solid var(--vermelho);}
+    </style>
 </head>
 <body>
 
-<div class="lb" id="lb" onclick="this.style.display='none'"><img id="lb-img" src="" alt=""></div>
 <div class="toast" id="toast"></div>
+<button id="btn-sugestao" class="btn-sugestao" onclick="abrirModalSugestao()">💡 Sugestão</button>
 
-<button id="btn-sugestao" class="btn-sugestao" style="display:none" onclick="abrirModalSugestao()">💡 Enviar Sugestão</button>
+<nav>
+    <div class="logo" onclick="ir('home')">
+        <img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp">
+        <span>UK TRICOLOR</span>
+    </div>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</nav>
+
+<div class="menu-mobile" id="menu">
+    <a onclick="ir('home')">🏠 Início</a>
+    <a onclick="ir('loja')">🛒 Loja</a>
+    <a onclick="ir('bolao')">🏆 Bolão</a>
+    <a id="link-entrar" onclick="abrirModal()">🔐 Entrar / Cadastrar</a>
+    <a id="menu-perfil" style="display:none" onclick="ir('perfil')">👤 Meu Perfil</a>
+    <a id="link-admin" style="display:none; color:var(--vermelho)" onclick="ir('admin')">⚙️ Admin</a>
+</div>
+
+<div id="home" class="page active">
+    <div class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grad"></div>
+        <div class="hero-content">
+            <h1>UK<br><span>TRICOLOR</span></h1>
+            <p>1ª Embaixada Oficial do Bahia na Europa</p>
+            <div class="btns">
+                <button class="btn-v" onclick="ir('loja')">Loja 🛒</button>
+                <button class="btn-b" onclick="ir('bolao')">Bolão 🏆</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loja" class="page">
+    <div class="sec">
+        <div class="sec-titulo">Loja <span>Oficial</span></div>
+        <div class="loja-grid" id="loja-grid">
+            <p style="grid-column: 1/-1; text-align: center; padding: 2rem;">Carregando produtos...</p>
+        </div>
+    </div>
+</div>
+
+<div id="bolao" class="page">
+    <div class="sec">
+        <div class="sec-titulo">🏆 <span>Bolão</span> UK</div>
+        <div id="bolao-conteudo" style="margin-top:1rem;">
+            </div>
+    </div>
+</div>
+
+<div id="perfil" class="page">
+    <div class="sec">
+        <div class="sec-titulo">Meu <span>Perfil</span></div>
+        <div id="perfil-info" style="background:rgba(255,255,255,0.05); padding:1.5rem; border-radius:10px; margin-top:1rem;"></div>
+        <button class="btn-v" style="width:100%; margin-top:1rem;" onclick="window.logout()">SAIR DA CONTA</button>
+    </div>
+</div>
+
+<div id="admin" class="page">
+    <div class="sec">
+        <div class="sec-titulo">Painel <span>Admin</span></div>
+        <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:10px; margin-top:1rem;">
+            <h3>Aprovações Pendentes</h3>
+            <div id="adm-pendentes">Carregando...</div>
+        </div>
+    </div>
+</div>
 
 <div class="modal" id="modal-auth">
-<div class="modal-box"><button class="modal-fechar" onclick="fecharModal()">✕</button>
-<div class="modal-tabs"><button class="modal-tab ativo" id="mtab-entrar" onclick="trocarTab('entrar')">Entrar</button><button class="modal-tab" id="mtab-cadastrar" onclick="trocarTab('cadastrar')">Cadastrar</button></div>
-<div id="auth-entrar"><h2>Entrar na<br><span>UK Tricolor</span></h2><label class="label">Email</label><input class="inp" type="email" placeholder="seu@email.com" id="l-email"><label class="label">Senha</label><input class="inp" type="password" placeholder="••••••••" id="l-senha"><p class="erro" id="l-erro">Email ou senha incorretos.</p><button class="btn-submit" onclick="entrar()">ENTRAR</button></div>
-<div id="auth-cadastrar" style="display:none"><h2>Criar<br><span>Conta</span></h2><label class="label">Nome</label><input class="inp" placeholder="Seu nome" id="c-nome"><label class="label">Email</label><input class="inp" type="email" placeholder="seu@email.com" id="c-email"><label class="label">Cidade</label><input class="inp" placeholder="Ex: London" id="c-cidade"><label class="label">Bairro / Área</label><input class="inp" placeholder="Ex: Hackney, Brixton..." id="c-bairro"><label class="label">Postcode</label><input class="inp" placeholder="Ex: E8 1AA" id="c-postcode"><label class="label">Senha</label><input class="inp" type="password" placeholder="Mínimo 6 caracteres" id="c-senha"><p class="erro" id="c-erro"></p><button class="btn-submit" onclick="cadastrar()">CRIAR CONTA</button></div>
-</div>
-</div>
-
-<div class="modal" id="modal-sugestao"><div class="modal-box"><button class="modal-fechar" onclick="fecharModalSugestao()">✕</button><h2>💡 Enviar <span>Sugestão</span></h2><label class="label">Sua ideia para a embaixada</label><textarea class="inp" id="sugestao-texto" rows="4" placeholder="Ex: organizar um churrasco, assistir jogos em pub, fazer camisas, etc."></textarea><button class="btn-submit" onclick="enviarSugestao()">Enviar Sugestão</button></div></div>
-
-<nav><div class="logo" onclick="ir('home')"><img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt=""><span>UK TRICOLOR</span></div><button class="menu-btn" onclick="toggleMenu()">☰</button></nav>
-
-<div class="menu-mobile" id="menu"><a onclick="ir('home')">🏠 Início</a><a onclick="ir('loja')">🛒 Loja</a><a onclick="ir('bolao')">🏆 Bolão</a><a onclick="ir('sobre')">ℹ️ Sobre</a><a onclick="ir('membros')">👥 Membros</a><a onclick="abrirModal()">🔐 Entrar / Cadastrar</a><a id="menu-perfil" style="display:none" onclick="ir('perfil')">👤 Meu Perfil</a><a onclick="ir('admin')" style="color:var(--vermelho)">⚙️ Admin</a></div>
-
-<!-- HOME -->
-<div id="home" class="page active">
-  <div class="hero"><div class="hero-bg"></div><div class="hero-grad"></div><div class="hero-content"><div style="display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:4px 12px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1rem">🇬🇧 Reino Unido · Embaixada Oficial</div><h1>UK<br><span>TRICOLOR</span></h1><p>1ª Embaixada Oficial do Bahia na Europa</p><div class="btns"><button class="btn-v" onclick="ir('loja')">Ver Loja 🛒</button><button class="btn-b" onclick="ir('bolao')">Ver Bolão 🏆</button></div></div></div>
-  <div class="stats"><div class="stat"><div class="stat-n" id="st-membros">0</div><div class="stat-l">Membros</div></div><div class="stat"><div class="stat-n" id="st-prods">0</div><div class="stat-l">Produtos</div></div></div>
-  <div class="sec" style="padding-top:0"><div class="sec-titulo">📰 <span>Novidades</span></div><div class="sec-sub">Últimas notícias da embaixada</div><div id="home-noticias" style="display:grid;gap:0.8rem"></div></div>
-  <div style="background:rgba(0,20,60,0.4);border-left:4px solid var(--vermelho);margin:0;padding:1.5rem"><div style="max-width:700px;margin:0 auto;display:flex;gap:1rem;align-items:flex-start"><span style="font-size:1.5rem;flex-shrink:0">🔴</span><div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;margin-bottom:0.4rem">Nossa <span style="color:var(--vermelho)">Missão</span></div><p style="color:rgba(255,255,255,0.82);font-size:0.92rem;line-height:1.7">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p></div></div></div>
-  <div class="sec"><div class="sec-titulo">Loja <span>UK Tricolor</span></div><div class="sec-sub">Produtos oficiais e exclusivos</div><div class="loja-grid" id="home-loja"></div><div style="text-align:center;margin-top:1rem"><button class="btn-b" onclick="ir('loja')" style="font-size:0.82rem;padding:9px 18px">Ver todos →</button></div></div>
-  <div class="sec" style="padding-top:0"><div class="sec-titulo">Galeria de <span>Eventos</span></div><div class="sec-sub">Momentos da nossa torcida</div><div class="galeria" id="home-galeria"></div><div style="text-align:center;margin-top:1rem"><button class="btn-b" onclick="ir('sobre')" style="font-size:0.82rem;padding:9px 18px">Ver todas as fotos →</button></div></div>
-  <div class="sec" style="padding-top:0"><div class="sec-titulo">🎬 <span>Vídeo</span></div><div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4?autoplay=1&mute=1" allowfullscreen></iframe></div></div>
-  <div class="sec" style="padding-top:0"><a href="https://www.instagram.com/uktricolor" target="_blank" class="insta-link"><span style="font-size:24px">📸</span><div><div style="font-weight:900;font-size:0.9rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">@UKTRICOLOR NO INSTAGRAM</div><div style="font-size:0.78rem;opacity:0.8">5.033 seguidores · Siga-nos!</div></div><span style="margin-left:auto">→</span></a></div>
+    <div class="modal-box">
+        <button class="modal-fechar" onclick="fecharModal()">✕</button>
+        <div id="auth-box">
+            <h2 id="auth-title">Entrar</h2>
+            <div style="margin-top:1rem">
+                <label class="label">Email</label>
+                <input class="inp" type="email" id="email" placeholder="seu@email.com">
+                <label class="label">Senha</label>
+                <input class="inp" type="password" id="senha" placeholder="******">
+                <div id="campos-cadastro" style="display:none">
+                    <label class="label">Nome Completo</label>
+                    <input class="inp" type="text" id="nome" placeholder="Seu nome">
+                </div>
+                <button class="btn-v" style="width:100%" id="btn-auth-main" onclick="window.entrar()">ENTRAR</button>
+                <p id="auth-toggle" style="text-align:center; margin-top:1rem; font-size:0.8rem; cursor:pointer" onclick="toggleAuthMode()">Não tem conta? Cadastre-se</p>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- LOJA -->
-<div id="loja" class="page"><div style="background:rgba(0,20,60,0.8);padding:2rem 1.5rem;text-align:center;border-bottom:3px solid #0059b8"><h1 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:3px">🛒 Loja <span style="color:var(--vermelho)">UK</span> Tricolor</h1><p style="color:rgba(255,255,255,0.65);font-size:0.88rem">Pedidos via Instagram</p></div><div class="sec"><div class="loja-grid" id="loja-grid"></div><p style="text-align:center;margin-top:1rem;color:rgba(255,255,255,0.4);font-size:0.8rem">💬 <a href="https://www.instagram.com/uktricolor" target="_blank" style="color:var(--vermelho)">@uktricolor</a> · Transferência e PayPal</p></div></div>
-
-<!-- BOLAO -->
-<div id="bolao" class="page"><div style="background:rgba(0,20,60,0.8);padding:2rem 1.5rem;text-align:center;border-bottom:3px solid var(--vermelho)"><h1 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:3px">🏆 Bolão <span style="color:var(--vermelho)">UK</span> Tricolor</h1><p style="color:rgba(255,255,255,0.65);font-size:0.88rem">Dispute com os membros da embaixada!</p></div><div class="sec"><div id="bolao-conteudo"></div><div style="margin-top:1.5rem"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;margin-bottom:0.8rem">🏅 <span style="color:var(--vermelho)">Classificação</span></div><div id="ranking"></div></div><div class="reg" style="margin-top:1rem"><h3>📋 Regulamento</h3><div class="reg-item"><div class="reg-num">3</div><div class="reg-txt"><strong>Placar exato</strong> — 3 pontos</div></div><div class="reg-item"><div class="reg-num">£</div><div class="reg-txt"><strong>Premiação</strong> — os 3 primeiros dividem o prêmio</div></div></div></div></div>
-
-<!-- SOBRE -->
-<div id="sobre" class="page"><div style="background:url('https://i.ibb.co/Wv6f945r/Screenshot-20260424-164409-Instagram.jpg') center/cover;height:220px;position:relative;border-bottom:3px solid var(--vermelho);display:flex;align-items:flex-end"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,30,80,0.95),transparent 60%);"></div><div style="position:relative;z-index:2;padding:1.5rem"><h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:3px">Sobre a UK <span style="color:var(--vermelho)">Tricolor</span></h1></div></div><div class="sec"><div class="sobre-cards"><div class="card"><h3>🔵 Nossa História</h3><p id="txt-hist">A UK Tricolor nasceu da saudade e do amor ao Esquadrão de Aço. Somos a 1ª Embaixada Oficial do Bahia na Europa.</p></div><div class="card"><h3>🔴 Nossa Missão</h3><p id="txt-miss">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p></div><div class="card"><h3>🇬🇧 Onde Estamos</h3><p id="txt-onde">Membros em Londres, Manchester, Birmingham, Leeds, Bristol, Edimburgo e outras cidades.</p></div></div></div><div class="sec" style="padding-top:0"><div class="sec-titulo">Galeria <span>Completa</span></div><div class="galeria" id="sobre-galeria"></div></div><div class="sec" style="padding-top:0"><div class="sec-titulo">🎬 <span>Vídeo</span></div><div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4?autoplay=1&mute=1" allowfullscreen></iframe></div></div></div>
-
-<!-- MEMBROS -->
-<div id="membros" class="page"><div class="tabs"><button class="tab-btn ativo" id="tab-lista" onclick="trocarTabMembros('lista')">👥 Membros</button><button class="tab-btn" id="tab-reunioes" onclick="trocarTabMembros('reunioes')">📅 Reuniões</button></div><div class="tab-conteudo ativo" id="tc-lista"><div class="sec"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem">Família <span style="color:var(--vermelho)">UK Tricolor</span></div><div class="membros-grid" id="membros-grid"></div></div></div><div class="tab-conteudo" id="tc-reunioes"><div class="sec"><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem">📅 Próximas <span style="color:var(--vermelho)">Reuniões</span></div><div id="reunioes-lista"></div></div></div></div>
-
-<!-- PERFIL -->
-<div id="perfil" class="page"><div class="perfil-card"><div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;text-align:center;margin-bottom:0.5rem">👤 <span style="color:var(--vermelho)">Minha Conta</span></div><div id="perfil-conteudo"></div><button class="btn-v" style="margin-top:1rem;width:100%" onclick="abrirModalPerfil()">✏️ Editar Perfil</button><button class="btn-b" style="margin-top:0.5rem;width:100%" onclick="logout()">🚪 Sair</button></div></div>
-
-<!-- ADMIN (PAINEL COMPLETO) -->
-<div id="admin" class="page">
-  <div id="admin-login"><div class="admin-wrap"><div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:0.3rem">Painel de <span style="color:var(--vermelho)">Admin</span></div><p style="color:rgba(255,255,255,0.5);margin-bottom:1.2rem;font-size:0.88rem">Área restrita.</p><div class="admin-card"><div class="admin-card-titulo">🔒 Senha do Admin</div><input class="inp" type="password" placeholder="Digite a senha..." id="adm-pass"><button class="btn-adm" onclick="entrarAdmin()">ENTRAR NO PAINEL</button></div></div></div>
-  <div class="admin-panel" id="admin-panel">
-    <div class="tabs"><button class="tab-btn ativo" id="adm-tab-site" onclick="trocarTabAdmin('site')">🌐 Site</button><button class="tab-btn" id="adm-tab-jogos" onclick="trocarTabAdmin('jogos')">⚽ Jogos</button><button class="tab-btn" id="adm-tab-membros" onclick="trocarTabAdmin('membros')">👥 Membros</button><button class="tab-btn" id="adm-tab-galeria" onclick="trocarTabAdmin('galeria')">📸 Galeria</button><button class="tab-btn" id="adm-tab-loja" onclick="trocarTabAdmin('loja')">🛒 Loja</button><button class="tab-btn" id="adm-tab-noticias" onclick="trocarTabAdmin('noticias')">📰 Notícias</button><button class="tab-btn" id="adm-tab-relatorio" onclick="trocarTabAdmin('relatorio')">📊 Relatório</button><button class="tab-btn" id="adm-tab-sugestoes" onclick="trocarTabAdmin('sugestoes')">💡 Sugestões</button></div>
-    <div class="tab-conteudo ativo" id="adm-site"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">🖼️ Foto de Capa</div><input class="inp" id="cfg-capa"><button class="btn-adm" onclick="salvarCapa()">ATUALIZAR CAPA</button></div><div class="admin-card"><div class="admin-card-titulo">📖 Textos da Página Sobre</div><label class="label">Nossa História</label><textarea class="inp" id="cfg-hist" rows="3"></textarea><label class="label">Nossa Missão</label><textarea class="inp" id="cfg-miss" rows="3"></textarea><label class="label">Onde Estamos</label><textarea class="inp" id="cfg-onde" rows="2"></textarea><button class="btn-adm" onclick="salvarTextos()">SALVAR TEXTOS</button></div></div></div>
-    <div class="tab-conteudo" id="adm-jogos"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Jogo</div><input class="inp" placeholder="Time da casa" id="j-casa" value="Bahia"><input class="inp" placeholder="Visitante" id="j-fora"><input class="inp" type="date" id="j-data"><input class="inp" type="number" placeholder="Rodada" id="j-rodada"><button class="btn-adm" onclick="adicionarJogo()">ADICIONAR JOGO</button></div><div class="admin-card"><div class="admin-card-titulo">✅ Encerrar Jogo</div><select class="sel" id="j-encerrar"><option>Selecione...</option></select><div style="display:flex;gap:7px"><input class="inp" type="number" placeholder="Gols casa" id="j-gols-casa"><input class="inp" type="number" placeholder="Gols fora" id="j-gols-fora"></div><button class="btn-adm" onclick="encerrarJogo()" style="background:#166534">ENCERRAR</button></div><div class="admin-card"><div class="admin-card-titulo">📋 Jogos Cadastrados</div><div id="adm-jogos-lista"></div></div></div></div>
-    <div class="tab-conteudo" id="adm-membros"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">⏳ Aguardando Aprovação</div><div id="adm-pendentes"></div></div><div class="admin-card"><div class="admin-card-titulo">✅ Membros Ativos</div><div id="adm-ativos"></div></div><div class="admin-card"><div class="admin-card-titulo">🏅 Ajustar Pontos</div><select class="sel" id="pts-membro"></select><div><input class="inp" type="number" placeholder="Pontos" id="pts-valor"></div><button class="btn-adm" onclick="ajustarPontos()">ADICIONAR PONTOS</button></div><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Manualmente</div><input class="inp" placeholder="Nome" id="adm-m-nome"><input class="inp" placeholder="Cidade" id="adm-m-cidade"><input class="inp" placeholder="Cargo" id="adm-m-cargo"><button class="btn-adm" onclick="adicionarMembro()">ADICIONAR</button></div></div></div>
-    <div class="tab-conteudo" id="adm-galeria"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Foto</div><input class="inp" id="gal-url" placeholder="https://i.ibb.co/..."><button class="btn-adm" onclick="adicionarFoto()">ADICIONAR</button></div><div class="admin-card"><div class="admin-card-titulo">🖼️ Fotos</div><div id="adm-galeria-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div></div></div></div>
-    <div class="tab-conteudo" id="adm-loja"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Produto</div><input class="inp" placeholder="Nome" id="p-nome"><div><input class="inp" type="number" placeholder="Preço (£)" id="p-preco"><input class="inp" placeholder="Emoji" id="p-emoji" value="👕"></div><input class="inp" placeholder="Descrição" id="p-desc"><input class="inp" placeholder="Foto URL" id="p-foto"><button class="btn-adm" onclick="adicionarProduto()">ADICIONAR</button></div><div class="admin-card"><div class="admin-card-titulo">📦 Produtos</div><div id="adm-produtos-lista"></div></div></div></div>
-    <div class="tab-conteudo" id="adm-noticias"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Notícia</div><input class="inp" placeholder="Título" id="n-titulo"><textarea class="inp" placeholder="Texto" id="n-texto" rows="3"></textarea><input class="inp" placeholder="Imagem URL" id="n-foto"><button class="btn-adm" onclick="adicionarNoticia()">PUBLICAR</button></div><div class="admin-card"><div class="admin-card-titulo">📋 Notícias</div><div id="adm-noticias-lista"></div></div></div></div>
-    <div class="tab-conteudo" id="adm-relatorio"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">📊 Relatório de Membros</div><div id="relatorio-resumo"></div><div id="relatorio-lista"></div><button class="btn-adm" onclick="exportarRelatorio()" style="background:#166534">📥 EXPORTAR CSV</button></div><div class="admin-card"><div class="admin-card-titulo">🔐 Redefinir Senha</div><select class="sel" id="reset-membro"></select><input class="inp" type="password" placeholder="Nova senha" id="reset-senha"><button class="btn-adm" onclick="redefinirSenha()">REDEFINIR</button></div><div class="admin-card"><div class="admin-card-titulo">💾 Backup</div><button class="btn-adm" onclick="exportarDados()">📤 EXPORTAR BACKUP</button><button class="btn-adm" onclick="document.getElementById('import-file').click()">📥 IMPORTAR BACKUP</button><input type="file" id="import-file" accept=".json" style="display:none" onchange="importarDados(this)"></div></div></div>
-    <div class="tab-conteudo" id="adm-sugestoes"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">💡 Sugestões dos Membros</div><div id="lista-sugestoes-admin"></div></div></div></div>
-  </div>
+<div class="modal" id="modal-sugestao">
+    <div class="modal-box">
+        <button class="modal-fechar" onclick="document.getElementById('modal-sugestao').classList.remove('aberto')">✕</button>
+        <h2>Enviar <span>Sugestão</span></h2>
+        <textarea class="inp" id="txt-sugestao" rows="4" style="margin-top:1rem" placeholder="Sua ideia..."></textarea>
+        <button class="btn-v" style="width:100%" onclick="window.enviarSugestao()">ENVIAR</button>
+    </div>
 </div>
 
-<footer><div style="display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;margin-bottom:0.5rem"><img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt="" style="width:32px;height:32px;border-radius:50%"> UK <span style="color:var(--vermelho)">TRICOLOR</span></div><div class="foot-links"><a onclick="ir('home')">Início</a><a onclick="ir('loja')">Loja</a><a onclick="ir('bolao')">Bolão</a><a onclick="ir('sobre')">Sobre</a><a onclick="ir('membros')">Membros</a><a id="footer-perfil" style="display:none" onclick="ir('perfil')">👤 Minha Conta</a></div><p>🔵🔴⚪ 1ª Embaixada Oficial do Bahia na Europa · Bora Bahêa!</p></footer>
+<footer>
+    <p>© 2026 UK Tricolor - BBMP</p>
+</footer>
 
-<script>
-// ========== FIREBASE CONFIG ==========
-const firebaseConfig = {
-  apiKey: "AIzaSyCvNQef4Wc-jMNglwUI8pTS0Gmge5NgJKA",
-  authDomain: "uk-tricolor.firebaseapp.com",
-  projectId: "uk-tricolor",
-  storageBucket: "uk-tricolor.firebasestorage.app",
-  messagingSenderId: "1044145787384",
-  appId: "1:1044145787384:web:2a48ec225644600414c60d"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-let usuarioLogado = null;
-const SENHA_ADMIN = "uktricolor2024";
+    // CONFIGURAÇÃO OFICIAL UK TRICOLOR
+    const firebaseConfig = {
+      apiKey: "AIzaSyCvNQef4Wc-jMNglwUI8pTS0Gmge5NgJKA",
+      authDomain: "uk-tricolor.firebaseapp.com",
+      projectId: "uk-tricolor",
+      storageBucket: "uk-tricolor.firebasestorage.app",
+      messagingSenderId: "1044145787384",
+      appId: "1:1044145787384:web:c253c28c97cea07414c60d"
+    };
 
-// ========== FUNÇÕES AUXILIARES ==========
-function toast(msg, tipo) { const t = document.getElementById("toast"); t.textContent = msg; t.className = "toast " + (tipo||"ok") + " show"; setTimeout(()=> t.classList.remove("show"), 3000); }
-function ir(pag) { document.querySelectorAll(".page").forEach(p=> p.classList.remove("active")); document.getElementById(pag).classList.add("active"); document.getElementById("menu").style.display = "none"; window.scrollTo(0,0); if(pag === "membros") carregarMembrosAtivos(); if(pag === "bolao") carregarBolao(); if(pag === "admin") document.getElementById("admin-login").style.display = "block"; if(pag === "perfil") renderizarPerfil(); }
-function toggleMenu() { var m = document.getElementById("menu"); m.style.display = m.style.display === "block" ? "none" : "block"; }
-function abrirModal() { document.getElementById("menu").style.display = "none"; document.getElementById("modal-auth").classList.add("aberto"); }
-function fecharModal() { document.getElementById("modal-auth").classList.remove("aberto"); }
-document.getElementById("modal-auth").addEventListener("click", function(e) { if(e.target === this) fecharModal(); });
-function trocarTab(t) { document.getElementById("auth-entrar").style.display = t === "entrar" ? "block" : "none"; document.getElementById("auth-cadastrar").style.display = t === "cadastrar" ? "block" : "none"; document.getElementById("mtab-entrar").classList.toggle("ativo", t === "entrar"); document.getElementById("mtab-cadastrar").classList.toggle("ativo", t === "cadastrar"); }
-function trocarTabMembros(t) { document.querySelectorAll("#membros .tab-btn").forEach(b=> b.classList.remove("ativo")); document.querySelectorAll("#membros .tab-conteudo").forEach(c=> c.classList.remove("ativo")); document.getElementById("tab-"+t).classList.add("ativo"); document.getElementById("tc-"+t).classList.add("ativo"); if(t === "reunioes") carregarReunioes(); }
-function trocarTabAdmin(t) { document.querySelectorAll("#admin-panel .tab-btn").forEach(b=> b.classList.remove("ativo")); document.querySelectorAll("#admin-panel .tab-conteudo").forEach(c=> c.classList.remove("ativo")); document.getElementById("adm-tab-"+t).classList.add("ativo"); document.getElementById("adm-"+t).classList.add("ativo"); if(t === "relatorio") gerarRelatorio(); if(t === "noticias") carregarNoticiasAdmin(); if(t === "sugestoes") carregarSugestoesAdmin(); if(t === "membros") { carregarPendentesAtivos(); popularSelectMembros(); } if(t === "jogos") { atualizarSelectJogos(); carregarListaJogos(); } if(t === "loja") carregarProdutosAdmin(); if(t === "galeria") carregarGaleriaAdmin(); }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-// ========== CONFIGURAÇÕES (Capa e Textos) ==========
-async function carregarConfig() { const doc = await db.collection("config").doc("site").get(); if(doc.exists) { const cfg = doc.data(); if(cfg.capa) document.querySelector(".hero-bg").style.backgroundImage = `url('${cfg.capa}')`; document.getElementById("txt-hist").textContent = cfg.hist || "A UK Tricolor nasceu da saudade e do amor ao Esquadrão de Aço. Somos a 1ª Embaixada Oficial do Bahia na Europa."; document.getElementById("txt-miss").textContent = cfg.miss || "Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva."; document.getElementById("txt-onde").textContent = cfg.onde || "Membros em Londres, Manchester, Birmingham, Leeds, Bristol, Edimburgo e outras cidades."; document.getElementById("cfg-capa").value = cfg.capa || ""; document.getElementById("cfg-hist").value = cfg.hist || ""; document.getElementById("cfg-miss").value = cfg.miss || ""; document.getElementById("cfg-onde").value = cfg.onde || ""; } }
-async function salvarCapa() { const url = document.getElementById("cfg-capa").value.trim(); if(!url) { toast("Cole o link da imagem","err"); return; } await db.collection("config").doc("site").set({ capa: url }, { merge: true }); document.querySelector(".hero-bg").style.backgroundImage = `url('${url}')`; toast("Capa atualizada!"); }
-async function salvarTextos() { await db.collection("config").doc("site").set({ hist: document.getElementById("cfg-hist").value, miss: document.getElementById("cfg-miss").value, onde: document.getElementById("cfg-onde").value }, { merge: true }); document.getElementById("txt-hist").textContent = document.getElementById("cfg-hist").value; document.getElementById("txt-miss").textContent = document.getElementById("cfg-miss").value; document.getElementById("txt-onde").textContent = document.getElementById("cfg-onde").value; toast("Textos salvos!"); }
+    // Globais
+    window.usuarioLogado = null;
+    let isCadastro = false;
 
-// ========== PRODUTOS ==========
-async function carregarProdutos() { const snap = await db.collection("produtos").get(); let prods = []; snap.forEach(doc => prods.push({id: doc.id, ...doc.data()})); const html = prods.map(p => `<div class="produto"><div class="produto-img">${p.foto ? `<img src="${p.foto}" style="width:100%;height:100%;object-fit:contain;padding:8px">` : p.emoji || "👕"}</div><div class="produto-body"><div class="produto-nome">${p.nome}</div><div class="produto-preco">£${p.preco}</div><button class="btn-pedir" onclick="pedirProduto('${p.nome}')">Pedir via Instagram</button></div></div>`).join(""); if(document.getElementById("loja-grid")) document.getElementById("loja-grid").innerHTML = html; if(document.getElementById("home-loja")) document.getElementById("home-loja").innerHTML = html; document.getElementById("st-prods").textContent = prods.length; }
-function pedirProduto(nome) { toast("📱 Abrindo Instagram..."); setTimeout(()=> window.open("https://www.instagram.com/uktricolor","_blank"), 800); }
-async function carregarProdutosAdmin() { const snap = await db.collection("produtos").get(); let prods = []; snap.forEach(doc => prods.push({id: doc.id, ...doc.data()})); const div = document.getElementById("adm-produtos-lista"); if(div) { if(prods.length === 0) div.innerHTML = "<div>Nenhum produto</div>"; else div.innerHTML = prods.map(p => `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1)"><span><strong>${p.nome}</strong> - £${p.preco}</span><button onclick="deletarProduto('${p.id}')" style="background:var(--vermelho);border:none;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer">✕</button></div>`).join(""); } }
-async function adicionarProduto() { const nome = document.getElementById("p-nome").value.trim(); const preco = parseFloat(document.getElementById("p-preco").value); if(!nome || isNaN(preco)) { toast("Preencha nome e preço","err"); return; } const emoji = document.getElementById("p-emoji").value || "👕"; const desc = document.getElementById("p-desc").value; const foto = document.getElementById("p-foto").value; await db.collection("produtos").add({ nome, preco, emoji, desc, foto }); document.getElementById("p-nome").value = ""; document.getElementById("p-preco").value = ""; document.getElementById("p-emoji").value = "👕"; document.getElementById("p-desc").value = ""; document.getElementById("p-foto").value = ""; toast("Produto adicionado!"); carregarProdutos(); carregarProdutosAdmin(); }
-async function deletarProduto(id) { if(!confirm("Remover produto?")) return; await db.collection("produtos").doc(id).delete(); toast("Produto removido"); carregarProdutos(); carregarProdutosAdmin(); }
+    // --- FUNÇÕES DE NAVEGAÇÃO ---
+    window.ir = (pag) => {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(pag);
+        if(target) target.classList.add('active');
+        document.getElementById('menu').style.display = 'none';
+        
+        if(pag === 'bolao') carregarBolao();
+        if(pag === 'admin') carregarAdmin();
+        if(pag === 'perfil') carregarPerfil();
+    };
 
-// ========== GALERIA ==========
-async function carregarGaleriaHome() { const snap = await db.collection("galeria").get(); let fotos = []; snap.forEach(doc => fotos.push(doc.data().url)); const home = document.getElementById("home-galeria"); const sobre = document.getElementById("sobre-galeria"); if(home) home.innerHTML = fotos.slice(0,6).map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join(""); if(sobre) sobre.innerHTML = fotos.map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join(""); }
-function abrirFoto(src){ document.getElementById("lb-img").src = src; document.getElementById("lb").style.display = "flex"; }
-async function carregarGaleriaAdmin() { const snap = await db.collection("galeria").get(); let fotos = []; snap.forEach(doc => fotos.push({id: doc.id, url: doc.data().url})); const div = document.getElementById("adm-galeria-grid"); if(div) div.innerHTML = fotos.map(f => `<div style="position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.15)"><img src="${f.url}" style="width:100%;height:100%;object-fit:cover"><button onclick="removerFoto('${f.id}')" style="position:absolute;top:3px;right:3px;background:var(--vermelho);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer">✕</button></div>`).join(""); }
-async function adicionarFoto() { const url = document.getElementById("gal-url").value.trim(); if(!url) { toast("Cole o link da imagem","err"); return; } await db.collection("galeria").add({ url }); document.getElementById("gal-url").value = ""; toast("Foto adicionada!"); carregarGaleriaHome(); carregarGaleriaAdmin(); }
-async function removerFoto(id) { if(!confirm("Remover foto?")) return; await db.collection("galeria").doc(id).delete(); toast("Foto removida"); carregarGaleriaHome(); carregarGaleriaAdmin(); }
+    window.toggleMenu = () => {
+        const m = document.getElementById('menu');
+        m.style.display = m.style.display === 'block' ? 'none' : 'block';
+    };
 
-// ========== NOTÍCIAS ==========
-async function carregarNoticiasHome() { const snap = await db.collection("noticias").orderBy("data", "desc").get(); let noticias = []; snap.forEach(doc => noticias.push({id: doc.id, ...doc.data()})); const container = document.getElementById("home-noticias"); if(!container) return; if(noticias.length === 0) container.innerHTML = "<div>Nenhuma notícia publicada.</div>"; else container.innerHTML = noticias.map(n => `<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;display:flex;gap:0">${n.foto ? `<div style="width:100px;min-width:100px;overflow:hidden"><img src="${n.foto}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>` : ''}<div style="padding:0.9rem;flex:1"><div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:1px;margin-bottom:0.3rem">${n.titulo}</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.65);line-height:1.5">${n.texto}</div><div style="font-size:0.68rem;color:rgba(255,255,255,0.3);margin-top:0.4rem">${n.data}</div></div></div>`).join(""); }
-async function carregarNoticiasAdmin() { const snap = await db.collection("noticias").orderBy("data", "desc").get(); let noticias = []; snap.forEach(doc => noticias.push({id: doc.id, ...doc.data()})); const div = document.getElementById("adm-noticias-lista"); if(div) { if(noticias.length === 0) div.innerHTML = "<div>Nenhuma notícia</div>"; else div.innerHTML = noticias.map(n => `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1)"><span><strong>${n.titulo}</strong><br><small>${n.data}</small></span><button onclick="deletarNoticia('${n.id}')" style="background:var(--vermelho);border:none;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer">✕</button></div>`).join(""); } }
-async function adicionarNoticia() { const titulo = document.getElementById("n-titulo").value.trim(); const texto = document.getElementById("n-texto").value.trim(); if(!titulo || !texto) { toast("Preencha título e texto","err"); return; } const foto = document.getElementById("n-foto").value; const data = new Date().toLocaleDateString("pt-BR"); await db.collection("noticias").add({ titulo, texto, foto, data }); document.getElementById("n-titulo").value = ""; document.getElementById("n-texto").value = ""; document.getElementById("n-foto").value = ""; toast("Notícia publicada!"); carregarNoticiasHome(); carregarNoticiasAdmin(); }
-async function deletarNoticia(id) { if(!confirm("Remover notícia?")) return; await db.collection("noticias").doc(id).delete(); toast("Notícia removida"); carregarNoticiasHome(); carregarNoticiasAdmin(); }
+    window.abrirModal = () => document.getElementById('modal-auth').classList.add('aberto');
+    window.fecharModal = () => document.getElementById('modal-auth').classList.remove('aberto');
 
-// ========== REUNIÕES ==========
-async function carregarReunioes() { const snap = await db.collection("reunioes").get(); let reunioes = []; snap.forEach(doc => reunioes.push({id: doc.id, ...doc.data()})); const el = document.getElementById("reunioes-lista"); if(!el) return; if(reunioes.length === 0) el.innerHTML = '<div style="padding:2rem;text-align:center;opacity:0.5">Nenhuma reunião agendada.</div>'; else el.innerHTML = reunioes.map(r => { const d = new Date(r.data+"T00:00:00"); return `<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:0.8rem;display:flex;gap:12px"><div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px;text-align:center;min-width:50px"><div style="font-size:1.8rem;">${d.getDate()}</div><div style="font-size:0.7rem;">${d.toLocaleDateString("pt-BR",{month:"short"})}</div></div><div><div style="font-weight:700;">${d.toLocaleDateString("pt-BR",{weekday:"long"})}</div>${r.hora ? `<div>🕐 ${r.hora}h</div>` : ''}<div>📍 ${r.local}</div>${r.pauta ? `<div>📋 ${r.pauta}</div>` : ''}</div></div>`; }).join(""); }
+    window.toggleAuthMode = () => {
+        isCadastro = !isCadastro;
+        document.getElementById('auth-title').innerText = isCadastro ? 'Cadastrar' : 'Entrar';
+        document.getElementById('campos-cadastro').style.display = isCadastro ? 'block' : 'none';
+        document.getElementById('btn-auth-main').innerText = isCadastro ? 'CRIAR CONTA' : 'ENTRAR';
+        document.getElementById('auth-toggle').innerText = isCadastro ? 'Já tem conta? Entre' : 'Não tem conta? Cadastre-se';
+    };
 
-// ========== AUTENTICAÇÃO E MEMBROS ==========
-async function cadastrar() { const nome = document.getElementById("c-nome").value.trim(); const email = document.getElementById("c-email").value.trim().toLowerCase(); const cidade = document.getElementById("c-cidade").value.trim(); const bairro = document.getElementById("c-bairro").value.trim(); const postcode = document.getElementById("c-postcode").value.trim(); const senha = document.getElementById("c-senha").value; const erro = document.getElementById("c-erro"); if(!nome || !email || !cidade || !senha) { erro.textContent = "Preencha todos os campos obrigatórios!"; erro.style.display="block"; return; } if(senha.length<6) { erro.textContent="Senha mínimo 6 caracteres."; erro.style.display="block"; return; } try { const userCred = await auth.createUserWithEmailAndPassword(email, senha); const uid = userCred.user.uid; await db.collection("usuarios").doc(uid).set({ uid, nome, email, cidade, bairro, postcode, aprovado: false, desde: new Date().toLocaleDateString("pt-BR") }); await db.collection("pendentes").doc(uid).set({ uid, nome, email, cidade, bairro, postcode, desde: new Date().toLocaleDateString("pt-BR") }); erro.style.display = "none"; fecharModal(); toast("✅ Cadastro enviado! Aguarde aprovação."); } catch(err) { erro.textContent = err.code === "auth/email-already-in-use" ? "Email já cadastrado." : err.message; erro.style.display="block"; } }
-async function entrar() { const email = document.getElementById("l-email").value.trim().toLowerCase(); const senha = document.getElementById("l-senha").value; const erro = document.getElementById("l-erro"); try { const userCred = await auth.signInWithEmailAndPassword(email, senha); const doc = await db.collection("usuarios").doc(userCred.user.uid).get(); if(!doc.exists || !doc.data().aprovado) { await auth.signOut(); erro.textContent = "Aguardando aprovação."; erro.style.display="block"; return; } usuarioLogado = { uid: userCred.user.uid, ...doc.data() }; erro.style.display = "none"; fecharModal(); toast(`Bem-vindo, ${usuarioLogado.nome}!`); document.getElementById("menu-perfil").style.display = "block"; document.getElementById("footer-perfil").style.display = "inline-block"; document.getElementById("btn-sugestao").style.display = "flex"; renderizarPerfil(); carregarBolao(); } catch(err) { erro.textContent = "Email ou senha inválidos."; erro.style.display="block"; } }
-function logout() { auth.signOut(); usuarioLogado = null; document.getElementById("menu-perfil").style.display = "none"; document.getElementById("footer-perfil").style.display = "none"; document.getElementById("btn-sugestao").style.display = "none"; toast("Deslogado com sucesso."); ir("home"); carregarBolao(); }
-function renderizarPerfil() { const container = document.getElementById("perfil-conteudo"); if(!usuarioLogado) { container.innerHTML = '<div style="text-align:center;padding:2rem">Você não está logado.<br><button class="btn-v" onclick="abrirModal()">Entrar</button></div>'; return; } container.innerHTML = `<div class="perfil-item"><div class="perfil-label">Nome</div><div class="perfil-valor">${usuarioLogado.nome}</div></div><div class="perfil-item"><div class="perfil-label">Email</div><div class="perfil-valor">${usuarioLogado.email}</div></div><div class="perfil-item"><div class="perfil-label">Cidade</div><div class="perfil-valor">${usuarioLogado.cidade || "—"}</div></div><div class="perfil-item"><div class="perfil-label">Bairro</div><div class="perfil-valor">${usuarioLogado.bairro || "—"}</div></div><div class="perfil-item"><div class="perfil-label">Postcode</div><div class="perfil-valor">${usuarioLogado.postcode || "—"}</div></div>`; }
-function abrirModalPerfil() { toast("Edição de perfil em breve", "ok"); }
-async function carregarMembrosAtivos() { const snap = await db.collection("usuarios").where("aprovado", "==", true).get(); let membros = []; snap.forEach(doc => membros.push({id: doc.id, ...doc.data()})); const grid = document.getElementById("membros-grid"); if(grid) { grid.innerHTML = membros.map(m => `<div class="membro"><div class="membro-av">${m.nome.charAt(0)}</div><div class="membro-nome">${m.nome}</div><div class="membro-cidade">📍 ${m.cidade || "UK"}</div>${m.cargo ? `<div class="membro-cargo">${m.cargo}</div>` : ''}</div>`).join(""); document.getElementById("st-membros").textContent = membros.length; } }
-async function carregarPendentesAtivos() { const pendentesSnap = await db.collection("pendentes").get(); let pendentes = []; pendentesSnap.forEach(doc => pendentes.push({id: doc.id, ...doc.data()})); const divPend = document.getElementById("adm-pendentes"); if(divPend) { if(pendentes.length === 0) divPend.innerHTML = "<div>Nenhum pendente</div>"; else divPend.innerHTML = pendentes.map(p => `<div style="background:rgba(255,255,255,0.08);padding:0.5rem;margin-bottom:0.5rem;border-radius:6px"><strong>${p.nome}</strong> (${p.email}) - ${p.cidade || "?"}<button class="btn-adm" style="width:auto;padding:4px 8px;margin-top:5px" onclick="aprovarMembro('${p.uid}')">✅ Aprovar</button><button class="btn-adm" style="width:auto;padding:4px 8px;background:#991b1b" onclick="recusarMembro('${p.uid}')">✕ Recusar</button></div>`).join(""); } }
-const ativosSnap = await db.collection("usuarios").where("aprovado", "==", true).get(); let ativos = []; ativosSnap.forEach(doc => ativos.push({id: doc.id, ...doc.data()})); const divAt = document.getElementById("adm-ativos"); if(divAt) { if(ativos.length === 0) divAt.innerHTML = "<div>Nenhum ativo</div>"; else divAt.innerHTML = ativos.map(a => `<div style="background:rgba(255,255,255,0.08);padding:0.5rem;margin-bottom:0.5rem;border-radius:6px"><strong>${a.nome}</strong> (${a.email}) - ${a.cidade || "?"}<button class="btn-adm" style="width:auto;padding:4px 8px;background:#991b1b" onclick="removerMembro('${a.uid}')">🗑 Remover</button></div>`).join(""); } }
-async function aprovarMembro(uid) { const pendente = await db.collection("pendentes").doc(uid).get(); if(!pendente.exists) { toast("Pendente não encontrado","err"); return; } const data = pendente.data(); await db.collection("usuarios").doc(uid).update({ aprovado: true }); await db.collection("pendentes").doc(uid).delete(); toast("Membro aprovado!"); carregarPendentesAtivos(); carregarMembrosAtivos(); }
-async function recusarMembro(uid) { await db.collection("usuarios").doc(uid).delete(); await db.collection("pendentes").doc(uid).delete(); toast("Membro recusado"); carregarPendentesAtivos(); }
-async function removerMembro(uid) { if(!confirm("Remover permanentemente?")) return; await db.collection("usuarios").doc(uid).delete(); toast("Membro removido"); carregarPendentesAtivos(); carregarMembrosAtivos(); }
-async function popularSelectMembros() { const snap = await db.collection("usuarios").where("aprovado", "==", true).get(); let usuarios = []; snap.forEach(doc => usuarios.push({id: doc.id, ...doc.data()})); const sel = document.getElementById("pts-membro"); if(sel) sel.innerHTML = '<option value="">Selecione...</option>' + usuarios.map(u => `<option value="${u.uid}">${u.nome}</option>`).join(""); const selReset = document.getElementById("reset-membro"); if(selReset) selReset.innerHTML = '<option value="">Selecione...</option>' + usuarios.map(u => `<option value="${u.uid}">${u.nome}</option>`).join(""); }
-async function ajustarPontos() { const uid = document.getElementById("pts-membro").value; const pts = parseInt(document.getElementById("pts-valor").value); if(!uid || isNaN(pts)) { toast("Selecione membro e pontos","err"); return; } const jogoId = Date.now().toString(); await db.collection("jogos").doc(jogoId).set({ id: jogoId, casa: "Pontos Extras", fora: "Admin", data: new Date().toISOString().split("T")[0], rodada: 0, golsCasa: pts, golsFora: 0, encerrado: true }); await db.collection("palpites").doc(`${jogoId}_${uid}`).set({ jogoId, usuarioId: uid, casa: pts, fora: 0 }); toast(`${pts} pontos adicionados!`); document.getElementById("pts-valor").value = ""; carregarBolao(); }
-async function adicionarMembro() { const nome = document.getElementById("adm-m-nome").value.trim(); if(!nome) { toast("Nome obrigatório","err"); return; } const cidade = document.getElementById("adm-m-cidade").value; const cargo = document.getElementById("adm-m-cargo").value || "Membro"; const email = `${nome.replace(/\s/g, '').toLowerCase()}@temp.com`; const senha = "temp123"; try { const userCred = await auth.createUserWithEmailAndPassword(email, senha); const uid = userCred.user.uid; await db.collection("usuarios").doc(uid).set({ uid, nome, email, cidade, cargo, aprovado: true, desde: new Date().toLocaleDateString("pt-BR") }); toast("Membro adicionado!"); carregarPendentesAtivos(); carregarMembrosAtivos(); } catch(err) { toast("Erro: " + err.message, "err"); } }
+    window.toast = (msg) => {
+        const t = document.getElementById('toast');
+        t.innerText = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    };
 
-// ========== JOGOS E BOLÃO ==========
-async function carregarListaJogos() { const snap = await db.collection("jogos").get(); let jogos = []; snap.forEach(doc => jogos.push({id: doc.id, ...doc.data()})); const div = document.getElementById("adm-jogos-lista"); if(div) { if(jogos.length === 0) div.innerHTML = "<div>Nenhum jogo</div>"; else div.innerHTML = jogos.map(j => `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1)"><span><strong>${j.casa} × ${j.fora}</strong> (Rodada ${j.rodada}) - ${j.encerrado ? `Encerrado ${j.golsCasa}-${j.golsFora}` : "Aberto"}</span><button onclick="deletarJogo('${j.id}')" style="background:var(--vermelho);border:none;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer">✕</button></div>`).join(""); } }
-async function adicionarJogo() { const casa = document.getElementById("j-casa").value.trim() || "Bahia"; const fora = document.getElementById("j-fora").value.trim(); const data = document.getElementById("j-data").value; const rodada = parseInt(document.getElementById("j-rodada").value) || 1; if(!fora || !data) { toast("Preencha visitante e data","err"); return; } await db.collection("jogos").add({ casa, fora, data, rodada, encerrado: false, golsCasa: null, golsFora: null }); document.getElementById("j-fora").value = ""; document.getElementById("j-data").value = ""; document.getElementById("j-rodada").value = "1"; toast("Jogo adicionado!"); atualizarSelectJogos(); carregarListaJogos(); }
-async function atualizarSelectJogos() { const snap = await db.collection("jogos").where("encerrado", "==", false).get(); let jogos = []; snap.forEach(doc => jogos.push({id: doc.id, ...doc.data()})); const sel = document.getElementById("j-encerrar"); if(sel) sel.innerHTML = '<option value="">Selecione...</option>' + jogos.map(j => `<option value="${j.id}">${j.casa} × ${j.fora}</option>`).join(""); }
-async function encerrarJogo() { const id = document.getElementById("j-encerrar").value; const gc = parseInt(document.getElementById("j-gols-casa").value); const gf = parseInt(document.getElementById("j-gols-fora").value); if(!id || isNaN(gc) || isNaN(gf)) { toast("Preencha todos os campos","err"); return; } await db.collection("jogos").doc(id).update({ encerrado: true, golsCasa: gc, golsFora: gf }); toast("Jogo encerrado! Pontos calculados."); atualizarSelectJogos(); carregarListaJogos(); carregarBolao(); }
-async function deletarJogo(id) { if(!confirm("Remover jogo?")) return; await db.collection("jogos").doc(id).delete(); toast("Jogo removido"); atualizarSelectJogos(); carregarListaJogos(); carregarBolao(); }
-async function carregarBolao() { const box = document.getElementById("bolao-conteudo"); if(!box) return; if(!usuarioLogado) { box.innerHTML = `<div style="text-align:center;padding:2rem;"><div style="font-size:2.5rem;">🏆</div><div style="font-size:1.5rem;">Faça login para participar</div><button class="btn-v" onclick="abrirModal()">Entrar</button></div>`; return; } const jogosSnap = await db.collection("jogos").where("encerrado", "==", false).get(); let jogos = []; jogosSnap.forEach(doc => jogos.push({id: doc.id, ...doc.data()})); if(jogos.length === 0) { box.innerHTML = "<div style='padding:2rem;text-align:center'>Nenhum jogo disponível para palpitar.</div>"; } else { let html = `<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:0.6rem">Jogos para palpitar</div>`; for (let j of jogos) { const palpiteDoc = await db.collection("palpites").doc(`${j.id}_${usuarioLogado.uid}`).get(); const palpite = palpiteDoc.exists ? palpiteDoc.data() : null; html += `<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:1rem"><div>${j.casa} × ${j.fora}</div><div style="display:flex;gap:0.5rem;margin:0.5rem 0"><input type="number" id="palpite_casa_${j.id}" value="${palpite ? palpite.casa : ''}" style="width:60px;height:50px;text-align:center"><span>×</span><input type="number" id="palpite_fora_${j.id}" value="${palpite ? palpite.fora : ''}" style="width:60px;height:50px;text-align:center"></div><button class="btn-v" style="padding:5px" onclick="salvarPalpite('${j.id}')">${palpite ? "Atualizar" : "Confirmar"}</button></div>`; } box.innerHTML = html; } const usuariosSnap = await db.collection("usuarios").where("aprovado", "==", true).get(); let usuarios = []; usuariosSnap.forEach(doc => usuarios.push({id: doc.id, ...doc.data()})); let pontosMap = {}; for (let u of usuarios) { pontosMap[u.uid] = await calcularPontosUsuario(u.uid); } const ranking = usuarios.sort((a,b) => pontosMap[b.uid] - pontosMap[a.uid]); const rankDiv = document.getElementById("ranking"); if(rankDiv) rankDiv.innerHTML = ranking.map((u,i) => `<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding:0.3rem 0"><span>${i+1}. ${u.nome}</span><span>${pontosMap[u.uid]} pts</span></div>`).join("") || "<div>Nenhum palpite ainda</div>"; }
-async function calcularPontosUsuario(uid) { const palpitesSnap = await db.collection("palpites").where("usuarioId", "==", uid).get(); let pontos = 0; for (const p of palpitesSnap.docs) { const palpite = p.data(); const jogoDoc = await db.collection("jogos").doc(palpite.jogoId).get(); const jogo = jogoDoc.data(); if(jogo && jogo.encerrado && jogo.golsCasa !== undefined) { if(palpite.casa === jogo.golsCasa && palpite.fora === jogo.golsFora) pontos += 3; else { const rj = jogo.golsCasa > jogo.golsFora ? "H" : jogo.golsCasa < jogo.golsFora ? "A" : "D"; const rp = palpite.casa > palpite.fora ? "H" : palpite.casa < palpite.fora ? "A" : "D"; if(rj === rp) pontos += 1; } } } return pontos; }
-async function salvarPalpite(jogoId) { if(!usuarioLogado) { toast("Faça login primeiro","err"); return; } const casa = parseInt(document.getElementById(`palpite_casa_${jogoId}`).value); const fora = parseInt(document.getElementById(`palpite_fora_${jogoId}`).value); if(isNaN(casa) || isNaN(fora)) { toast("Preencha o placar","err"); return; } await db.collection("palpites").doc(`${jogoId}_${usuarioLogado.uid}`).set({ jogoId, usuarioId: usuarioLogado.uid, casa, fora }); toast("Palpite salvo!"); carregarBolao(); }
+    // --- LÓGICA DE USUÁRIO ---
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const d = await getDoc(doc(db, "usuarios", user.uid));
+            if (d.exists()) {
+                window.usuarioLogado = { id: user.uid, ...d.data() };
+                document.getElementById('link-entrar').style.display = 'none';
+                document.getElementById('menu-perfil').style.display = 'block';
+                document.getElementById('btn-sugestao').style.display = 'block';
+                
+                if(window.usuarioLogado.admin) {
+                    document.getElementById('link-admin').style.display = 'block';
+                }
+            }
+        } else {
+            window.usuarioLogado = null;
+            document.getElementById('link-entrar').style.display = 'block';
+            document.getElementById('menu-perfil').style.display = 'none';
+            document.getElementById('link-admin').style.display = 'none';
+            document.getElementById('btn-sugestao').style.display = 'none';
+        }
+    });
 
-// ========== SUGESTÕES ==========
-function abrirModalSugestao() { if(!usuarioLogado) { toast("Faça login para enviar sugestão","err"); abrirModal(); return; } document.getElementById("modal-sugestao").classList.add("aberto"); }
-function fecharModalSugestao() { document.getElementById("modal-sugestao").classList.remove("aberto"); }
-async function enviarSugestao() { const texto = document.getElementById("sugestao-texto").value.trim(); if(!texto) { toast("Escreva sua sugestão","err"); return; } await db.collection("sugestoes").add({ usuarioId: usuarioLogado.uid, nome: usuarioLogado.nome, texto, data: new Date().toLocaleString("pt-BR"), lida: false }); document.getElementById("sugestao-texto").value = ""; fecharModalSugestao(); toast("Sugestão enviada! Obrigado."); carregarSugestoesAdmin(); }
-async function carregarSugestoesAdmin() { const snap = await db.collection("sugestoes").orderBy("data", "desc").get(); let sugestoes = []; snap.forEach(doc => sugestoes.push({id: doc.id, ...doc.data()})); const div = document.getElementById("lista-sugestoes-admin"); if(div) { if(sugestoes.length === 0) div.innerHTML = "<div>Nenhuma sugestão.</div>"; else div.innerHTML = sugestoes.map(s => `<div class="sugestao-item" style="border-left-color: ${s.lida ? '#4ade80' : 'var(--ouro)'}"><div class="sugestao-texto">💬 ${escapeHtml(s.texto)}</div><div class="sugestao-meta"><span>👤 ${escapeHtml(s.nome)} • ${s.data}</span><div>${!s.lida ? `<button class="btn-adm" style="width:auto;padding:4px 8px;font-size:0.7rem;margin-right:5px" onclick="marcarSugestaoLida('${s.id}')">✓ Marcar lida</button>` : '<span style="color:#4ade80">✔ Lida</span>'}<button class="btn-adm" style="width:auto;padding:4px 8px;font-size:0.7rem;background:#991b1b" onclick="excluirSugestao('${s.id}')">🗑 Excluir</button></div></div></div>`).join(""); } }
-async function marcarSugestaoLida(id) { await db.collection("sugestoes").doc(id).update({ lida: true }); carregarSugestoesAdmin(); toast("Marcada como lida"); }
-async function excluirSugestao(id) { if(!confirm("Excluir sugestão?")) return; await db.collection("sugestoes").doc(id).delete(); carregarSugestoesAdmin(); toast("Sugestão excluída"); }
-function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+    window.entrar = async () => {
+        const e = document.getElementById('email').value;
+        const s = document.getElementById('senha').value;
+        try {
+            await signInWithEmailAndPassword(auth, e, s);
+            fecharModal();
+            toast("Bem-vindo de volta!");
+        } catch (err) { toast("Erro: Verifique email e senha."); }
+    };
 
-// ========== RELATÓRIO ==========
-async function gerarRelatorio() { const snap = await db.collection("usuarios").where("aprovado", "==", true).get(); let membros = []; snap.forEach(doc => membros.push({id: doc.id, ...doc.data()})); const cidadeMap = {}; membros.forEach(m => { const c = m.cidade || "Outros"; cidadeMap[c] = (cidadeMap[c] || 0) + 1; }); const resumoDiv = document.getElementById("relatorio-resumo"); if(resumoDiv) resumoDiv.innerHTML = Object.entries(cidadeMap).map(([c, q]) => `<div style="background:rgba(0,0,0,0.2);padding:0.5rem;border-radius:8px;text-align:center;margin-bottom:0.5rem"><div>${q}</div><div>${c}</div></div>`).join("") + `<div style="background:rgba(0,71,145,0.4);padding:0.5rem;text-align:center"><div>${membros.length}</div><div>Total Membros</div></div>`; const listaDiv = document.getElementById("relatorio-lista"); if(listaDiv) listaDiv.innerHTML = `<table style="width:100%;border-collapse:collapse"><thead><tr><th>Nome</th><th>Email</th><th>Cidade</th><th>Bairro</th><th>Postcode</th></tr></thead><tbody>${membros.map(m => `<tr><td>${m.nome}</td><td>${m.email}</td><td>${m.cidade || "—"}</td><td>${m.bairro || "—"}</td><td>${m.postcode || "—"}</td></tr>`).join("")}</tbody></table>`; }
-async function exportarRelatorio() { const snap = await db.collection("usuarios").where("aprovado", "==", true).get(); let membros = []; snap.forEach(doc => membros.push({id: doc.id, ...doc.data()})); let csv = "Nome,Email,Cidade,Bairro,Postcode,Desde\n"; membros.forEach(m => csv += `"${m.nome}","${m.email}","${m.cidade || ""}","${m.bairro || ""}","${m.postcode || ""}","${m.desde || ""}"\n`); const blob = new Blob([csv], {type:"text/csv"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "membros_uk_tricolor.csv"; a.click(); toast("CSV exportado!"); }
-async function redefinirSenha() { const uid = document.getElementById("reset-membro").value; const nova = document.getElementById("reset-senha").value; if(!uid || !nova || nova.length < 6) { toast("Selecione membro e senha (6+ caracteres)","err"); return; } await db.collection("usuarios").doc(uid).update({ senha: nova }); toast("Senha redefinida!"); }
-async function exportarDados() { const collections = ["config","produtos","galeria","noticias","reunioes","usuarios","pendentes","jogos","palpites","sugestoes"]; const data = {}; for (const col of collections) { const snap = await db.collection(col).get(); data[col] = []; snap.forEach(doc => data[col].push({id: doc.id, ...doc.data()})); } const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `backup_uk_tricolor_${new Date().toISOString().slice(0,10)}.json`; a.click(); toast("Backup exportado!"); }
-async function importarDados(input) { const file = input.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = async function(e) { try { const data = JSON.parse(e.target.result); for (const [col, docs] of Object.entries(data)) { const colRef = db.collection(col); for (const doc of docs) { await colRef.doc(doc.id).set(doc); } } toast("Dados importados com sucesso!"); location.reload(); } catch(err) { toast("Arquivo inválido","err"); } }; reader.readAsText(file); }
+    window.cadastrar = async () => {
+        const e = document.getElementById('email').value;
+        const s = document.getElementById('senha').value;
+        const n = document.getElementById('nome').value;
+        if(!n) return toast("Digite seu nome!");
+        try {
+            const res = await createUserWithEmailAndPassword(auth, e, s);
+            await setDoc(doc(db, "usuarios", res.user.uid), {
+                nome: n, email: e, aprovado: false, admin: false
+            });
+            fecharModal();
+            toast("Cadastro enviado para aprovação!");
+        } catch (err) { toast("Erro ao cadastrar."); }
+    };
 
-// ========== ADMIN LOGIN ==========
-function entrarAdmin() { const senha = document.getElementById("adm-pass").value; if(senha === SENHA_ADMIN) { document.getElementById("admin-login").style.display = "none"; document.getElementById("admin-panel").style.display = "block"; carregarConfig(); carregarProdutosAdmin(); carregarGaleriaAdmin(); carregarNoticiasAdmin(); carregarPendentesAtivos(); popularSelectMembros(); atualizarSelectJogos(); carregarListaJogos(); carregarSugestoesAdmin(); gerarRelatorio(); toast("Bem-vindo, Administrador!"); } else toast("Senha incorreta","err"); }
+    window.logout = () => signOut(auth).then(() => {
+        toast("Até logo!");
+        ir('home');
+    });
 
-// ========== CRIAÇÃO AUTOMÁTICA DO ADMIN ==========
-async function criarAdminSeNaoExistir() { const emailAdmin = "pimentadouglas23@gmail.com"; const senhaAdmin = "senha123"; try { const userCred = await auth.signInWithEmailAndPassword(emailAdmin, senhaAdmin).catch(() => null); if(userCred) { const doc = await db.collection("usuarios").doc(userCred.user.uid).get(); if(!doc.exists || doc.data().aprovado !== true) await db.collection("usuarios").doc(userCred.user.uid).set({ uid: userCred.user.uid, nome: "Administrador", email: emailAdmin, aprovado: true, cidade: "Londres", cargo: "Presidente", desde: new Date().toLocaleDateString("pt-BR") }, { merge: true }); } else { const newUser = await auth.createUserWithEmailAndPassword(emailAdmin, senhaAdmin); await db.collection("usuarios").doc(newUser.user.uid).set({ uid: newUser.user.uid, nome: "Administrador", email: emailAdmin, aprovado: true, cidade: "Londres", cargo: "Presidente", desde: new Date().toLocaleDateString("pt-BR") }); toast("Administrador criado! Faça login."); } } catch(e) { console.error(e); } }
+    // --- BOLÃO ---
+    async function carregarBolao() {
+        const box = document.getElementById('bolao-conteudo');
+        if(!window.usuarioLogado) {
+            box.innerHTML = "<p style='text-align:center'>Faça login para participar do bolão.</p>";
+            return;
+        }
+        if(!window.usuarioLogado.aprovado) {
+            box.innerHTML = "<p style='text-align:center'>Sua conta precisa ser aprovada pelo Admin para palpitar.</p>";
+            return;
+        }
 
-// ========== INICIALIZAÇÃO ==========
-window.onload = async () => { await criarAdminSeNaoExistir(); carregarConfig(); carregarProdutos(); carregarGaleriaHome(); carregarNoticiasHome(); carregarMembrosAtivos(); carregarReunioes(); auth.onAuthStateChanged(async (user) => { if(user) { const doc = await db.collection("usuarios").doc(user.uid).get(); if(doc.exists && doc.data().aprovado) { usuarioLogado = { uid: user.uid, ...doc.data() }; document.getElementById("menu-perfil").style.display = "block"; document.getElementById("footer-perfil").style.display = "inline-block"; document.getElementById("btn-sugestao").style.display = "flex"; renderizarPerfil(); carregarBolao(); } else { await auth.signOut(); usuarioLogado = null; } } else { usuarioLogado = null; document.getElementById("menu-perfil").style.display = "none"; document.getElementById("footer-perfil").style.display = "none"; document.getElementById("btn-sugestao").style.display = "none"; carregarBolao(); } }); };
+        const snap = await getDocs(collection(db, "jogos"));
+        let html = "";
+        snap.forEach(jDoc => {
+            const j = jDoc.data();
+            html += `
+                <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:8px; margin-bottom:10px; display:flex; flex-direction:column; align-items:center; gap:10px">
+                    <p style="font-weight:bold">${j.casa} vs ${j.fora}</p>
+                    <div style="display:flex; align-items:center; gap:10px">
+                        <input type="number" id="c-${jDoc.id}" style="width:50px; padding:5px; border-radius:4px; border:none; text-align:center" placeholder="0">
+                        <span>X</span>
+                        <input type="number" id="f-${jDoc.id}" style="width:50px; padding:5px; border-radius:4px; border:none; text-align:center" placeholder="0">
+                    </div>
+                    <button class="btn-v" style="padding:8px 15px; font-size:0.8rem" onclick="window.salvarPalpite('${jDoc.id}')">SALVAR PALPITE</button>
+                </div>
+            `;
+        });
+        box.innerHTML = html || "<p style='text-align:center'>Nenhum jogo disponível no momento.</p>";
+    }
+
+    window.salvarPalpite = async (jogoId) => {
+        const c = document.getElementById(`c-${jogoId}`).value;
+        const f = document.getElementById(`f-${jogoId}`).value;
+        if(c === "" || f === "") return toast("Preencha o placar!");
+        
+        await setDoc(doc(db, "palpites", `${jogoId}_${window.usuarioLogado.id}`), {
+            jogoId, 
+            usuarioId: window.usuarioLogado.id, 
+            nomeUsuario: window.usuarioLogado.nome,
+            casa: c, 
+            fora: f,
+            data: new Date()
+        });
+        toast("Palpite registrado com sucesso!");
+    };
+
+    // --- PERFIL ---
+    function carregarPerfil() {
+        const info = document.getElementById('perfil-info');
+        info.innerHTML = `
+            <p style="margin-bottom:10px"><strong>Nome:</strong> ${window.usuarioLogado.nome}</p>
+            <p style="margin-bottom:10px"><strong>Email:</strong> ${window.usuarioLogado.email}</p>
+            <p><strong>Status:</strong> ${window.usuarioLogado.aprovado ? '<span style="color:#4ade80">✅ Membro Ativo</span>' : '<span style="color:var(--ouro)">⏳ Aguardando Aprovação</span>'}</p>
+        `;
+    }
+
+    // --- ADMIN ---
+    async function carregarAdmin() {
+        const container = document.getElementById('adm-pendentes');
+        const q = query(collection(db, "usuarios"), where("aprovado", "==", false));
+        const snap = await getDocs(q);
+        let html = "";
+        snap.forEach(uDoc => {
+            const u = uDoc.data();
+            html += `
+                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.1); padding:10px; margin-top:5px; border-radius:5px">
+                    <span>${u.nome}</span>
+                    <button class="btn-v" style="padding:5px 10px; font-size:0.7rem" onclick="window.aprovar('${uDoc.id}')">APROVAR</button>
+                </div>
+            `;
+        });
+        container.innerHTML = html || "<p style='font-size:0.8rem; color:rgba(255,255,255,0.5)'>Nenhum usuário pendente.</p>";
+    }
+
+    window.aprovar = async (uid) => {
+        await updateDoc(doc(db, "usuarios", uid), { aprovado: true });
+        toast("Usuário aprovado!");
+        carregarAdmin();
+    };
+
+    // --- SUGESTÃO ---
+    window.enviarSugestao = async () => {
+        const txt = document.getElementById('txt-sugestao').value;
+        if(!txt) return toast("Escreva algo!");
+        
+        await setDoc(doc(db, "sugestoes", Date.now().toString()), {
+            texto: txt, 
+            nome: window.usuarioLogado.nome, 
+            data: new Date()
+        });
+        document.getElementById('txt-sugestao').value = "";
+        document.getElementById('modal-sugestao').classList.remove('aberto');
+        toast("Sugestão enviada com sucesso!");
+    };
+
+    // Vincular botões que usam onclick no HTML
+    window.btnAuthMainAction = () => isCadastro ? window.cadastrar() : window.entrar();
+    document.getElementById('btn-auth-main').onclick = window.btnAuthMainAction;
+
 </script>
 </body>
 </html>
