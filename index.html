@@ -10,7 +10,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* ===== TODO SEU CSS ORIGINAL (exatamente como estava) ===== */
+/* ===== TODO O CSS (igual ao que você já tinha) ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--azul:#004791;--vermelho:#CC0000;--ouro:#FFD700;}
 body{font-family:'Barlow',sans-serif;background:var(--azul);color:#fff;overflow-x:hidden;}
@@ -184,7 +184,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   <a onclick="ir('admin')" style="color:var(--vermelho)">⚙️ Admin</a>
 </div>
 
-<!-- HOME -->
+<!-- HOME (contém hero, stats, notícias, loja, galeria, vídeo, instagram) -->
 <div id="home" class="page active">
   <div class="hero">
     <div class="hero-bg"></div>
@@ -342,23 +342,25 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   </div>
   <div class="admin-panel" id="admin-panel">
     <div class="tabs">
-      <button class="tab-btn ativo" id="adm-tab-site" onclick="trocarTabAdmin('site')">🌐 Site</button>
-      <button class="tab-btn" id="adm-tab-jogos" onclick="trocarTabAdmin('jogos')">⚽ Jogos</button>
-      <button class="tab-btn" id="adm-tab-membros" onclick="trocarTabAdmin('membros')">👥 Membros</button>
-      <button class="tab-btn" id="adm-tab-galeria" onclick="trocarTabAdmin('galeria')">📸 Galeria</button>
-      <button class="tab-btn" id="adm-tab-loja" onclick="trocarTabAdmin('loja')">🛒 Loja</button>
-      <button class="tab-btn" id="adm-tab-noticias" onclick="trocarTabAdmin('noticias')">📰 Notícias</button>
-      <button class="tab-btn" id="adm-tab-relatorio" onclick="trocarTabAdmin('relatorio')">📊 Relatório</button>
-      <button class="tab-btn" id="adm-tab-sugestoes" onclick="trocarTabAdmin('sugestoes')">💡 Sugestões</button>
+      <button class="tab-btn ativo" id="adm-tab-pendentes" onclick="trocarTabAdmin('pendentes')">⏳ Pendentes</button>
+      <button class="tab-btn" id="adm-tab-ativos" onclick="trocarTabAdmin('ativos')">✅ Ativos</button>
     </div>
-    <div class="tab-conteudo ativo" id="adm-site"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">🖼️ Foto de Capa</div><input class="inp" id="cfg-capa"><button class="btn-adm" onclick="salvarCapa()">ATUALIZAR CAPA</button></div><div class="admin-card"><div class="admin-card-titulo">📖 Textos da Página Sobre</div><label class="label">Nossa História</label><textarea class="inp" id="cfg-hist" rows="3"></textarea><label class="label">Nossa Missão</label><textarea class="inp" id="cfg-miss" rows="3"></textarea><label class="label">Onde Estamos</label><textarea class="inp" id="cfg-onde" rows="2"></textarea><button class="btn-adm" onclick="salvarTextos()">SALVAR TEXTOS</button></div></div></div>
-    <div class="tab-conteudo" id="adm-jogos"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Jogo</div><input class="inp" placeholder="Time da casa" id="j-casa" value="Bahia"><input class="inp" placeholder="Visitante" id="j-fora"><input class="inp" type="date" id="j-data"><input class="inp" type="number" placeholder="Rodada" id="j-rodada"><button class="btn-adm" onclick="adicionarJogo()">ADICIONAR JOGO</button></div><div class="admin-card"><div class="admin-card-titulo">✅ Encerrar Jogo</div><select class="sel" id="j-encerrar"><option>Selecione...</option></select><div style="display:flex;gap:7px"><input class="inp" type="number" placeholder="Gols casa" id="j-gols-casa"><input class="inp" type="number" placeholder="Gols fora" id="j-gols-fora"></div><button class="btn-adm" onclick="encerrarJogo()" style="background:#166534">ENCERRAR</button></div><div class="admin-card"><div class="admin-card-titulo">📋 Jogos Cadastrados</div><div id="adm-jogos-lista"></div></div></div></div>
-    <div class="tab-conteudo" id="adm-membros"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">⏳ Aguardando Aprovação</div><div id="adm-pendentes"></div></div><div class="admin-card"><div class="admin-card-titulo">✅ Membros Ativos</div><div id="adm-ativos"></div></div><div class="admin-card"><div class="admin-card-titulo">🏅 Ajustar Pontos</div><select class="sel" id="pts-membro"></select><div><input class="inp" type="number" placeholder="Pontos" id="pts-valor"></div><button class="btn-adm" onclick="ajustarPontos()">ADICIONAR PONTOS</button></div><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Manualmente</div><input class="inp" placeholder="Nome" id="adm-m-nome"><input class="inp" placeholder="Cidade" id="adm-m-cidade"><input class="inp" placeholder="Cargo" id="adm-m-cargo"><button class="btn-adm" onclick="adicionarMembro()">ADICIONAR</button></div></div></div>
-    <div class="tab-conteudo" id="adm-galeria"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Foto</div><input class="inp" id="gal-url" placeholder="https://i.ibb.co/..."><button class="btn-adm" onclick="adicionarFoto()">ADICIONAR</button></div><div class="admin-card"><div class="admin-card-titulo">🖼️ Fotos</div><div id="adm-galeria-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div></div></div></div>
-    <div class="tab-conteudo" id="adm-loja"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Produto</div><input class="inp" placeholder="Nome" id="p-nome"><div><input class="inp" type="number" placeholder="Preço (£)" id="p-preco"><input class="inp" placeholder="Emoji" id="p-emoji" value="👕"></div><input class="inp" placeholder="Descrição" id="p-desc"><input class="inp" placeholder="Foto URL" id="p-foto"><button class="btn-adm" onclick="adicionarProduto()">ADICIONAR</button></div><div class="admin-card"><div class="admin-card-titulo">📦 Produtos</div><div id="adm-produtos-lista"></div></div></div></div>
-    <div class="tab-conteudo" id="adm-noticias"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Notícia</div><input class="inp" placeholder="Título" id="n-titulo"><textarea class="inp" placeholder="Texto" id="n-texto" rows="3"></textarea><input class="inp" placeholder="Imagem URL" id="n-foto"><button class="btn-adm" onclick="adicionarNoticia()">PUBLICAR</button></div><div class="admin-card"><div class="admin-card-titulo">📋 Notícias</div><div id="adm-noticias-lista"></div></div></div></div>
-    <div class="tab-conteudo" id="adm-relatorio"><div class="admin-wrap"><div class="admin-card"><div class="admin-card-titulo">📊 Relatório</div><div id="relatorio-resumo"></div><div id="relatorio-lista"></div><button class="btn-adm" onclick="exportarRelatorio()" style="background:#166534">📥 EXPORTAR CSV</button></div><div class="admin-card"><div class="admin-card-titulo">🔐 Redefinir Senha</div><select class="sel" id="reset-membro"></select><input class="inp" type="password" placeholder="Nova senha" id="reset-senha"><button class="btn-adm" onclick="redefinirSenha()">REDEFINIR</button></div><div class="admin-card"><div class="admin-card-titulo">💾 Backup</div><button class="btn-adm" onclick="exportarDados()">📤 EXPORTAR BACKUP</button><button class="btn-adm" onclick="document.getElementById('import-file').click()">📥 IMPORTAR BACKUP</button><input type="file" id="import-file" accept=".json" style="display:none" onchange="importarDados(this)"></div></div></div>
-    <div class="tab-conteudo" id="adm-sugestoes"><div class="admin-wrap" style="max-width:600px"><div class="admin-card"><div class="admin-card-titulo">💡 Sugestões dos Membros</div><div id="lista-sugestoes-admin"></div></div></div></div>
+    <div class="tab-conteudo ativo" id="adm-pendentes">
+      <div class="admin-wrap">
+        <div class="admin-card">
+          <div class="admin-card-titulo">Aguardando Aprovação</div>
+          <div id="lista-pendentes"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-conteudo" id="adm-ativos">
+      <div class="admin-wrap">
+        <div class="admin-card">
+          <div class="admin-card-titulo">Membros Ativos</div>
+          <div id="lista-ativos"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -377,453 +379,442 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
 </footer>
 
 <script>
-  // ==================== FIREBASE CONFIG (SUAS CHAVES REAIS) ====================
-  const firebaseConfig = {
-    apiKey: "AIzaSyCvNQef4Wc-jMNglwUI8pTS0Gmge5NgJKA",
-    authDomain: "uk-tricolor.firebaseapp.com",
-    projectId: "uk-tricolor",
-    storageBucket: "uk-tricolor.firebasestorage.app",
-    messagingSenderId: "1044145787384",
-    appId: "1:1044145787384:web:2a48ec225644600414c60d"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const auth = firebase.auth();
+// ==================== FIREBASE CONFIG (suas chaves) ====================
+const firebaseConfig = {
+  apiKey: "AIzaSyCvNQef4Wc-jMNglwUI8pTS0Gmge5NgJKA",
+  authDomain: "uk-tricolor.firebaseapp.com",
+  projectId: "uk-tricolor",
+  storageBucket: "uk-tricolor.firebasestorage.app",
+  messagingSenderId: "1044145787384",
+  appId: "1:1044145787384:web:2a48ec225644600414c60d"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
 
-  // ==================== VARIÁVEIS GLOBAIS ====================
-  let usuarioLogado = null;
+let usuarioLogado = null;
+const SENHA_ADMIN = "uktricolor2024";
 
-  // ==================== FUNÇÕES AUXILIARES ====================
-  function toast(msg, tipo) {
-    const t = document.getElementById("toast");
-    t.textContent = msg;
-    t.className = "toast " + (tipo||"ok") + " show";
-    setTimeout(() => t.classList.remove("show"), 3000);
-  }
+// ==================== FUNÇÕES AUXILIARES ====================
+function toast(msg, tipo) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "toast " + (tipo||"ok") + " show";
+  setTimeout(() => t.classList.remove("show"), 3000);
+}
 
-  function ir(pag) {
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    document.getElementById(pag).classList.add("active");
-    document.getElementById("menu").style.display = "none";
-    window.scrollTo(0,0);
-    if(pag === "membros") fetchMembrosAprovados();
-    if(pag === "bolao") fetchJogosEPalpites();
-    if(pag === "admin") abrirPaginaAdmin();
-    if(pag === "perfil") renderizarPerfil();
-  }
+function ir(pag) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(pag).classList.add("active");
+  document.getElementById("menu").style.display = "none";
+  window.scrollTo(0,0);
+  if(pag === "membros") carregarMembrosAtivos();
+  if(pag === "bolao") carregarBolao();
+  if(pag === "perfil") renderizarPerfil();
+  if(pag === "admin") document.getElementById("admin-login").style.display = "block";
+}
 
-  function toggleMenu() {
-    const m = document.getElementById("menu");
-    m.style.display = m.style.display === "block" ? "none" : "block";
-  }
+function toggleMenu() {
+  const m = document.getElementById("menu");
+  m.style.display = m.style.display === "block" ? "none" : "block";
+}
 
-  function abrirModal() { document.getElementById("modal-auth").classList.add("aberto"); }
-  function fecharModal() { document.getElementById("modal-auth").classList.remove("aberto"); }
-  document.getElementById("modal-auth").addEventListener("click", (e) => { if(e.target === this) fecharModal(); });
+function abrirModal() { document.getElementById("modal-auth").classList.add("aberto"); }
+function fecharModal() { document.getElementById("modal-auth").classList.remove("aberto"); }
+document.getElementById("modal-auth").addEventListener("click", (e) => { if(e.target === this) fecharModal(); });
 
-  function trocarTab(t){
-    document.getElementById("auth-entrar").style.display = t === "entrar" ? "block" : "none";
-    document.getElementById("auth-cadastrar").style.display = t === "cadastrar" ? "block" : "none";
-    document.getElementById("mtab-entrar").classList.toggle("ativo", t === "entrar");
-    document.getElementById("mtab-cadastrar").classList.toggle("ativo", t === "cadastrar");
-  }
+function trocarTab(t){
+  document.getElementById("auth-entrar").style.display = t === "entrar" ? "block" : "none";
+  document.getElementById("auth-cadastrar").style.display = t === "cadastrar" ? "block" : "none";
+  document.getElementById("mtab-entrar").classList.toggle("ativo", t === "entrar");
+  document.getElementById("mtab-cadastrar").classList.toggle("ativo", t === "cadastrar");
+}
 
-  function trocarTabMembros(t){
-    document.querySelectorAll("#membros .tab-btn").forEach(b => b.classList.remove("ativo"));
-    document.querySelectorAll("#membros .tab-conteudo").forEach(c => c.classList.remove("ativo"));
-    document.getElementById("tab-"+t).classList.add("ativo");
-    document.getElementById("tc-"+t).classList.add("ativo");
-    if(t === "reunioes") fetchReunioes();
-  }
+function trocarTabMembros(t){
+  document.querySelectorAll("#membros .tab-btn").forEach(b => b.classList.remove("ativo"));
+  document.querySelectorAll("#membros .tab-conteudo").forEach(c => c.classList.remove("ativo"));
+  document.getElementById("tab-"+t).classList.add("ativo");
+  document.getElementById("tc-"+t).classList.add("ativo");
+  if(t === "reunioes") carregarReunioes();
+}
 
-  function trocarTabAdmin(t){
-    document.querySelectorAll("#admin-panel .tab-btn").forEach(b => b.classList.remove("ativo"));
-    document.querySelectorAll("#admin-panel .tab-conteudo").forEach(c => c.classList.remove("ativo"));
-    document.getElementById("adm-tab-"+t).classList.add("ativo");
-    document.getElementById("adm-"+t).classList.add("ativo");
-    if(t === "relatorio") gerarRelatorio();
-    if(t === "noticias") fetchNoticiasAdmin();
-    if(t === "sugestoes") fetchSugestoesAdmin();
-  }
+function trocarTabAdmin(t){
+  document.querySelectorAll("#admin-panel .tab-btn").forEach(b => b.classList.remove("ativo"));
+  document.querySelectorAll("#admin-panel .tab-conteudo").forEach(c => c.classList.remove("ativo"));
+  document.getElementById("adm-tab-"+t).classList.add("ativo");
+  document.getElementById("adm-"+t).classList.add("ativo");
+  if(t === "pendentes") carregarPendentes();
+  if(t === "ativos") carregarAtivos();
+}
 
-  // ==================== LEITURA DOS DADOS FIREBASE ====================
-  async function fetchProdutos() {
-    const snap = await db.collection("produtos").get();
-    let produtos = [];
-    snap.forEach(doc => produtos.push({id: doc.id, ...doc.data()}));
-    renderLoja(produtos);
-    document.getElementById("st-prods").textContent = produtos.length;
-  }
+// ==================== DADOS PÚBLICOS ====================
+async function carregarProdutos() {
+  const snap = await db.collection("produtos").get();
+  let produtos = [];
+  snap.forEach(doc => produtos.push({id: doc.id, ...doc.data()}));
+  const html = produtos.map(p => `
+    <div class="produto">
+      <div class="produto-img">${p.foto ? `<img src="${p.foto}" style="width:100%;height:100%;object-fit:contain;padding:8px">` : p.emoji || "👕"}</div>
+      <div class="produto-body">
+        <div class="produto-nome">${p.nome}</div>
+        <div class="produto-preco">£${p.preco}</div>
+        <button class="btn-pedir" onclick="pedirProduto('${p.nome}')">Pedir via Instagram</button>
+      </div>
+    </div>
+  `).join("");
+  if(document.getElementById("loja-grid")) document.getElementById("loja-grid").innerHTML = html;
+  if(document.getElementById("home-loja")) document.getElementById("home-loja").innerHTML = html;
+  document.getElementById("st-prods").textContent = produtos.length;
+}
+function pedirProduto(nome) { toast("📱 Abrindo Instagram..."); setTimeout(() => window.open("https://www.instagram.com/uktricolor","_blank"), 800); }
 
-  function renderLoja(produtos) {
-    const html = produtos.map(p => `
-      <div class="produto">
-        <div class="produto-img">${p.foto ? `<img src="${p.foto}" style="width:100%;height:100%;object-fit:contain;padding:8px">` : p.emoji || "👕"}</div>
-        <div class="produto-body">
-          <div class="produto-nome">${p.nome}</div>
-          <div class="produto-preco">£${p.preco}</div>
-          <button class="btn-pedir" onclick="pedirProduto('${p.nome}')">Pedir via Instagram</button>
-        </div>
+async function carregarGaleria() {
+  const snap = await db.collection("galeria").get();
+  let fotos = [];
+  snap.forEach(doc => fotos.push(doc.data().url));
+  const home = document.getElementById("home-galeria");
+  const sobre = document.getElementById("sobre-galeria");
+  if(home) home.innerHTML = fotos.slice(0,6).map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
+  if(sobre) sobre.innerHTML = fotos.map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
+}
+function abrirFoto(src){ document.getElementById("lb-img").src = src; document.getElementById("lb").style.display = "flex"; }
+
+async function carregarNoticias() {
+  const snap = await db.collection("noticias").orderBy("data", "desc").get();
+  let noticias = [];
+  snap.forEach(doc => noticias.push({id: doc.id, ...doc.data()}));
+  const container = document.getElementById("home-noticias");
+  if(!container) return;
+  if(noticias.length === 0) { container.innerHTML = "<div>Nenhuma notícia publicada.</div>"; return; }
+  container.innerHTML = noticias.map(n => `
+    <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;display:flex;gap:0">
+      ${n.foto ? `<div style="width:100px;min-width:100px;overflow:hidden"><img src="${n.foto}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>` : ''}
+      <div style="padding:0.9rem;flex:1">
+        <div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:1px;margin-bottom:0.3rem">${n.titulo}</div>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.65);line-height:1.5">${n.texto}</div>
+        <div style="font-size:0.68rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;font-family:Barlow Condensed,sans-serif">${n.data}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+async function carregarMembrosAtivos() {
+  const snap = await db.collection("usuarios").where("aprovado", "==", true).get();
+  let membros = [];
+  snap.forEach(doc => membros.push({id: doc.id, ...doc.data()}));
+  const grid = document.getElementById("membros-grid");
+  if(grid) {
+    grid.innerHTML = membros.map(m => `
+      <div class="membro">
+        <div class="membro-av">${m.nome.charAt(0)}</div>
+        <div class="membro-nome">${m.nome}</div>
+        <div class="membro-cidade">📍 ${m.cidade || "UK"}</div>
+        ${m.cargo ? `<div class="membro-cargo">${m.cargo}</div>` : ''}
       </div>
     `).join("");
-    if(document.getElementById("loja-grid")) document.getElementById("loja-grid").innerHTML = html;
-    if(document.getElementById("home-loja")) document.getElementById("home-loja").innerHTML = html;
+    document.getElementById("st-membros").textContent = membros.length;
   }
+}
 
-  function pedirProduto(nome) { toast("📱 Abrindo Instagram..."); setTimeout(() => window.open("https://www.instagram.com/uktricolor","_blank"), 800); }
-
-  async function fetchGaleria() {
-    const snap = await db.collection("galeria").get();
-    let fotos = [];
-    snap.forEach(doc => fotos.push(doc.data().url));
-    const home = document.getElementById("home-galeria");
-    const sobre = document.getElementById("sobre-galeria");
-    if(home) home.innerHTML = fotos.slice(0,6).map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
-    if(sobre) sobre.innerHTML = fotos.map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
-  }
-  function abrirFoto(src){ document.getElementById("lb-img").src = src; document.getElementById("lb").style.display = "flex"; }
-
-  async function fetchNoticiasHome() {
-    const snap = await db.collection("noticias").orderBy("data", "desc").get();
-    let noticias = [];
-    snap.forEach(doc => noticias.push({id: doc.id, ...doc.data()}));
-    const container = document.getElementById("home-noticias");
-    if(!container) return;
-    if(noticias.length === 0) { container.innerHTML = "<div>Nenhuma notícia publicada.</div>"; return; }
-    container.innerHTML = noticias.map(n => `
-      <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;display:flex;gap:0">
-        ${n.foto ? `<div style="width:100px;min-width:100px;overflow:hidden"><img src="${n.foto}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>` : ''}
-        <div style="padding:0.9rem;flex:1">
-          <div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:1px;margin-bottom:0.3rem">${n.titulo}</div>
-          <div style="font-size:0.8rem;color:rgba(255,255,255,0.65);line-height:1.5">${n.texto}</div>
-          <div style="font-size:0.68rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;font-family:Barlow Condensed,sans-serif">${n.data}</div>
-        </div>
+async function carregarReunioes() {
+  const snap = await db.collection("reunioes").get();
+  let reunioes = [];
+  snap.forEach(doc => reunioes.push({id: doc.id, ...doc.data()}));
+  const el = document.getElementById("reunioes-lista");
+  if(!el) return;
+  if(reunioes.length === 0) { el.innerHTML = '<div style="padding:2rem;text-align:center;opacity:0.5">Nenhuma reunião agendada.</div>'; return; }
+  el.innerHTML = reunioes.map(r => {
+    const d = new Date(r.data + "T00:00:00");
+    return `<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:0.8rem;display:flex;gap:12px">
+      <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px;text-align:center;min-width:50px">
+        <div style="font-size:1.8rem;">${d.getDate()}</div>
+        <div style="font-size:0.7rem;">${d.toLocaleDateString("pt-BR",{month:"short"})}</div>
       </div>
-    `).join("");
-  }
+      <div>
+        <div style="font-weight:700;">${d.toLocaleDateString("pt-BR",{weekday:"long"})}</div>
+        ${r.hora ? `<div>🕐 ${r.hora}h</div>` : ''}
+        <div>📍 ${r.local}</div>
+        ${r.pauta ? `<div>📋 ${r.pauta}</div>` : ''}
+      </div>
+    </div>`;
+  }).join("");
+}
 
-  async function fetchMembrosAprovados() {
-    const snap = await db.collection("usuarios").where("aprovado", "==", true).get();
-    let membros = [];
-    snap.forEach(doc => membros.push({id: doc.id, ...doc.data()}));
-    const grid = document.getElementById("membros-grid");
-    if(grid) {
-      grid.innerHTML = membros.map(m => `
-        <div class="membro">
-          <div class="membro-av">${m.nome.charAt(0)}</div>
-          <div class="membro-nome">${m.nome}</div>
-          <div class="membro-cidade">📍 ${m.cidade || "UK"}</div>
-          ${m.cargo ? `<div class="membro-cargo">${m.cargo}</div>` : ''}
-        </div>
-      `).join("");
-      document.getElementById("st-membros").textContent = membros.length;
-    }
-  }
-
-  async function fetchReunioes() {
-    const snap = await db.collection("reunioes").get();
-    let reunioes = [];
-    snap.forEach(doc => reunioes.push({id: doc.id, ...doc.data()}));
-    const el = document.getElementById("reunioes-lista");
-    if(!el) return;
-    if(reunioes.length === 0) { el.innerHTML = '<div style="padding:2rem;text-align:center;opacity:0.5">Nenhuma reunião agendada.</div>'; return; }
-    el.innerHTML = reunioes.map(r => {
-      const d = new Date(r.data + "T00:00:00");
-      return `<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:0.8rem;display:flex;gap:12px">
-        <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px;text-align:center;min-width:50px">
-          <div style="font-size:1.8rem;">${d.getDate()}</div>
-          <div style="font-size:0.7rem;">${d.toLocaleDateString("pt-BR",{month:"short"})}</div>
-        </div>
-        <div>
-          <div style="font-weight:700;">${d.toLocaleDateString("pt-BR",{weekday:"long"})}</div>
-          ${r.hora ? `<div>🕐 ${r.hora}h</div>` : ''}
-          <div>📍 ${r.local}</div>
-          ${r.pauta ? `<div>📋 ${r.pauta}</div>` : ''}
-        </div>
-      </div>`;
-    }).join("");
-  }
-
-  async function fetchJogosEPalpites() {
-    const jogosSnap = await db.collection("jogos").get();
-    let jogos = [];
-    jogosSnap.forEach(doc => jogos.push({id: doc.id, ...doc.data()}));
-    const user = auth.currentUser;
-    const box = document.getElementById("bolao-conteudo");
-    if(!box) return;
-    if(!user) {
-      box.innerHTML = `<div style="text-align:center;padding:2rem;"><div style="font-size:2.5rem;">🏆</div><div style="font-size:1.5rem;">ENTRE PARA PARTICIPAR</div><button class="btn-v" onclick="abrirModal()">Entrar</button></div>`;
+// ==================== AUTENTICAÇÃO ====================
+async function cadastrar() {
+  const nome = document.getElementById("c-nome").value.trim();
+  const email = document.getElementById("c-email").value.trim().toLowerCase();
+  const cidade = document.getElementById("c-cidade").value.trim();
+  const bairro = document.getElementById("c-bairro").value.trim();
+  const postcode = document.getElementById("c-postcode").value.trim();
+  const senha = document.getElementById("c-senha").value;
+  const erroEl = document.getElementById("c-erro");
+  if(!nome || !email || !cidade || !senha) { erroEl.textContent = "Preencha todos os campos obrigatórios!"; erroEl.style.display="block"; return; }
+  if(senha.length < 6) { erroEl.textContent = "Senha mínimo 6 caracteres."; erroEl.style.display="block"; return; }
+  try {
+    const userCred = await auth.createUserWithEmailAndPassword(email, senha);
+    const uid = userCred.user.uid;
+    // Cria documento em usuarios com aprovado false
+    await db.collection("usuarios").doc(uid).set({
+      uid, nome, email, cidade, bairro, postcode, aprovado: false, desde: new Date().toLocaleDateString("pt-BR")
+    });
+    // Cria documento em pendentes
+    await db.collection("pendentes").doc(uid).set({
+      uid, nome, email, cidade, bairro, postcode, desde: new Date().toLocaleDateString("pt-BR")
+    });
+    erroEl.style.display = "none";
+    fecharModal();
+    toast("Cadastro realizado! Aguarde aprovação do administrador.", "ok");
+  } catch(err) {
+    if(err.code === "auth/email-already-in-use") {
+      erroEl.textContent = "Este e-mail já está cadastrado. Tente fazer login ou use outro e-mail.";
     } else {
-      const palpitesSnap = await db.collection("palpites").where("usuarioId", "==", user.uid).get();
-      let palpites = [];
-      palpitesSnap.forEach(doc => palpites.push({id: doc.id, ...doc.data()}));
-      let html = `<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:0.6rem">Abertos para palpite</div>`;
-      jogos.forEach(j => {
-        const palpite = palpites.find(p => p.jogoId === j.id);
-        html += `<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:1rem">
-          <div>${j.casa} × ${j.fora}</div>
-          <div style="display:flex;gap:0.5rem;margin:0.5rem 0">
-            <input type="number" id="j${j.id}c" value="${palpite ? palpite.casa : ''}" style="width:60px;height:50px;text-align:center">
-            <span>×</span>
-            <input type="number" id="j${j.id}f" value="${palpite ? palpite.fora : ''}" style="width:60px;height:50px;text-align:center">
-          </div>
-          <button class="btn-v" style="padding:5px" onclick="salvarPalpite('${j.id}')">${palpite ? "Atualizar" : "Confirmar"}</button>
-        </div>`;
-      });
-      box.innerHTML = html;
-    }
-    // Ranking (simplificado)
-    const usuariosSnap = await db.collection("usuarios").where("aprovado", "==", true).get();
-    let usuarios = [];
-    usuariosSnap.forEach(doc => usuarios.push({id: doc.id, ...doc.data()}));
-    let pontosMap = {};
-    for(let u of usuarios) {
-      pontosMap[u.id] = await calcularPontosUsuario(u.id);
-    }
-    const ranking = usuarios.sort((a,b) => pontosMap[b.id] - pontosMap[a.id]);
-    const rankDiv = document.getElementById("ranking");
-    rankDiv.innerHTML = ranking.slice(0,10).map((u,i) => `<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding:0.3rem 0"><span>${i+1}. ${u.nome}</span><span>${pontosMap[u.id]} pts</span></div>`).join("") || "<div>Nenhum palpite ainda</div>";
-  }
-
-  async function calcularPontosUsuario(uid) {
-    const palpitesSnap = await db.collection("palpites").where("usuarioId", "==", uid).get();
-    let pts = 0;
-    for (const pDoc of palpitesSnap.docs) {
-      const palpite = pDoc.data();
-      const jogoDoc = await db.collection("jogos").doc(palpite.jogoId).get();
-      const jogo = jogoDoc.data();
-      if(jogo && jogo.encerrado && jogo.golsCasa !== undefined) {
-        if(palpite.casa === jogo.golsCasa && palpite.fora === jogo.golsFora) pts += 3;
-        else {
-          const rj = jogo.golsCasa > jogo.golsFora ? "H" : jogo.golsCasa < jogo.golsFora ? "A" : "D";
-          const rp = palpite.casa > palpite.fora ? "H" : palpite.casa < palpite.fora ? "A" : "D";
-          if(rj === rp) pts += 1;
-        }
-      }
-    }
-    return pts;
-  }
-
-  async function salvarPalpite(jogoId) {
-    const user = auth.currentUser;
-    if(!user) { toast("Faça login primeiro","err"); return; }
-    const casa = parseInt(document.getElementById(`j${jogoId}c`).value);
-    const fora = parseInt(document.getElementById(`j${jogoId}f`).value);
-    if(isNaN(casa) || isNaN(fora)) { toast("Preencha o placar","err"); return; }
-    const palpiteRef = db.collection("palpites").doc(`${jogoId}_${user.uid}`);
-    await palpiteRef.set({ jogoId, usuarioId: user.uid, casa, fora });
-    toast("Palpite salvo!");
-    fetchJogosEPalpites();
-  }
-
-  // ==================== AUTENTICAÇÃO ====================
-  async function cadastrar() {
-    const nome = document.getElementById("c-nome").value.trim();
-    const email = document.getElementById("c-email").value.trim().toLowerCase();
-    const cidade = document.getElementById("c-cidade").value.trim();
-    const bairro = document.getElementById("c-bairro").value.trim();
-    const postcode = document.getElementById("c-postcode").value.trim();
-    const senha = document.getElementById("c-senha").value;
-    const erroEl = document.getElementById("c-erro");
-    if(!nome || !email || !cidade || !senha) { erroEl.textContent = "Preencha todos os campos obrigatórios!"; erroEl.style.display="block"; return; }
-    if(senha.length < 6) { erroEl.textContent = "Senha mínimo 6 caracteres."; erroEl.style.display="block"; return; }
-    try {
-      const userCred = await auth.createUserWithEmailAndPassword(email, senha);
-      const uid = userCred.user.uid;
-      await db.collection("usuarios").doc(uid).set({ uid, nome, email, cidade, bairro, postcode, aprovado: false });
-      await db.collection("pendentes").doc(uid).set({ uid, nome, email, cidade, bairro, postcode, desde: new Date().toLocaleDateString("pt-BR") });
-      erroEl.style.display = "none";
-      fecharModal();
-      toast("✅ Cadastro enviado! Aguarde aprovação.");
-    } catch(err) {
       erroEl.textContent = err.message;
-      erroEl.style.display = "block";
     }
+    erroEl.style.display = "block";
   }
+}
 
-  async function entrar() {
-    const email = document.getElementById("l-email").value.trim().toLowerCase();
-    const senha = document.getElementById("l-senha").value;
-    const erroEl = document.getElementById("l-erro");
-    try {
-      const userCred = await auth.signInWithEmailAndPassword(email, senha);
-      const userDoc = await db.collection("usuarios").doc(userCred.user.uid).get();
-      if(!userDoc.exists || !userDoc.data().aprovado) {
-        await auth.signOut();
-        erroEl.textContent = "Aguardando aprovação do administrador.";
-        erroEl.style.display = "block";
-        return;
-      }
-      usuarioLogado = { uid: userCred.user.uid, ...userDoc.data() };
-      erroEl.style.display = "none";
-      fecharModal();
-      toast(`Bem-vindo, ${usuarioLogado.nome}!`);
-      document.getElementById("menu-perfil").style.display = "block";
-      document.getElementById("footer-perfil").style.display = "inline-block";
-      document.getElementById("btn-sugestao").style.display = "flex";
-      fetchJogosEPalpites();
-      fetchNoticiasHome();
-    } catch(err) {
+async function entrar() {
+  const email = document.getElementById("l-email").value.trim().toLowerCase();
+  const senha = document.getElementById("l-senha").value;
+  const erroEl = document.getElementById("l-erro");
+  try {
+    const userCred = await auth.signInWithEmailAndPassword(email, senha);
+    const userDoc = await db.collection("usuarios").doc(userCred.user.uid).get();
+    if(!userDoc.exists || !userDoc.data().aprovado) {
+      await auth.signOut();
+      erroEl.textContent = "Aguardando aprovação do administrador.";
       erroEl.style.display = "block";
-    }
-  }
-
-  function logout() {
-    auth.signOut();
-    usuarioLogado = null;
-    document.getElementById("menu-perfil").style.display = "none";
-    document.getElementById("footer-perfil").style.display = "none";
-    document.getElementById("btn-sugestao").style.display = "none";
-    toast("Deslogado com sucesso.");
-    ir("home");
-    fetchJogosEPalpites();
-  }
-
-  function renderizarPerfil() {
-    const container = document.getElementById("perfil-conteudo");
-    if(!usuarioLogado) {
-      container.innerHTML = '<div style="text-align:center;padding:2rem">Você não está logado.<br><button class="btn-v" onclick="abrirModal()">Entrar</button></div>';
       return;
     }
-    container.innerHTML = `
-      <div class="perfil-item"><div class="perfil-label">Nome</div><div class="perfil-valor">${usuarioLogado.nome}</div></div>
-      <div class="perfil-item"><div class="perfil-label">Email</div><div class="perfil-valor">${usuarioLogado.email}</div></div>
-      <div class="perfil-item"><div class="perfil-label">Cidade</div><div class="perfil-valor">${usuarioLogado.cidade || "—"}</div></div>
-      <div class="perfil-item"><div class="perfil-label">Bairro</div><div class="perfil-valor">${usuarioLogado.bairro || "—"}</div></div>
-      <div class="perfil-item"><div class="perfil-label">Postcode</div><div class="perfil-valor">${usuarioLogado.postcode || "—"}</div></div>
+    usuarioLogado = { uid: userCred.user.uid, ...userDoc.data() };
+    erroEl.style.display = "none";
+    fecharModal();
+    toast(`Bem-vindo, ${usuarioLogado.nome}!`);
+    document.getElementById("menu-perfil").style.display = "block";
+    document.getElementById("footer-perfil").style.display = "inline-block";
+    document.getElementById("btn-sugestao").style.display = "flex";
+    renderizarPerfil();
+    carregarBolao();
+  } catch(err) {
+    erroEl.textContent = "Email ou senha inválidos.";
+    erroEl.style.display = "block";
+  }
+}
+
+function logout() {
+  auth.signOut();
+  usuarioLogado = null;
+  document.getElementById("menu-perfil").style.display = "none";
+  document.getElementById("footer-perfil").style.display = "none";
+  document.getElementById("btn-sugestao").style.display = "none";
+  toast("Deslogado com sucesso.");
+  ir("home");
+  carregarBolao();
+}
+
+function renderizarPerfil() {
+  const container = document.getElementById("perfil-conteudo");
+  if(!usuarioLogado) {
+    container.innerHTML = '<div style="text-align:center;padding:2rem">Você não está logado.<br><button class="btn-v" onclick="abrirModal()">Entrar</button></div>';
+    return;
+  }
+  container.innerHTML = `
+    <div class="perfil-item"><div class="perfil-label">Nome</div><div class="perfil-valor">${usuarioLogado.nome}</div></div>
+    <div class="perfil-item"><div class="perfil-label">Email</div><div class="perfil-valor">${usuarioLogado.email}</div></div>
+    <div class="perfil-item"><div class="perfil-label">Cidade</div><div class="perfil-valor">${usuarioLogado.cidade || "—"}</div></div>
+    <div class="perfil-item"><div class="perfil-label">Bairro</div><div class="perfil-valor">${usuarioLogado.bairro || "—"}</div></div>
+    <div class="perfil-item"><div class="perfil-label">Postcode</div><div class="perfil-valor">${usuarioLogado.postcode || "—"}</div></div>
+  `;
+}
+
+function abrirModalPerfil() { toast("Edição de perfil em breve", "ok"); }
+
+// ==================== BOLÃO ====================
+async function carregarBolao() {
+  const box = document.getElementById("bolao-conteudo");
+  if(!box) return;
+  if(!usuarioLogado) {
+    box.innerHTML = `<div style="text-align:center;padding:2rem;"><div style="font-size:2.5rem;">🏆</div><div style="font-size:1.5rem;">Faça login para participar</div><button class="btn-v" onclick="abrirModal()">Entrar</button></div>`;
+    return;
+  }
+  const jogosSnap = await db.collection("jogos").get();
+  let jogos = [];
+  jogosSnap.forEach(doc => jogos.push({id: doc.id, ...doc.data()}));
+  if(jogos.length === 0) {
+    box.innerHTML = "<div style='padding:2rem;text-align:center'>Em breve teremos jogos disponíveis.</div>";
+    return;
+  }
+  let html = `<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:0.6rem">Jogos para palpitar</div>`;
+  for (let j of jogos) {
+    const palpiteDoc = await db.collection("palpites").doc(`${j.id}_${usuarioLogado.uid}`).get();
+    const palpite = palpiteDoc.exists ? palpiteDoc.data() : null;
+    html += `
+      <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:1rem">
+        <div>${j.casa} × ${j.fora}</div>
+        <div style="display:flex;gap:0.5rem;margin:0.5rem 0">
+          <input type="number" id="palpite_casa_${j.id}" value="${palpite ? palpite.casa : ''}" style="width:60px;height:50px;text-align:center">
+          <span>×</span>
+          <input type="number" id="palpite_fora_${j.id}" value="${palpite ? palpite.fora : ''}" style="width:60px;height:50px;text-align:center">
+        </div>
+        <button class="btn-v" style="padding:5px" onclick="salvarPalpite('${j.id}')">${palpite ? "Atualizar" : "Confirmar"}</button>
+      </div>
     `;
   }
+  box.innerHTML = html;
+}
 
-  // ==================== ADMIN (SIMPLIFICADO – APENAS PARA MOSTRAR PENDENTES E APROVAR) ====================
-  const SENHA_ADMIN = "uktricolor2024";
-  function abrirPaginaAdmin(){ document.getElementById("admin-login").style.display="block"; document.getElementById("admin-panel").style.display="none"; }
-  function entrarAdmin(){
-    if(document.getElementById("adm-pass").value === SENHA_ADMIN){
-      document.getElementById("admin-login").style.display="none";
-      document.getElementById("admin-panel").style.display="block";
-      carregarAdmin();
-      toast("Bem-vindo admin!");
-    } else { toast("Senha incorreta","err"); }
-  }
-  async function carregarAdmin(){
-    const pendentesSnap = await db.collection("pendentes").get();
-    let pendentes = [];
-    pendentesSnap.forEach(doc => pendentes.push({id: doc.id, ...doc.data()}));
-    const divPend = document.getElementById("adm-pendentes");
-    if(divPend) {
-      if(pendentes.length === 0) divPend.innerHTML = "<div>Nenhum pendente</div>";
-      else divPend.innerHTML = pendentes.map(p => `<div>${p.nome} (${p.cidade}) <button onclick="aprovarMembro('${p.uid}')">✅</button> <button onclick="recusarMembro('${p.uid}')">✕</button></div>`).join("");
-    }
-    const ativosSnap = await db.collection("usuarios").where("aprovado", "==", true).get();
-    let ativos = [];
-    ativosSnap.forEach(doc => ativos.push({id: doc.id, ...doc.data()}));
-    const divAtivos = document.getElementById("adm-ativos");
-    if(divAtivos) {
-      if(ativos.length === 0) divAtivos.innerHTML = "<div>Nenhum ativo</div>";
-      else divAtivos.innerHTML = ativos.map(u => `<div>${u.nome} (${u.cidade}) <button onclick="removerMembro('${u.uid}')">✕</button></div>`).join("");
-    }
-  }
-  async function aprovarMembro(uid) {
-    const userDoc = await db.collection("usuarios").doc(uid).get();
-    if(!userDoc.exists) return;
-    const userData = userDoc.data();
-    await db.collection("usuarios").doc(uid).update({ aprovado: true });
-    await db.collection("pendentes").doc(uid).delete();
-    toast("Membro aprovado!");
-    carregarAdmin();
-    fetchMembrosAprovados();
-  }
-  async function recusarMembro(uid) {
-    await db.collection("usuarios").doc(uid).delete();
-    await db.collection("pendentes").doc(uid).delete();
-    toast("Cadastro recusado.");
-    carregarAdmin();
-  }
-  async function removerMembro(uid) {
-    if(!confirm("Remover permanentemente?")) return;
-    await db.collection("usuarios").doc(uid).delete();
-    toast("Membro removido.");
-    carregarAdmin();
-    fetchMembrosAprovados();
-  }
+async function salvarPalpite(jogoId) {
+  if(!usuarioLogado) { toast("Faça login primeiro","err"); return; }
+  const casa = parseInt(document.getElementById(`palpite_casa_${jogoId}`).value);
+  const fora = parseInt(document.getElementById(`palpite_fora_${jogoId}`).value);
+  if(isNaN(casa) || isNaN(fora)) { toast("Preencha o placar","err"); return; }
+  await db.collection("palpites").doc(`${jogoId}_${usuarioLogado.uid}`).set({
+    jogoId, usuarioId: usuarioLogado.uid, casa, fora
+  });
+  toast("Palpite salvo!");
+  carregarBolao();
+}
 
-  // ==================== SUGESTÕES ====================
-  function abrirModalSugestao() {
-    if(!usuarioLogado) { toast("Você precisa estar logado","err"); abrirModal(); return; }
-    document.getElementById("modal-sugestao").classList.add("aberto");
+// ==================== SUGESTÕES ====================
+function abrirModalSugestao() {
+  if(!usuarioLogado) { toast("Você precisa estar logado","err"); abrirModal(); return; }
+  document.getElementById("modal-sugestao").classList.add("aberto");
+}
+function fecharModalSugestao() { document.getElementById("modal-sugestao").classList.remove("aberto"); }
+async function enviarSugestao() {
+  const texto = document.getElementById("sugestao-texto").value.trim();
+  if(!texto) { toast("Escreva sua sugestão","err"); return; }
+  if(!usuarioLogado) return;
+  await db.collection("sugestoes").add({
+    usuarioId: usuarioLogado.uid,
+    nome: usuarioLogado.nome,
+    texto: texto,
+    data: new Date().toLocaleString("pt-BR"),
+    lida: false
+  });
+  document.getElementById("sugestao-texto").value = "";
+  fecharModalSugestao();
+  toast("Sugestão enviada! Obrigado.");
+}
+
+// ==================== PAINEL ADMIN ====================
+function entrarAdmin() {
+  const senha = document.getElementById("adm-pass").value;
+  if(senha === SENHA_ADMIN) {
+    document.getElementById("admin-login").style.display = "none";
+    document.getElementById("admin-panel").style.display = "block";
+    carregarPendentes();
+    carregarAtivos();
+    toast("Bem-vindo, Administrador!");
+  } else {
+    toast("Senha incorreta", "err");
   }
-  function fecharModalSugestao() { document.getElementById("modal-sugestao").classList.remove("aberto"); }
-  async function enviarSugestao() {
-    const texto = document.getElementById("sugestao-texto").value.trim();
-    if(!texto) { toast("Escreva sua sugestão","err"); return; }
-    if(!usuarioLogado) return;
-    await db.collection("sugestoes").add({
-      usuarioId: usuarioLogado.uid,
-      nome: usuarioLogado.nome,
-      texto: texto,
-      data: new Date().toLocaleString("pt-BR"),
-      lida: false
-    });
-    document.getElementById("sugestao-texto").value = "";
-    fecharModalSugestao();
-    toast("Sugestão enviada! Obrigado.");
-  }
-  async function fetchSugestoesAdmin() {
-    const snap = await db.collection("sugestoes").orderBy("data", "desc").get();
-    let sugestoes = [];
-    snap.forEach(doc => sugestoes.push({id: doc.id, ...doc.data()}));
-    const container = document.getElementById("lista-sugestoes-admin");
-    if(!container) return;
-    if(sugestoes.length === 0) { container.innerHTML = "<p>Nenhuma sugestão.</p>"; return; }
-    container.innerHTML = sugestoes.map(s => `
-      <div class="sugestao-item" style="border-left-color: ${s.lida ? '#4ade80' : 'var(--ouro)'}">
-        <div class="sugestao-texto">💬 ${escapeHtml(s.texto)}</div>
-        <div class="sugestao-meta">
-          <span>👤 ${escapeHtml(s.nome)} • ${s.data}</span>
-          <div>
-            ${!s.lida ? `<button class="btn-adm" style="width:auto;padding:4px 8px;font-size:0.7rem;margin-right:5px" onclick="marcarSugestaoLida('${s.id}')">✓ Marcar lida</button>` : '<span style="color:#4ade80">✔ Lida</span>'}
-            <button class="btn-adm" style="width:auto;padding:4px 8px;font-size:0.7rem;background:#991b1b" onclick="excluirSugestao('${s.id}')">🗑 Excluir</button>
-          </div>
-        </div>
+}
+
+async function carregarPendentes() {
+  const snap = await db.collection("pendentes").get();
+  let pendentes = [];
+  snap.forEach(doc => pendentes.push({id: doc.id, ...doc.data()}));
+  const div = document.getElementById("lista-pendentes");
+  if(div) {
+    if(pendentes.length === 0) div.innerHTML = "<div>Nenhum pendente</div>";
+    else div.innerHTML = pendentes.map(p => `
+      <div style="background:rgba(255,255,255,0.08);padding:0.5rem;margin-bottom:0.5rem;border-radius:6px">
+        <strong>${p.nome}</strong> (${p.email}) - ${p.cidade || "?"}
+        <button class="btn-adm" style="width:auto;padding:4px 8px;margin-top:5px" onclick="aprovarMembro('${p.uid}')">✅ Aprovar</button>
+        <button class="btn-adm" style="width:auto;padding:4px 8px;background:#991b1b" onclick="recusarMembro('${p.uid}')">✕ Recusar</button>
       </div>
     `).join("");
   }
-  async function marcarSugestaoLida(id) {
-    await db.collection("sugestoes").doc(id).update({ lida: true });
-    fetchSugestoesAdmin();
-    toast("Sugestão marcada como lida.");
-  }
-  async function excluirSugestao(id) {
-    if(!confirm("Excluir esta sugestão?")) return;
-    await db.collection("sugestoes").doc(id).delete();
-    fetchSugestoesAdmin();
-    toast("Sugestão excluída.");
-  }
-  function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+}
 
-  // ==================== FUNÇÕES ADMIN GENÉRICAS (PLACEHOLDER PARA EVITAR ERROS) ====================
-  function salvarCapa() { toast("Função em desenvolvimento"); }
-  function salvarTextos() { toast("Função em desenvolvimento"); }
-  function adicionarJogo() { toast("Função em desenvolvimento"); }
-  function encerrarJogo() { toast("Função em desenvolvimento"); }
-  function adicionarFoto() { toast("Função em desenvolvimento"); }
-  function removerFoto(i) { toast("Função em desenvolvimento"); }
-  function adicionarProduto() { toast("Função em desenvolvimento"); }
-  function adicionarNoticia() { toast("Função em desenvolvimento"); }
-  function deletarJogo(id) { toast("Função em desenvolvimento"); }
-  function deletarProduto(id) { toast("Função em desenvolvimento"); }
-  function deletarNoticia(idx) { toast("Função em desenvolvimento"); }
-  function ajustarPontos() { toast("Função em desenvolvimento"); }
-  function adicionarMembro() { toast("Função em desenvolvimento"); }
-  function exportarRelatorio() { toast("Função em desenvolvimento"); }
-  function redefinirSenha() { toast("Função em desenvolvimento"); }
-  function exportarDados() { toast("Função em desenvolvimento"); }
-  function importarDados() { toast("Função em desenvolvimento"); }
-  function renderRelatorio() {}
-  function fetchNoticiasAdmin() {}
-  function gerarRelatorio() {}
+async function carregarAtivos() {
+  const snap = await db.collection("usuarios").where("aprovado", "==", true).get();
+  let ativos = [];
+  snap.forEach(doc => ativos.push({id: doc.id, ...doc.data()}));
+  const div = document.getElementById("lista-ativos");
+  if(div) {
+    if(ativos.length === 0) div.innerHTML = "<div>Nenhum ativo</div>";
+    else div.innerHTML = ativos.map(a => `
+      <div style="background:rgba(255,255,255,0.08);padding:0.5rem;margin-bottom:0.5rem;border-radius:6px">
+        <strong>${a.nome}</strong> (${a.email}) - ${a.cidade || "?"}
+        <button class="btn-adm" style="width:auto;padding:4px 8px;background:#991b1b" onclick="removerMembro('${a.uid}')">🗑 Remover</button>
+      </div>
+    `).join("");
+  }
+}
 
-  // ==================== INICIALIZAÇÃO ====================
+async function aprovarMembro(uid) {
+  const pendenteDoc = await db.collection("pendentes").doc(uid).get();
+  if(!pendenteDoc.exists) { toast("Pendente não encontrado", "err"); return; }
+  const data = pendenteDoc.data();
+  await db.collection("usuarios").doc(uid).update({ aprovado: true });
+  await db.collection("pendentes").doc(uid).delete();
+  toast("Membro aprovado!");
+  carregarPendentes();
+  carregarAtivos();
+  carregarMembrosAtivos();
+}
+
+async function recusarMembro(uid) {
+  await db.collection("usuarios").doc(uid).delete();
+  await db.collection("pendentes").doc(uid).delete();
+  toast("Membro recusado e removido.");
+  carregarPendentes();
+  carregarAtivos();
+}
+
+async function removerMembro(uid) {
+  if(!confirm("Remover permanentemente este membro?")) return;
+  await db.collection("usuarios").doc(uid).delete();
+  toast("Membro removido.");
+  carregarAtivos();
+  carregarMembrosAtivos();
+}
+
+// ==================== CRIAÇÃO AUTOMÁTICA DO ADMINISTRADOR ====================
+async function criarAdminSeNaoExistir() {
+  const emailAdmin = "pimentadouglas23@gmail.com";
+  const senhaAdmin = "senha123";
+  try {
+    // Tenta fazer login para ver se já existe
+    const userCred = await auth.signInWithEmailAndPassword(emailAdmin, senhaAdmin).catch(() => null);
+    if (userCred) {
+      // Se existe, garante que no Firestore está aprovado
+      const docRef = db.collection("usuarios").doc(userCred.user.uid);
+      const doc = await docRef.get();
+      if (!doc.exists || doc.data().aprovado !== true) {
+        await docRef.set({ uid: userCred.user.uid, nome: "Administrador", email: emailAdmin, aprovado: true, cidade: "Londres", cargo: "Presidente" }, { merge: true });
+      }
+      return;
+    }
+    // Se não existe, cria novo usuário
+    const newUser = await auth.createUserWithEmailAndPassword(emailAdmin, senhaAdmin);
+    await db.collection("usuarios").doc(newUser.user.uid).set({
+      uid: newUser.user.uid,
+      nome: "Administrador",
+      email: emailAdmin,
+      aprovado: true,
+      cidade: "Londres",
+      cargo: "Presidente",
+      desde: new Date().toLocaleDateString("pt-BR")
+    });
+    toast("Administrador criado com sucesso! Faça login.", "ok");
+  } catch (error) {
+    console.error("Erro ao criar admin:", error);
+  }
+}
+
+// ==================== INICIALIZAÇÃO ====================
+(async function init() {
+  await criarAdminSeNaoExistir();
+  carregarProdutos();
+  carregarGaleria();
+  carregarNoticias();
+  carregarMembrosAtivos();
+  carregarReunioes();
   auth.onAuthStateChanged(async (user) => {
     if(user) {
       const doc = await db.collection("usuarios").doc(user.uid).get();
@@ -832,6 +823,8 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
         document.getElementById("menu-perfil").style.display = "block";
         document.getElementById("footer-perfil").style.display = "inline-block";
         document.getElementById("btn-sugestao").style.display = "flex";
+        renderizarPerfil();
+        carregarBolao();
       } else {
         await auth.signOut();
         usuarioLogado = null;
@@ -841,18 +834,10 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
       document.getElementById("menu-perfil").style.display = "none";
       document.getElementById("footer-perfil").style.display = "none";
       document.getElementById("btn-sugestao").style.display = "none";
+      carregarBolao();
     }
-    fetchJogosEPalpites();
-    fetchNoticiasHome();
-    renderizarPerfil();
   });
-
-  fetchProdutos();
-  fetchGaleria();
-  fetchMembrosAprovados();
-  fetchNoticiasHome();
-  fetchReunioes();
-  // O botão de sugestão já tem evento no onclick
+})();
 </script>
 </body>
-                                                  </html>
+</html>
