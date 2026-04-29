@@ -10,7 +10,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* ===== TODO O CSS (igual ao que você já tinha) ===== */
+/* ===== TODO O SEU CSS (igual ao código original que você tinha) ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--azul:#004791;--vermelho:#CC0000;--ouro:#FFD700;}
 body{font-family:'Barlow',sans-serif;background:var(--azul);color:#fff;overflow-x:hidden;}
@@ -119,6 +119,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
 
 <button id="btn-sugestao" class="btn-sugestao" style="display:none" onclick="abrirModalSugestao()">💡 Enviar Sugestão</button>
 
+<!-- MODAL DE AUTENTICAÇÃO -->
 <div class="modal" id="modal-auth">
 <div class="modal-box">
   <button class="modal-fechar" onclick="fecharModal()">✕</button>
@@ -155,6 +156,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
 </div>
 </div>
 
+<!-- MODAL DE SUGESTÃO -->
 <div class="modal" id="modal-sugestao">
 <div class="modal-box">
   <button class="modal-fechar" onclick="fecharModalSugestao()">✕</button>
@@ -184,7 +186,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   <a onclick="ir('admin')" style="color:var(--vermelho)">⚙️ Admin</a>
 </div>
 
-<!-- HOME (contém hero, stats, notícias, loja, galeria, vídeo, instagram) -->
+<!-- HOME -->
 <div id="home" class="page active">
   <div class="hero">
     <div class="hero-bg"></div>
@@ -317,17 +319,17 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   </div>
 </div>
 
-<!-- PÁGINA PERFIL -->
+<!-- PERFIL -->
 <div id="perfil" class="page">
   <div class="perfil-card">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;text-align:center;margin-bottom:0.5rem">👤 <span style="color:var(--vermelho)">Minha Conta</span></div>
     <div id="perfil-conteudo"></div>
-    <button class="btn-v" style="margin-top:1rem;width:100%" onclick="abrirModalPerfil()">✏️ Editar Perfil</button>
+    <button class="btn-v" style="margin-top:1rem;width:100%" onclick="editarPerfil()">✏️ Editar Perfil</button>
     <button class="btn-b" style="margin-top:0.5rem;width:100%" onclick="logout()">🚪 Sair</button>
   </div>
 </div>
 
-<!-- ADMIN -->
+<!-- ADMIN - PAINEL COMPLETO -->
 <div id="admin" class="page">
   <div id="admin-login">
     <div class="admin-wrap">
@@ -342,24 +344,79 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
   </div>
   <div class="admin-panel" id="admin-panel">
     <div class="tabs">
-      <button class="tab-btn ativo" id="adm-tab-pendentes" onclick="trocarTabAdmin('pendentes')">⏳ Pendentes</button>
-      <button class="tab-btn" id="adm-tab-ativos" onclick="trocarTabAdmin('ativos')">✅ Ativos</button>
+      <button class="tab-btn ativo" id="adm-tab-site" onclick="trocarTabAdmin('site')">🌐 Site</button>
+      <button class="tab-btn" id="adm-tab-jogos" onclick="trocarTabAdmin('jogos')">⚽ Jogos</button>
+      <button class="tab-btn" id="adm-tab-membros" onclick="trocarTabAdmin('membros')">👥 Membros</button>
+      <button class="tab-btn" id="adm-tab-galeria" onclick="trocarTabAdmin('galeria')">📸 Galeria</button>
+      <button class="tab-btn" id="adm-tab-loja" onclick="trocarTabAdmin('loja')">🛒 Loja</button>
+      <button class="tab-btn" id="adm-tab-noticias" onclick="trocarTabAdmin('noticias')">📰 Notícias</button>
+      <button class="tab-btn" id="adm-tab-relatorio" onclick="trocarTabAdmin('relatorio')">📊 Relatório</button>
+      <button class="tab-btn" id="adm-tab-sugestoes" onclick="trocarTabAdmin('sugestoes')">💡 Sugestões</button>
     </div>
-    <div class="tab-conteudo ativo" id="adm-pendentes">
-      <div class="admin-wrap">
-        <div class="admin-card">
-          <div class="admin-card-titulo">Aguardando Aprovação</div>
-          <div id="lista-pendentes"></div>
-        </div>
+    
+    <!-- ABA SITE (configurações de textos e capa) -->
+    <div class="tab-conteudo ativo" id="adm-site">
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card"><div class="admin-card-titulo">🖼️ Foto de Capa</div><input class="inp" id="cfg-capa" placeholder="URL da imagem"><button class="btn-adm" onclick="salvarCapa()">ATUALIZAR CAPA</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">📖 Textos da Página Sobre</div><label class="label">Nossa História</label><textarea class="inp" id="cfg-hist" rows="3"></textarea><label class="label">Nossa Missão</label><textarea class="inp" id="cfg-miss" rows="3"></textarea><label class="label">Onde Estamos</label><textarea class="inp" id="cfg-onde" rows="2"></textarea><button class="btn-adm" onclick="salvarTextos()">SALVAR TEXTOS</button></div>
       </div>
     </div>
-    <div class="tab-conteudo" id="adm-ativos">
-      <div class="admin-wrap">
-        <div class="admin-card">
-          <div class="admin-card-titulo">Membros Ativos</div>
-          <div id="lista-ativos"></div>
-        </div>
+    
+    <!-- ABA JOGOS -->
+    <div class="tab-conteudo" id="adm-jogos">
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Jogo</div><input class="inp" placeholder="Time da casa" id="j-casa" value="Bahia"><input class="inp" placeholder="Visitante" id="j-fora"><input class="inp" type="date" id="j-data"><input class="inp" type="number" placeholder="Rodada" id="j-rodada"><button class="btn-adm" onclick="adicionarJogo()">ADICIONAR JOGO</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">✅ Encerrar Jogo</div><select class="sel" id="j-encerrar"><option>Selecione...</option></select><div style="display:flex;gap:7px"><input class="inp" type="number" placeholder="Gols casa" id="j-gols-casa"><input class="inp" type="number" placeholder="Gols fora" id="j-gols-fora"></div><button class="btn-adm" onclick="encerrarJogo()" style="background:#166534">ENCERRAR</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">📋 Jogos Cadastrados</div><div id="adm-jogos-lista"></div></div>
       </div>
+    </div>
+    
+    <!-- ABA MEMBROS (aprovação e gerenciamento) -->
+    <div class="tab-conteudo" id="adm-membros">
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card"><div class="admin-card-titulo">⏳ Aguardando Aprovação</div><div id="adm-pendentes"></div></div>
+        <div class="admin-card"><div class="admin-card-titulo">✅ Membros Ativos</div><div id="adm-ativos"></div></div>
+        <div class="admin-card"><div class="admin-card-titulo">🏅 Ajustar Pontos</div><select class="sel" id="pts-membro"></select><div><input class="inp" type="number" placeholder="Pontos" id="pts-valor"></div><button class="btn-adm" onclick="ajustarPontos()">ADICIONAR PONTOS</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Manualmente</div><input class="inp" placeholder="Nome" id="adm-m-nome"><input class="inp" placeholder="Cidade" id="adm-m-cidade"><input class="inp" placeholder="Cargo" id="adm-m-cargo"><button class="btn-adm" onclick="adicionarMembro()">ADICIONAR</button></div>
+      </div>
+    </div>
+    
+    <!-- ABA GALERIA -->
+    <div class="tab-conteudo" id="adm-galeria">
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Foto</div><input class="inp" id="gal-url" placeholder="https://i.ibb.co/..."><button class="btn-adm" onclick="adicionarFoto()">ADICIONAR</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">🖼️ Fotos</div><div id="adm-galeria-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div></div>
+      </div>
+    </div>
+    
+    <!-- ABA LOJA -->
+    <div class="tab-conteudo" id="adm-loja">
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Produto</div><input class="inp" placeholder="Nome" id="p-nome"><div><input class="inp" type="number" placeholder="Preço (£)" id="p-preco"><input class="inp" placeholder="Emoji" id="p-emoji" value="👕"></div><input class="inp" placeholder="Descrição" id="p-desc"><input class="inp" placeholder="Foto URL" id="p-foto"><button class="btn-adm" onclick="adicionarProduto()">ADICIONAR</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">📦 Produtos</div><div id="adm-produtos-lista"></div></div>
+      </div>
+    </div>
+    
+    <!-- ABA NOTÍCIAS -->
+    <div class="tab-conteudo" id="adm-noticias">
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card"><div class="admin-card-titulo">➕ Adicionar Notícia</div><input class="inp" placeholder="Título" id="n-titulo"><textarea class="inp" placeholder="Texto" id="n-texto" rows="3"></textarea><input class="inp" placeholder="Imagem URL" id="n-foto"><button class="btn-adm" onclick="adicionarNoticia()">PUBLICAR</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">📋 Notícias</div><div id="adm-noticias-lista"></div></div>
+      </div>
+    </div>
+    
+    <!-- ABA RELATÓRIO -->
+    <div class="tab-conteudo" id="adm-relatorio">
+      <div class="admin-wrap" style="max-width:600px">
+        <div class="admin-card"><div class="admin-card-titulo">📊 Relatório de Membros</div><div id="relatorio-resumo"></div><div id="relatorio-lista"></div><button class="btn-adm" onclick="exportarRelatorio()" style="background:#166534">📥 EXPORTAR CSV</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">🔐 Redefinir Senha</div><select class="sel" id="reset-membro"></select><input class="inp" type="password" placeholder="Nova senha" id="reset-senha"><button class="btn-adm" onclick="redefinirSenha()">REDEFINIR</button></div>
+        <div class="admin-card"><div class="admin-card-titulo">💾 Backup</div><button class="btn-adm" onclick="exportarDados()">📤 EXPORTAR BACKUP</button><button class="btn-adm" onclick="document.getElementById('import-file').click()">📥 IMPORTAR BACKUP</button><input type="file" id="import-file" accept=".json" style="display:none" onchange="importarDados(this)"></div>
+      </div>
+    </div>
+    
+    <!-- ABA SUGESTÕES -->
+    <div class="tab-conteudo" id="adm-sugestoes">
+      <div class="admin-wrap" style="max-width:600px"><div class="admin-card"><div class="admin-card-titulo">💡 Sugestões dos Membros</div><div id="lista-sugestoes-admin"></div></div></div>
     </div>
   </div>
 </div>
@@ -379,7 +436,7 @@ footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
 </footer>
 
 <script>
-// ==================== FIREBASE CONFIG (suas chaves) ====================
+// ==================== FIREBASE CONFIG (SUAS CHAVES) ====================
 const firebaseConfig = {
   apiKey: "AIzaSyCvNQef4Wc-jMNglwUI8pTS0Gmge5NgJKA",
   authDomain: "uk-tricolor.firebaseapp.com",
@@ -410,15 +467,11 @@ function ir(pag) {
   window.scrollTo(0,0);
   if(pag === "membros") carregarMembrosAtivos();
   if(pag === "bolao") carregarBolao();
-  if(pag === "perfil") renderizarPerfil();
   if(pag === "admin") document.getElementById("admin-login").style.display = "block";
+  if(pag === "perfil") renderizarPerfil();
 }
 
-function toggleMenu() {
-  const m = document.getElementById("menu");
-  m.style.display = m.style.display === "block" ? "none" : "block";
-}
-
+function toggleMenu() { const m = document.getElementById("menu"); m.style.display = m.style.display === "block" ? "none" : "block"; }
 function abrirModal() { document.getElementById("modal-auth").classList.add("aberto"); }
 function fecharModal() { document.getElementById("modal-auth").classList.remove("aberto"); }
 document.getElementById("modal-auth").addEventListener("click", (e) => { if(e.target === this) fecharModal(); });
@@ -443,11 +496,51 @@ function trocarTabAdmin(t){
   document.querySelectorAll("#admin-panel .tab-conteudo").forEach(c => c.classList.remove("ativo"));
   document.getElementById("adm-tab-"+t).classList.add("ativo");
   document.getElementById("adm-"+t).classList.add("ativo");
-  if(t === "pendentes") carregarPendentes();
-  if(t === "ativos") carregarAtivos();
+  if(t === "relatorio") gerarRelatorio();
+  if(t === "noticias") carregarNoticiasAdmin();
+  if(t === "sugestoes") carregarSugestoesAdmin();
+  if(t === "membros") { carregarPendentesEAtivos(); popularSelectPontos(); }
+  if(t === "jogos") { atualizarSelectJogos(); carregarJogosLista(); }
+  if(t === "loja") carregarProdutosAdmin();
+  if(t === "galeria") carregarGaleriaAdmin();
 }
 
-// ==================== DADOS PÚBLICOS ====================
+// ==================== CONFIGURAÇÕES DO SITE (capa e textos) ====================
+async function carregarConfig() {
+  const doc = await db.collection("config").doc("site").get();
+  if (doc.exists) {
+    const cfg = doc.data();
+    if (cfg.capa) document.querySelector(".hero-bg").style.backgroundImage = `url('${cfg.capa}')`;
+    document.getElementById("txt-hist").textContent = cfg.hist || "A UK Tricolor nasceu da saudade...";
+    document.getElementById("txt-miss").textContent = cfg.miss || "Reunir bahianos...";
+    document.getElementById("txt-onde").textContent = cfg.onde || "Membros em Londres, Manchester...";
+    document.getElementById("cfg-capa").value = cfg.capa || "";
+    document.getElementById("cfg-hist").value = cfg.hist || "";
+    document.getElementById("cfg-miss").value = cfg.miss || "";
+    document.getElementById("cfg-onde").value = cfg.onde || "";
+  }
+}
+
+async function salvarCapa() {
+  const url = document.getElementById("cfg-capa").value.trim();
+  if (!url) { toast("Cole o link da imagem", "err"); return; }
+  await db.collection("config").doc("site").set({ capa: url }, { merge: true });
+  document.querySelector(".hero-bg").style.backgroundImage = `url('${url}')`;
+  toast("Capa atualizada!");
+}
+
+async function salvarTextos() {
+  const hist = document.getElementById("cfg-hist").value;
+  const miss = document.getElementById("cfg-miss").value;
+  const onde = document.getElementById("cfg-onde").value;
+  await db.collection("config").doc("site").set({ hist, miss, onde }, { merge: true });
+  document.getElementById("txt-hist").textContent = hist;
+  document.getElementById("txt-miss").textContent = miss;
+  document.getElementById("txt-onde").textContent = onde;
+  toast("Textos salvos!");
+}
+
+// ==================== LOJA ====================
 async function carregarProdutos() {
   const snap = await db.collection("produtos").get();
   let produtos = [];
@@ -468,18 +561,50 @@ async function carregarProdutos() {
 }
 function pedirProduto(nome) { toast("📱 Abrindo Instagram..."); setTimeout(() => window.open("https://www.instagram.com/uktricolor","_blank"), 800); }
 
-async function carregarGaleria() {
-  const snap = await db.collection("galeria").get();
-  let fotos = [];
-  snap.forEach(doc => fotos.push(doc.data().url));
-  const home = document.getElementById("home-galeria");
-  const sobre = document.getElementById("sobre-galeria");
-  if(home) home.innerHTML = fotos.slice(0,6).map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
-  if(sobre) sobre.innerHTML = fotos.map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
+async function carregarProdutosAdmin() {
+  const snap = await db.collection("produtos").get();
+  let produtos = [];
+  snap.forEach(doc => produtos.push({id: doc.id, ...doc.data()}));
+  const div = document.getElementById("adm-produtos-lista");
+  if(div) {
+    if(produtos.length === 0) div.innerHTML = "<div>Nenhum produto</div>";
+    else div.innerHTML = produtos.map(p => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1)">
+        <span><strong>${p.nome}</strong> - £${p.preco}</span>
+        <button onclick="deletarProduto('${p.id}')" style="background:var(--vermelho);border:none;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer">✕</button>
+      </div>
+    `).join("");
+  }
 }
-function abrirFoto(src){ document.getElementById("lb-img").src = src; document.getElementById("lb").style.display = "flex"; }
 
-async function carregarNoticias() {
+async function adicionarProduto() {
+  const nome = document.getElementById("p-nome").value.trim();
+  const preco = parseFloat(document.getElementById("p-preco").value);
+  if (!nome || isNaN(preco)) { toast("Preencha nome e preço", "err"); return; }
+  const emoji = document.getElementById("p-emoji").value || "👕";
+  const desc = document.getElementById("p-desc").value;
+  const foto = document.getElementById("p-foto").value;
+  await db.collection("produtos").add({ nome, preco, emoji, desc, foto });
+  document.getElementById("p-nome").value = "";
+  document.getElementById("p-preco").value = "";
+  document.getElementById("p-emoji").value = "👕";
+  document.getElementById("p-desc").value = "";
+  document.getElementById("p-foto").value = "";
+  toast("Produto adicionado!");
+  carregarProdutos();
+  carregarProdutosAdmin();
+}
+
+async function deletarProduto(id) {
+  if (!confirm("Remover produto?")) return;
+  await db.collection("produtos").doc(id).delete();
+  toast("Produto removido");
+  carregarProdutos();
+  carregarProdutosAdmin();
+}
+
+// ==================== NOTÍCIAS ====================
+async function carregarNoticiasHome() {
   const snap = await db.collection("noticias").orderBy("data", "desc").get();
   let noticias = [];
   snap.forEach(doc => noticias.push({id: doc.id, ...doc.data()}));
@@ -498,49 +623,90 @@ async function carregarNoticias() {
   `).join("");
 }
 
-async function carregarMembrosAtivos() {
-  const snap = await db.collection("usuarios").where("aprovado", "==", true).get();
-  let membros = [];
-  snap.forEach(doc => membros.push({id: doc.id, ...doc.data()}));
-  const grid = document.getElementById("membros-grid");
-  if(grid) {
-    grid.innerHTML = membros.map(m => `
-      <div class="membro">
-        <div class="membro-av">${m.nome.charAt(0)}</div>
-        <div class="membro-nome">${m.nome}</div>
-        <div class="membro-cidade">📍 ${m.cidade || "UK"}</div>
-        ${m.cargo ? `<div class="membro-cargo">${m.cargo}</div>` : ''}
+async function carregarNoticiasAdmin() {
+  const snap = await db.collection("noticias").orderBy("data", "desc").get();
+  let noticias = [];
+  snap.forEach(doc => noticias.push({id: doc.id, ...doc.data()}));
+  const div = document.getElementById("adm-noticias-lista");
+  if(div) {
+    if(noticias.length === 0) div.innerHTML = "<div>Nenhuma notícia</div>";
+    else div.innerHTML = noticias.map((n, idx) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1)">
+        <span><strong>${n.titulo}</strong><br><small>${n.data}</small></span>
+        <button onclick="deletarNoticia('${n.id}')" style="background:var(--vermelho);border:none;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer">✕</button>
       </div>
     `).join("");
-    document.getElementById("st-membros").textContent = membros.length;
   }
 }
 
-async function carregarReunioes() {
-  const snap = await db.collection("reunioes").get();
-  let reunioes = [];
-  snap.forEach(doc => reunioes.push({id: doc.id, ...doc.data()}));
-  const el = document.getElementById("reunioes-lista");
-  if(!el) return;
-  if(reunioes.length === 0) { el.innerHTML = '<div style="padding:2rem;text-align:center;opacity:0.5">Nenhuma reunião agendada.</div>'; return; }
-  el.innerHTML = reunioes.map(r => {
-    const d = new Date(r.data + "T00:00:00");
-    return `<div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:0.8rem;display:flex;gap:12px">
-      <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px;text-align:center;min-width:50px">
-        <div style="font-size:1.8rem;">${d.getDate()}</div>
-        <div style="font-size:0.7rem;">${d.toLocaleDateString("pt-BR",{month:"short"})}</div>
-      </div>
-      <div>
-        <div style="font-weight:700;">${d.toLocaleDateString("pt-BR",{weekday:"long"})}</div>
-        ${r.hora ? `<div>🕐 ${r.hora}h</div>` : ''}
-        <div>📍 ${r.local}</div>
-        ${r.pauta ? `<div>📋 ${r.pauta}</div>` : ''}
-      </div>
-    </div>`;
-  }).join("");
+async function adicionarNoticia() {
+  const titulo = document.getElementById("n-titulo").value.trim();
+  const texto = document.getElementById("n-texto").value.trim();
+  if (!titulo || !texto) { toast("Preencha título e texto", "err"); return; }
+  const foto = document.getElementById("n-foto").value;
+  const data = new Date().toLocaleDateString("pt-BR");
+  await db.collection("noticias").add({ titulo, texto, foto, data });
+  document.getElementById("n-titulo").value = "";
+  document.getElementById("n-texto").value = "";
+  document.getElementById("n-foto").value = "";
+  toast("Notícia publicada!");
+  carregarNoticiasHome();
+  carregarNoticiasAdmin();
 }
 
-// ==================== AUTENTICAÇÃO ====================
+async function deletarNoticia(id) {
+  if (!confirm("Remover notícia?")) return;
+  await db.collection("noticias").doc(id).delete();
+  toast("Notícia removida");
+  carregarNoticiasHome();
+  carregarNoticiasAdmin();
+}
+
+// ==================== GALERIA ====================
+async function carregarGaleriaHome() {
+  const snap = await db.collection("galeria").get();
+  let fotos = [];
+  snap.forEach(doc => fotos.push(doc.data().url));
+  const home = document.getElementById("home-galeria");
+  const sobre = document.getElementById("sobre-galeria");
+  if(home) home.innerHTML = fotos.slice(0,6).map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
+  if(sobre) sobre.innerHTML = fotos.map((f,i) => `<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
+}
+function abrirFoto(src){ document.getElementById("lb-img").src = src; document.getElementById("lb").style.display = "flex"; }
+
+async function carregarGaleriaAdmin() {
+  const snap = await db.collection("galeria").get();
+  let fotos = [];
+  snap.forEach(doc => fotos.push({id: doc.id, url: doc.data().url}));
+  const div = document.getElementById("adm-galeria-grid");
+  if(div) {
+    div.innerHTML = fotos.map(f => `
+      <div style="position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.15)">
+        <img src="${f.url}" style="width:100%;height:100%;object-fit:cover">
+        <button onclick="removerFoto('${f.id}')" style="position:absolute;top:3px;right:3px;background:var(--vermelho);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer">✕</button>
+      </div>
+    `).join("");
+  }
+}
+
+async function adicionarFoto() {
+  const url = document.getElementById("gal-url").value.trim();
+  if (!url) { toast("Cole o link da imagem", "err"); return; }
+  await db.collection("galeria").add({ url });
+  document.getElementById("gal-url").value = "";
+  toast("Foto adicionada!");
+  carregarGaleriaHome();
+  carregarGaleriaAdmin();
+}
+async function removerFoto(id) {
+  if (!confirm("Remover foto?")) return;
+  await db.collection("galeria").doc(id).delete();
+  toast("Foto removida");
+  carregarGaleriaHome();
+  carregarGaleriaAdmin();
+}
+
+// ==================== MEMBROS (CADASTRO, LOGIN, ATIVAÇÃO) ====================
 async function cadastrar() {
   const nome = document.getElementById("c-nome").value.trim();
   const email = document.getElementById("c-email").value.trim().toLowerCase();
@@ -554,23 +720,17 @@ async function cadastrar() {
   try {
     const userCred = await auth.createUserWithEmailAndPassword(email, senha);
     const uid = userCred.user.uid;
-    // Cria documento em usuarios com aprovado false
     await db.collection("usuarios").doc(uid).set({
       uid, nome, email, cidade, bairro, postcode, aprovado: false, desde: new Date().toLocaleDateString("pt-BR")
     });
-    // Cria documento em pendentes
     await db.collection("pendentes").doc(uid).set({
       uid, nome, email, cidade, bairro, postcode, desde: new Date().toLocaleDateString("pt-BR")
     });
     erroEl.style.display = "none";
     fecharModal();
-    toast("Cadastro realizado! Aguarde aprovação do administrador.", "ok");
+    toast("Cadastro realizado! Aguarde aprovação.", "ok");
   } catch(err) {
-    if(err.code === "auth/email-already-in-use") {
-      erroEl.textContent = "Este e-mail já está cadastrado. Tente fazer login ou use outro e-mail.";
-    } else {
-      erroEl.textContent = err.message;
-    }
+    erroEl.textContent = err.code === "auth/email-already-in-use" ? "E-mail já cadastrado. Tente outro." : err.message;
     erroEl.style.display = "block";
   }
 }
@@ -581,14 +741,14 @@ async function entrar() {
   const erroEl = document.getElementById("l-erro");
   try {
     const userCred = await auth.signInWithEmailAndPassword(email, senha);
-    const userDoc = await db.collection("usuarios").doc(userCred.user.uid).get();
-    if(!userDoc.exists || !userDoc.data().aprovado) {
+    const doc = await db.collection("usuarios").doc(userCred.user.uid).get();
+    if(!doc.exists || !doc.data().aprovado) {
       await auth.signOut();
-      erroEl.textContent = "Aguardando aprovação do administrador.";
+      erroEl.textContent = "Aguardando aprovação.";
       erroEl.style.display = "block";
       return;
     }
-    usuarioLogado = { uid: userCred.user.uid, ...userDoc.data() };
+    usuarioLogado = { uid: userCred.user.uid, ...doc.data() };
     erroEl.style.display = "none";
     fecharModal();
     toast(`Bem-vindo, ${usuarioLogado.nome}!`);
@@ -628,99 +788,34 @@ function renderizarPerfil() {
     <div class="perfil-item"><div class="perfil-label">Postcode</div><div class="perfil-valor">${usuarioLogado.postcode || "—"}</div></div>
   `;
 }
+function editarPerfil() { toast("Edição de perfil em breve", "ok"); }
 
-function abrirModalPerfil() { toast("Edição de perfil em breve", "ok"); }
-
-// ==================== BOLÃO ====================
-async function carregarBolao() {
-  const box = document.getElementById("bolao-conteudo");
-  if(!box) return;
-  if(!usuarioLogado) {
-    box.innerHTML = `<div style="text-align:center;padding:2rem;"><div style="font-size:2.5rem;">🏆</div><div style="font-size:1.5rem;">Faça login para participar</div><button class="btn-v" onclick="abrirModal()">Entrar</button></div>`;
-    return;
-  }
-  const jogosSnap = await db.collection("jogos").get();
-  let jogos = [];
-  jogosSnap.forEach(doc => jogos.push({id: doc.id, ...doc.data()}));
-  if(jogos.length === 0) {
-    box.innerHTML = "<div style='padding:2rem;text-align:center'>Em breve teremos jogos disponíveis.</div>";
-    return;
-  }
-  let html = `<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:0.6rem">Jogos para palpitar</div>`;
-  for (let j of jogos) {
-    const palpiteDoc = await db.collection("palpites").doc(`${j.id}_${usuarioLogado.uid}`).get();
-    const palpite = palpiteDoc.exists ? palpiteDoc.data() : null;
-    html += `
-      <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:1rem">
-        <div>${j.casa} × ${j.fora}</div>
-        <div style="display:flex;gap:0.5rem;margin:0.5rem 0">
-          <input type="number" id="palpite_casa_${j.id}" value="${palpite ? palpite.casa : ''}" style="width:60px;height:50px;text-align:center">
-          <span>×</span>
-          <input type="number" id="palpite_fora_${j.id}" value="${palpite ? palpite.fora : ''}" style="width:60px;height:50px;text-align:center">
-        </div>
-        <button class="btn-v" style="padding:5px" onclick="salvarPalpite('${j.id}')">${palpite ? "Atualizar" : "Confirmar"}</button>
+async function carregarMembrosAtivos() {
+  const snap = await db.collection("usuarios").where("aprovado", "==", true).get();
+  let membros = [];
+  snap.forEach(doc => membros.push({id: doc.id, ...doc.data()}));
+  const grid = document.getElementById("membros-grid");
+  if(grid) {
+    grid.innerHTML = membros.map(m => `
+      <div class="membro">
+        <div class="membro-av">${m.nome.charAt(0)}</div>
+        <div class="membro-nome">${m.nome}</div>
+        <div class="membro-cidade">📍 ${m.cidade || "UK"}</div>
+        ${m.cargo ? `<div class="membro-cargo">${m.cargo}</div>` : ''}
       </div>
-    `;
-  }
-  box.innerHTML = html;
-}
-
-async function salvarPalpite(jogoId) {
-  if(!usuarioLogado) { toast("Faça login primeiro","err"); return; }
-  const casa = parseInt(document.getElementById(`palpite_casa_${jogoId}`).value);
-  const fora = parseInt(document.getElementById(`palpite_fora_${jogoId}`).value);
-  if(isNaN(casa) || isNaN(fora)) { toast("Preencha o placar","err"); return; }
-  await db.collection("palpites").doc(`${jogoId}_${usuarioLogado.uid}`).set({
-    jogoId, usuarioId: usuarioLogado.uid, casa, fora
-  });
-  toast("Palpite salvo!");
-  carregarBolao();
-}
-
-// ==================== SUGESTÕES ====================
-function abrirModalSugestao() {
-  if(!usuarioLogado) { toast("Você precisa estar logado","err"); abrirModal(); return; }
-  document.getElementById("modal-sugestao").classList.add("aberto");
-}
-function fecharModalSugestao() { document.getElementById("modal-sugestao").classList.remove("aberto"); }
-async function enviarSugestao() {
-  const texto = document.getElementById("sugestao-texto").value.trim();
-  if(!texto) { toast("Escreva sua sugestão","err"); return; }
-  if(!usuarioLogado) return;
-  await db.collection("sugestoes").add({
-    usuarioId: usuarioLogado.uid,
-    nome: usuarioLogado.nome,
-    texto: texto,
-    data: new Date().toLocaleString("pt-BR"),
-    lida: false
-  });
-  document.getElementById("sugestao-texto").value = "";
-  fecharModalSugestao();
-  toast("Sugestão enviada! Obrigado.");
-}
-
-// ==================== PAINEL ADMIN ====================
-function entrarAdmin() {
-  const senha = document.getElementById("adm-pass").value;
-  if(senha === SENHA_ADMIN) {
-    document.getElementById("admin-login").style.display = "none";
-    document.getElementById("admin-panel").style.display = "block";
-    carregarPendentes();
-    carregarAtivos();
-    toast("Bem-vindo, Administrador!");
-  } else {
-    toast("Senha incorreta", "err");
+    `).join("");
+    document.getElementById("st-membros").textContent = membros.length;
   }
 }
 
-async function carregarPendentes() {
-  const snap = await db.collection("pendentes").get();
+async function carregarPendentesEAtivos() {
+  const pendentesSnap = await db.collection("pendentes").get();
   let pendentes = [];
-  snap.forEach(doc => pendentes.push({id: doc.id, ...doc.data()}));
-  const div = document.getElementById("lista-pendentes");
-  if(div) {
-    if(pendentes.length === 0) div.innerHTML = "<div>Nenhum pendente</div>";
-    else div.innerHTML = pendentes.map(p => `
+  pendentesSnap.forEach(doc => pendentes.push({id: doc.id, ...doc.data()}));
+  const divPend = document.getElementById("adm-pendentes");
+  if(divPend) {
+    if(pendentes.length === 0) divPend.innerHTML = "<div>Nenhum pendente</div>";
+    else divPend.innerHTML = pendentes.map(p => `
       <div style="background:rgba(255,255,255,0.08);padding:0.5rem;margin-bottom:0.5rem;border-radius:6px">
         <strong>${p.nome}</strong> (${p.email}) - ${p.cidade || "?"}
         <button class="btn-adm" style="width:auto;padding:4px 8px;margin-top:5px" onclick="aprovarMembro('${p.uid}')">✅ Aprovar</button>
@@ -728,16 +823,13 @@ async function carregarPendentes() {
       </div>
     `).join("");
   }
-}
-
-async function carregarAtivos() {
-  const snap = await db.collection("usuarios").where("aprovado", "==", true).get();
+  const ativosSnap = await db.collection("usuarios").where("aprovado", "==", true).get();
   let ativos = [];
-  snap.forEach(doc => ativos.push({id: doc.id, ...doc.data()}));
-  const div = document.getElementById("lista-ativos");
-  if(div) {
-    if(ativos.length === 0) div.innerHTML = "<div>Nenhum ativo</div>";
-    else div.innerHTML = ativos.map(a => `
+  ativosSnap.forEach(doc => ativos.push({id: doc.id, ...doc.data()}));
+  const divAt = document.getElementById("adm-ativos");
+  if(divAt) {
+    if(ativos.length === 0) divAt.innerHTML = "<div>Nenhum ativo</div>";
+    else divAt.innerHTML = ativos.map(a => `
       <div style="background:rgba(255,255,255,0.08);padding:0.5rem;margin-bottom:0.5rem;border-radius:6px">
         <strong>${a.nome}</strong> (${a.email}) - ${a.cidade || "?"}
         <button class="btn-adm" style="width:auto;padding:4px 8px;background:#991b1b" onclick="removerMembro('${a.uid}')">🗑 Remover</button>
@@ -753,91 +845,288 @@ async function aprovarMembro(uid) {
   await db.collection("usuarios").doc(uid).update({ aprovado: true });
   await db.collection("pendentes").doc(uid).delete();
   toast("Membro aprovado!");
-  carregarPendentes();
-  carregarAtivos();
+  carregarPendentesEAtivos();
   carregarMembrosAtivos();
 }
 
 async function recusarMembro(uid) {
   await db.collection("usuarios").doc(uid).delete();
   await db.collection("pendentes").doc(uid).delete();
-  toast("Membro recusado e removido.");
-  carregarPendentes();
-  carregarAtivos();
+  toast("Membro recusado");
+  carregarPendentesEAtivos();
 }
 
 async function removerMembro(uid) {
-  if(!confirm("Remover permanentemente este membro?")) return;
+  if(!confirm("Remover permanentemente?")) return;
   await db.collection("usuarios").doc(uid).delete();
-  toast("Membro removido.");
-  carregarAtivos();
+  toast("Membro removido");
+  carregarPendentesEAtivos();
   carregarMembrosAtivos();
 }
 
-// ==================== CRIAÇÃO AUTOMÁTICA DO ADMINISTRADOR ====================
-async function criarAdminSeNaoExistir() {
-  const emailAdmin = "pimentadouglas23@gmail.com";
-  const senhaAdmin = "senha123";
-  try {
-    // Tenta fazer login para ver se já existe
-    const userCred = await auth.signInWithEmailAndPassword(emailAdmin, senhaAdmin).catch(() => null);
-    if (userCred) {
-      // Se existe, garante que no Firestore está aprovado
-      const docRef = db.collection("usuarios").doc(userCred.user.uid);
-      const doc = await docRef.get();
-      if (!doc.exists || doc.data().aprovado !== true) {
-        await docRef.set({ uid: userCred.user.uid, nome: "Administrador", email: emailAdmin, aprovado: true, cidade: "Londres", cargo: "Presidente" }, { merge: true });
-      }
-      return;
-    }
-    // Se não existe, cria novo usuário
-    const newUser = await auth.createUserWithEmailAndPassword(emailAdmin, senhaAdmin);
-    await db.collection("usuarios").doc(newUser.user.uid).set({
-      uid: newUser.user.uid,
-      nome: "Administrador",
-      email: emailAdmin,
-      aprovado: true,
-      cidade: "Londres",
-      cargo: "Presidente",
-      desde: new Date().toLocaleDateString("pt-BR")
-    });
-    toast("Administrador criado com sucesso! Faça login.", "ok");
-  } catch (error) {
-    console.error("Erro ao criar admin:", error);
+async function popularSelectPontos() {
+  const snap = await db.collection("usuarios").where("aprovado", "==", true).get();
+  let usuarios = [];
+  snap.forEach(doc => usuarios.push({id: doc.id, ...doc.data()}));
+  const sel = document.getElementById("pts-membro");
+  if(sel) {
+    sel.innerHTML = '<option value="">Selecione...</option>' + usuarios.map(u => `<option value="${u.uid}">${u.nome}</option>`).join("");
+  }
+  const selReset = document.getElementById("reset-membro");
+  if(selReset) {
+    selReset.innerHTML = '<option value="">Selecione...</option>' + usuarios.map(u => `<option value="${u.uid}">${u.nome}</option>`).join("");
   }
 }
 
-// ==================== INICIALIZAÇÃO ====================
-(async function init() {
-  await criarAdminSeNaoExistir();
-  carregarProdutos();
-  carregarGaleria();
-  carregarNoticias();
-  carregarMembrosAtivos();
-  carregarReunioes();
-  auth.onAuthStateChanged(async (user) => {
-    if(user) {
-      const doc = await db.collection("usuarios").doc(user.uid).get();
-      if(doc.exists && doc.data().aprovado) {
-        usuarioLogado = { uid: user.uid, ...doc.data() };
-        document.getElementById("menu-perfil").style.display = "block";
-        document.getElementById("footer-perfil").style.display = "inline-block";
-        document.getElementById("btn-sugestao").style.display = "flex";
-        renderizarPerfil();
-        carregarBolao();
-      } else {
-        await auth.signOut();
-        usuarioLogado = null;
-      }
-    } else {
-      usuarioLogado = null;
-      document.getElementById("menu-perfil").style.display = "none";
-      document.getElementById("footer-perfil").style.display = "none";
-      document.getElementById("btn-sugestao").style.display = "none";
-      carregarBolao();
-    }
+async function ajustarPontos() {
+  const uid = document.getElementById("pts-membro").value;
+  const pts = parseInt(document.getElementById("pts-valor").value);
+  if(!uid || isNaN(pts)) { toast("Selecione membro e pontos", "err"); return; }
+  const jogoId = Date.now().toString();
+  await db.collection("jogos").doc(jogoId).set({
+    id: jogoId, casa: "Pontos Extras", fora: "Admin", data: new Date().toISOString().split("T")[0],
+    rodada: 0, golsCasa: pts, golsFora: 0, encerrado: true
   });
-})();
-</script>
-</body>
-</html>
+  await db.collection("palpites").doc(`${jogoId}_${uid}`).set({
+    jogoId, usuarioId: uid, casa: pts, fora: 0
+  });
+  toast(`${pts} pontos adicionados!`);
+  document.getElementById("pts-valor").value = "";
+  carregarBolao();
+}
+
+async function adicionarMembro() {
+  const nome = document.getElementById("adm-m-nome").value.trim();
+  if (!nome) { toast("Nome obrigatório", "err"); return; }
+  const cidade = document.getElementById("adm-m-cidade").value;
+  const cargo = document.getElementById("adm-m-cargo").value || "Membro";
+  const email = `${nome.replace(/\s/g, '').toLowerCase()}@temp.com`;
+  const senha = "temp123";
+  try {
+    const userCred = await auth.createUserWithEmailAndPassword(email, senha);
+    const uid = userCred.user.uid;
+    await db.collection("usuarios").doc(uid).set({
+      uid, nome, email, cidade, aprovado: true, cargo, desde: new Date().toLocaleDateString("pt-BR")
+    });
+    toast("Membro adicionado!");
+    carregarPendentesEAtivos();
+    carregarMembrosAtivos();
+  } catch(err) {
+    toast("Erro: " + err.message, "err");
+  }
+}
+
+// ==================== JOGOS E BOLÃO ====================
+async function carregarJogosLista() {
+  const snap = await db.collection("jogos").get();
+  let jogos = [];
+  snap.forEach(doc => jogos.push({id: doc.id, ...doc.data()}));
+  const div = document.getElementById("adm-jogos-lista");
+  if(div) {
+    if(jogos.length === 0) div.innerHTML = "<div>Nenhum jogo</div>";
+    else div.innerHTML = jogos.map(j => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1)">
+        <span><strong>${j.casa} × ${j.fora}</strong> (Rodada ${j.rodada}) - ${j.encerrado ? `Encerrado ${j.golsCasa}-${j.golsFora}` : "Aberto"}</span>
+        <button onclick="deletarJogo('${j.id}')" style="background:var(--vermelho);border:none;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer">✕</button>
+      </div>
+    `).join("");
+  }
+}
+
+async function adicionarJogo() {
+  const casa = document.getElementById("j-casa").value.trim() || "Bahia";
+  const fora = document.getElementById("j-fora").value.trim();
+  const data = document.getElementById("j-data").value;
+  const rodada = parseInt(document.getElementById("j-rodada").value) || 1;
+  if (!fora || !data) { toast("Preencha visitante e data", "err"); return; }
+  await db.collection("jogos").add({
+    casa, fora, data, rodada, encerrado: false, golsCasa: null, golsFora: null
+  });
+  document.getElementById("j-fora").value = "";
+  document.getElementById("j-data").value = "";
+  document.getElementById("j-rodada").value = "1";
+  toast("Jogo adicionado!");
+  atualizarSelectJogos();
+  carregarJogosLista();
+}
+
+async function atualizarSelectJogos() {
+  const snap = await db.collection("jogos").where("encerrado", "==", false).get();
+  let jogos = [];
+  snap.forEach(doc => jogos.push({id: doc.id, ...doc.data()}));
+  const sel = document.getElementById("j-encerrar");
+  if(sel) {
+    sel.innerHTML = '<option value="">Selecione...</option>' + jogos.map(j => `<option value="${j.id}">${j.casa} × ${j.fora}</option>`).join("");
+  }
+}
+
+async function encerrarJogo() {
+  const id = document.getElementById("j-encerrar").value;
+  const golsCasa = parseInt(document.getElementById("j-gols-casa").value);
+  const golsFora = parseInt(document.getElementById("j-gols-fora").value);
+  if (!id || isNaN(golsCasa) || isNaN(golsFora)) { toast("Preencha todos os campos", "err"); return; }
+  await db.collection("jogos").doc(id).update({ encerrado: true, golsCasa, golsFora });
+  toast("Jogo encerrado! Pontos calculados.");
+  atualizarSelectJogos();
+  carregarJogosLista();
+  carregarBolao();
+}
+
+async function deletarJogo(id) {
+  if (!confirm("Remover jogo?")) return;
+  await db.collection("jogos").doc(id).delete();
+  toast("Jogo removido");
+  atualizarSelectJogos();
+  carregarJogosLista();
+  carregarBolao();
+}
+
+async function carregarBolao() {
+  const box = document.getElementById("bolao-conteudo");
+  if(!box) return;
+  if(!usuarioLogado) {
+    box.innerHTML = `<div style="text-align:center;padding:2rem;"><div style="font-size:2.5rem;">🏆</div><div style="font-size:1.5rem;">Faça login para participar</div><button class="btn-v" onclick="abrirModal()">Entrar</button></div>`;
+    return;
+  }
+  const jogosSnap = await db.collection("jogos").where("encerrado", "==", false).get();
+  let jogos = [];
+  jogosSnap.forEach(doc => jogos.push({id: doc.id, ...doc.data()}));
+  if(jogos.length === 0) {
+    box.innerHTML = "<div style='padding:2rem;text-align:center'>Nenhum jogo disponível para palpitar.</div>";
+  } else {
+    let html = `<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:0.6rem">Jogos para palpitar</div>`;
+    for (let j of jogos) {
+      const palpiteDoc = await db.collection("palpites").doc(`${j.id}_${usuarioLogado.uid}`).get();
+      const palpite = palpiteDoc.exists ? palpiteDoc.data() : null;
+      html += `
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:1rem;margin-bottom:1rem">
+          <div>${j.casa} × ${j.fora}</div>
+          <div style="display:flex;gap:0.5rem;margin:0.5rem 0">
+            <input type="number" id="palpite_casa_${j.id}" value="${palpite ? palpite.casa : ''}" style="width:60px;height:50px;text-align:center">
+            <span>×</span>
+            <input type="number" id="palpite_fora_${j.id}" value="${palpite ? palpite.fora : ''}" style="width:60px;height:50px;text-align:center">
+          </div>
+          <button class="btn-v" style="padding:5px" onclick="salvarPalpite('${j.id}')">${palpite ? "Atualizar" : "Confirmar"}</button>
+        </div>
+      `;
+    }
+    box.innerHTML = html;
+  }
+  // Classificação
+  const usuariosSnap = await db.collection("usuarios").where("aprovado", "==", true).get();
+  let usuarios = [];
+  usuariosSnap.forEach(doc => usuarios.push({id: doc.id, ...doc.data()}));
+  let pontosMap = {};
+  for (let u of usuarios) {
+    pontosMap[u.uid] = await calcularPontosUsuario(u.uid);
+  }
+  const ranking = usuarios.sort((a,b) => pontosMap[b.uid] - pontosMap[a.uid]);
+  const rankDiv = document.getElementById("ranking");
+  if(rankDiv) {
+    rankDiv.innerHTML = ranking.map((u,i) => `<div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding:0.3rem 0"><span>${i+1}. ${u.nome}</span><span>${pontosMap[u.uid]} pts</span></div>`).join("") || "<div>Nenhum palpite ainda</div>";
+  }
+}
+
+async function calcularPontosUsuario(uid) {
+  const palpitesSnap = await db.collection("palpites").where("usuarioId", "==", uid).get();
+  let pontos = 0;
+  for (const p of palpitesSnap.docs) {
+    const palpite = p.data();
+    const jogoDoc = await db.collection("jogos").doc(palpite.jogoId).get();
+    const jogo = jogoDoc.data();
+    if (jogo && jogo.encerrado && jogo.golsCasa !== undefined) {
+      if (palpite.casa === jogo.golsCasa && palpite.fora === jogo.golsFora) pontos += 3;
+      else {
+        const rj = jogo.golsCasa > jogo.golsFora ? "H" : jogo.golsCasa < jogo.golsFora ? "A" : "D";
+        const rp = palpite.casa > palpite.fora ? "H" : palpite.casa < palpite.fora ? "A" : "D";
+        if (rj === rp) pontos += 1;
+      }
+    }
+  }
+  return pontos;
+}
+
+async function salvarPalpite(jogoId) {
+  if(!usuarioLogado) { toast("Faça login primeiro","err"); return; }
+  const casa = parseInt(document.getElementById(`palpite_casa_${jogoId}`).value);
+  const fora = parseInt(document.getElementById(`palpite_fora_${jogoId}`).value);
+  if (isNaN(casa) || isNaN(fora)) { toast("Preencha o placar","err"); return; }
+  await db.collection("palpites").doc(`${jogoId}_${usuarioLogado.uid}`).set({
+    jogoId, usuarioId: usuarioLogado.uid, casa, fora
+  });
+  toast("Palpite salvo!");
+  carregarBolao();
+}
+
+// ==================== SUGESTÕES ====================
+function abrirModalSugestao() {
+  if(!usuarioLogado) { toast("Faça login para enviar sugestão","err"); abrirModal(); return; }
+  document.getElementById("modal-sugestao").classList.add("aberto");
+}
+function fecharModalSugestao() { document.getElementById("modal-sugestao").classList.remove("aberto"); }
+async function enviarSugestao() {
+  const texto = document.getElementById("sugestao-texto").value.trim();
+  if(!texto) { toast("Escreva sua sugestão","err"); return; }
+  await db.collection("sugestoes").add({
+    usuarioId: usuarioLogado.uid,
+    nome: usuarioLogado.nome,
+    texto: texto,
+    data: new Date().toLocaleString("pt-BR"),
+    lida: false
+  });
+  document.getElementById("sugestao-texto").value = "";
+  fecharModalSugestao();
+  toast("Sugestão enviada! Obrigado.");
+}
+async function carregarSugestoesAdmin() {
+  const snap = await db.collection("sugestoes").orderBy("data", "desc").get();
+  let sugestoes = [];
+  snap.forEach(doc => sugestoes.push({id: doc.id, ...doc.data()}));
+  const div = document.getElementById("lista-sugestoes-admin");
+  if(div) {
+    if(sugestoes.length === 0) div.innerHTML = "<div>Nenhuma sugestão.</div>";
+    else div.innerHTML = sugestoes.map(s => `
+      <div class="sugestao-item" style="border-left-color: ${s.lida ? '#4ade80' : 'var(--ouro)'}">
+        <div class="sugestao-texto">💬 ${escapeHtml(s.texto)}</div>
+        <div class="sugestao-meta">
+          <span>👤 ${escapeHtml(s.nome)} • ${s.data}</span>
+          <div>
+            ${!s.lida ? `<button class="btn-adm" style="width:auto;padding:4px 8px;font-size:0.7rem;margin-right:5px" onclick="marcarSugestaoLida('${s.id}')">✓ Marcar lida</button>` : '<span style="color:#4ade80">✔ Lida</span>'}
+            <button class="btn-adm" style="width:auto;padding:4px 8px;font-size:0.7rem;background:#991b1b" onclick="excluirSugestao('${s.id}')">🗑 Excluir</button>
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
+}
+async function marcarSugestaoLida(id) {
+  await db.collection("sugestoes").doc(id).update({ lida: true });
+  carregarSugestoesAdmin();
+  toast("Marcada como lida");
+}
+async function excluirSugestao(id) {
+  if(!confirm("Excluir sugestão?")) return;
+  await db.collection("sugestoes").doc(id).delete();
+  carregarSugestoesAdmin();
+  toast("Sugestão excluída");
+}
+function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){ if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+
+// ==================== RELATÓRIO ====================
+async function gerarRelatorio() {
+  const snap = await db.collection("usuarios").where("aprovado", "==", true).get();
+  let membros = [];
+  snap.forEach(doc => membros.push({id: doc.id, ...doc.data()}));
+  const cidadeMap = {};
+  membros.forEach(m => { const c = m.cidade || "Outros"; cidadeMap[c] = (cidadeMap[c] || 0) + 1; });
+  const resumoDiv = document.getElementById("relatorio-resumo");
+  if(resumoDiv) {
+    resumoDiv.innerHTML = Object.entries(cidadeMap).map(([c, q]) => `
+      <div style="background:rgba(0,0,0,0.2);padding:0.5rem;border-radius:8px;text-align:center;margin-bottom:0.5rem">
+        <div>${q}</div><div>${c}</div>
+      </div>
+    `).join("") + `<div style="background:rgba(0,71,145,0.4);padding:0.5rem;text-align:center"><div>${membros.length}</div><div>Total Membros</div></div>`;
+  }
+  const listaDiv = document.getElementById("relatorio-lista");
+  if(listaDiv) {
+    listaDiv.innerHTML = `<table style="width:100%;border-collapse:collapse">
