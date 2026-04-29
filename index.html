@@ -1248,3 +1248,34 @@ if('serviceWorker' in navigator){
 </script>
 </body>
 </html>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCvNQef4Wc-jMNglwUI8pTS0Gmge5NgJKA",
+        authDomain: "uk-tricolor.firebaseapp.com",
+        projectId: "uk-tricolor",
+        storageBucket: "uk-tricolor.firebasestorage.app",
+        messagingSenderId: "1044145787384",
+        appId: "1:1044145787384:web:c253c28c97cea07414c60d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Aqui eu preciso saber o ID do seu botão de enviar original
+    // Se o seu botão de enviar tiver um ID, coloque ele no lugar de 'btnEnviar'
+    document.getElementById("SEU_BOTAO_AQUI").addEventListener("click", async () => {
+        const nomeUsuario = document.getElementById("SEU_CAMPO_DE_NOME").value;
+        const palpiteUsuario = document.getElementById("SEU_CAMPO_DE_PALPITE").value;
+
+        try {
+            await addDoc(collection(db, "usuarios"), { nome: nomeUsuario, data: new Date() });
+            await addDoc(collection(db, "palpites"), { nome: nomeUsuario, palpite: palpiteUsuario, data: new Date() });
+            alert("Enviado com sucesso!");
+        } catch (e) {
+            console.error("Erro: ", e);
+        }
+    });
+</script>
