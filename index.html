@@ -910,7 +910,7 @@ async function renderReunioes() {
   }).join("");
 }
 
-// ===== BOLÃO — CORRIGIDO + PALPITES VISÍVEIS + EDITAR PONTOS NO RANKING =====
+// ===== BOLÃO CORRIGIDO: EXIBE NOME DOS MEMBROS NOS PALPITES =====
 async function carregarJogosEPalpites() {
   const [j,p,pm] = await Promise.all([getDocs(collection(db,"jogos")),getDocs(collection(db,"palpites")),getDocs(collection(db,"pontosManual"))]);
   jogosCache = j.docs.map(d=>({id:d.id,...d.data()}));
@@ -934,6 +934,14 @@ async function renderBolao() {
   const rank = document.getElementById("ranking");
   if(!box) return;
   await carregarJogosEPalpites();
+
+  // MAPA DE NOMES: buscar todos os usuários aprovados para exibir o nome correto nos palpites
+  const usuariosSnap = await getDocs(collection(db,"usuarios"));
+  const usuariosMap = new Map();
+  usuariosSnap.docs.forEach(doc => {
+    const data = doc.data();
+    if(data.aprovado) usuariosMap.set(doc.id, data.nome);
+  });
 
   if(!usuarioLogado) {
     box.innerHTML=`<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:2rem;text-align:center"><div style="font-size:2.5rem;margin-bottom:0.8rem">🏆</div><div style="font-family:Bebas Neue,sans-serif;font-size:1.5rem;letter-spacing:2px;margin-bottom:0.5rem">ENTRE PARA PARTICIPAR</div><p style="color:rgba(255,255,255,0.55);font-size:0.88rem;margin-bottom:1.2rem">Faça login para enviar seus palpites!</p><button class="btn-v" onclick="abrirModal()">Entrar / Cadastrar</button></div>`;
@@ -969,7 +977,10 @@ async function renderBolao() {
           ${outrosPalpites.length&&(fechado||p)?`<div style="margin-top:0.8rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:0.8rem">
             <div style="font-size:0.68rem;letter-spacing:1.5px;color:rgba(255,255,255,0.4);font-family:Barlow Condensed,sans-serif;text-transform:uppercase;margin-bottom:0.5rem">Palpites dos membros</div>
             <div style="overflow-x:auto"><table class="palpites-tabela"><thead><tr><th>Membro</th><th style="text-align:center">Palpite</th></tr></thead><tbody>
-            ${outrosPalpites.map(pp=>`<tr><td>${pp.nomeUsuario||'Membro'}</td><td style="text-align:center;font-family:Bebas Neue,sans-serif;font-size:1rem">${pp.casa} × ${pp.fora}</td></tr>`).join("")}
+            ${outrosPalpites.map(pp=>{
+              const nome = usuariosMap.get(pp.usuarioId) || pp.nomeUsuario || 'Membro';
+              return `<tr><td>${nome}</td><td style="text-align:center;font-family:Bebas Neue,sans-serif;font-size:1rem">${pp.casa} × ${pp.fora}</td></tr>`;
+            }).join("")}
             </tbody></table></div></div>`:""}
         </div>`;
       });
@@ -987,7 +998,11 @@ async function renderBolao() {
           ${todosPalpites.length?`<div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:0.8rem">
             <div style="font-size:0.68rem;letter-spacing:1.5px;color:rgba(255,255,255,0.4);font-family:Barlow Condensed,sans-serif;text-transform:uppercase;margin-bottom:0.5rem">Palpites da rodada</div>
             <div style="overflow-x:auto"><table class="palpites-tabela"><thead><tr><th>Membro</th><th style="text-align:center">Palpite</th><th style="text-align:center">Resultado</th></tr></thead><tbody>
-            ${todosPalpites.map(pp=>{const ok=pp.casa===j.golsCasa&&pp.fora===j.golsFora;return`<tr><td>${pp.nomeUsuario||'Membro'}</td><td style="text-align:center;font-family:Bebas Neue,sans-serif">${pp.casa} × ${pp.fora}</td><td style="text-align:center">${ok?"🎯":"❌"}</td></tr>`;}).join("")}
+            ${todosPalpites.map(pp=>{
+              const nome = usuariosMap.get(pp.usuarioId) || pp.nomeUsuario || 'Membro';
+              const ok = pp.casa===j.golsCasa&&pp.fora===j.golsFora;
+              return `<tr><td>${nome}</td><td style="text-align:center;font-family:Bebas Neue,sans-serif">${pp.casa} × ${pp.fora}</td><td style="text-align:center">${ok?"🎯":"❌"}</td></tr>`;
+            }).join("")}
             </tbody></table></div></div>`:""}
         </div>`;
       });
@@ -995,10 +1010,8 @@ async function renderBolao() {
     box.innerHTML = html||'<p class="loading">Nenhum jogo disponível.</p>';
   }
 
-  // Ranking corrigido: usar APENAS o uid do usuário (coleção "usuarios") como identificador
-  const [usuariosSnap] = await Promise.all([getDocs(collection(db,"usuarios"))]);
+  // Ranking
   const usuarios = usuariosSnap.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.aprovado);
-
   const ranked = usuarios.map(u=>{
     let pts = 0;
     jogosCache.forEach(j=>{
@@ -1196,4 +1209,4 @@ async function init() {
 init();
 </script>
 </body>
-              </html>
+    </html>
