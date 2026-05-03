@@ -918,7 +918,6 @@ async function carregarJogosEPalpites() {
   pontosManualCache = pm.docs.map(d=>({id:d.id,...d.data()}));
 }
 
-// CORRIGIDO: calcula pontos pelo ID do usuário (bolão) + pelo membroId (pontos manuais)
 function calcPontosUsuario(uid) {
   let pts = 0;
   jogosCache.forEach(j=>{
@@ -926,7 +925,6 @@ function calcPontosUsuario(uid) {
     const p = palpitesCache.find(x=>x.jogoId===j.id&&x.usuarioId===uid);
     if(p&&p.casa===j.golsCasa&&p.fora===j.golsFora) pts+=3;
   });
-  // Pontos manuais: busca por uid (campo membroId) OU por nome correspondente
   pontosManualCache.forEach(pm=>{ if(pm.membroId===uid) pts+=pm.pontos; });
   return pts;
 }
@@ -997,30 +995,18 @@ async function renderBolao() {
     box.innerHTML = html||'<p class="loading">Nenhum jogo disponível.</p>';
   }
 
-  // ===== RANKING CORRIGIDO =====
-  // Busca todos os usuários aprovados E todos os membros ativos
-  const [usuariosSnap, membrosSnap] = await Promise.all([
-    getDocs(collection(db,"usuarios")),
-    getDocs(collection(db,"membros"))
-  ]);
+  // Ranking corrigido: usar APENAS o uid do usuário (coleção "usuarios") como identificador
+  const [usuariosSnap] = await Promise.all([getDocs(collection(db,"usuarios"))]);
   const usuarios = usuariosSnap.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.aprovado);
 
-  // Para cada usuário aprovado, calcula pontos do bolão + pontos manuais pelo ID do usuário
   const ranked = usuarios.map(u=>{
     let pts = 0;
-    // Pontos do bolão
     jogosCache.forEach(j=>{
       if(!j.encerrado) return;
       const p = palpitesCache.find(x=>x.jogoId===j.id&&x.usuarioId===u.id);
       if(p&&p.casa===j.golsCasa&&p.fora===j.golsFora) pts+=3;
     });
-    // Pontos manuais — busca pelo ID do membro correspondente ao email do usuário
-    const membroCorrespondente = membrosSnap.docs.map(d=>({id:d.id,...d.data()})).find(m=>m.email===u.email);
-    if(membroCorrespondente) {
-      pontosManualCache.forEach(pm=>{ if(pm.membroId===membroCorrespondente.id) pts+=pm.pontos; });
-    }
-    // Também busca pontos manuais pelo ID do próprio usuário (compatibilidade)
-    pontosManualCache.forEach(pm=>{ if(pm.membroId===u.id) pts+=pm.pontos; });
+    pontosManualCache.forEach(pm=>{ if(pm.membroId === u.id) pts += pm.pontos; });
     return {id:u.id, nome:u.nome, pts};
   }).sort((a,b)=>b.pts-a.pts);
 
@@ -1045,27 +1031,20 @@ async function renderBolao() {
   }
 }
 
-// ===== SALVAR PONTOS DIRETAMENTE NO RANKING (ADMIN) =====
 window.salvarPontosInline = async function(uid, nomeUsuario) {
   const inp = document.getElementById("pts-inline-"+uid);
   if(!inp) return;
   const novoPts = parseInt(inp.value);
   if(isNaN(novoPts)||novoPts<0) { toast("⚠️ Valor inválido","err"); return; }
 
-  // Calcula os pontos atuais para saber a diferença
   await carregarJogosEPalpites();
-  const membrosSnap = await getDocs(collection(db,"membros"));
   let ptsAtuais = 0;
   jogosCache.forEach(j=>{
     if(!j.encerrado) return;
     const p = palpitesCache.find(x=>x.jogoId===j.id&&x.usuarioId===uid);
     if(p&&p.casa===j.golsCasa&&p.fora===j.golsFora) ptsAtuais+=3;
   });
-  const membroCorrespondente = membrosSnap.docs.map(d=>({id:d.id,...d.data()})).find(m=>m.email);
-  if(membroCorrespondente) {
-    pontosManualCache.forEach(pm=>{ if(pm.membroId===membroCorrespondente.id) ptsAtuais+=pm.pontos; });
-  }
-  pontosManualCache.forEach(pm=>{ if(pm.membroId===uid) ptsAtuais+=pm.pontos; });
+  pontosManualCache.forEach(pm=>{ if(pm.membroId === uid) ptsAtuais += pm.pontos; });
 
   const diferenca = novoPts - ptsAtuais;
   if(diferenca===0) { toast("Sem alteração"); return; }
@@ -1100,13 +1079,11 @@ window.salvarPalpite = async function(jogoId) {
 async function atualizarSelectJogos() {
   const snap=await getDocs(collection(db,"jogos"));
   const jogos=snap.docs.map(d=>({id:d.id,...d.data()}));
-  // Select fechar palpites: só jogos abertos (sem palpites fechados e sem encerrados)
   const selF=document.getElementById("j-fechar");
   if(selF) {
     const abertos=jogos.filter(j=>!j.encerrado&&!j.palpitesFechados);
     selF.innerHTML='<option value="">Selecione...</option>'+abertos.map(j=>`<option value="${j.id}">${j.casa} × ${j.fora} (Rd ${j.rodada})</option>`).join("");
   }
-  // Select encerrar: jogos abertos OU com palpites fechados (mas não encerrados)
   const selE=document.getElementById("j-encerrar");
   if(selE) {
     const naoEncerrados=jogos.filter(j=>!j.encerrado);
@@ -1185,7 +1162,7 @@ window.exportarCSV = async function() {
   toast("✅ CSV exportado!");
 };
 
-// Expor funções internas ao window (necessário para módulo ES6)
+// Expor funções internas ao window
 window.toast = toast;
 window.carregarConfig = carregarConfig;
 window.carregarDadosAdmin = carregarDadosAdmin;
@@ -1204,10 +1181,8 @@ window.calcPontosUsuario = calcPontosUsuario;
 window.renderBolao = renderBolao;
 window.atualizarSelectJogos = atualizarSelectJogos;
 window.renderAdmJogos = renderAdmJogos;
-window.fecharPalpites = fecharPalpites;
 window.renderRelatorio = renderRelatorio;
 window.fecharModalNoticia = fecharModalNoticia;
-// window.pedirProduto = pedirProduto;  // REMOVIDA (já definida acima)
 
 // INIT
 async function init() {
@@ -1221,4 +1196,4 @@ async function init() {
 init();
 </script>
 </body>
-    </html>
+              </html>
