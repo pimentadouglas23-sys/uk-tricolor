@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
-        :root{--azul:#004791;--vermelho:#CC0000;--verde:#166534;--ouro:#b8860b;}
+        :root{--azul:#004791;--vermelho:#CC0000;}
         body{font-family:'Barlow',sans-serif;background:var(--azul);color:#fff;overflow-x:hidden;}
         nav{position:fixed;top:0;width:100%;z-index:1000;background:rgba(0,30,80,0.97);border-bottom:3px solid var(--vermelho);display:flex;align-items:center;padding:0 1rem;height:60px;}
         .logo{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;cursor:pointer;}
@@ -113,15 +113,20 @@
         .rel-stat{background:rgba(0,0,0,0.25);border-radius:8px;padding:0.8rem;text-align:center;}
         .rel-stat-n{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--vermelho);}
         .rel-stat-l{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;opacity:0.6;margin-top:2px;}
-        /* Novos Estilos 6 Melhorias */
-        .palpites-visiveis{margin-top:1rem;background:rgba(0,0,0,0.2);border-radius:6px;padding:0.6rem;font-size:0.75rem;}
-        .palpites-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
-        .rank-edit-btn{background:var(--verde);color:#fff;border:none;padding:2px 6px;border-radius:3px;font-size:0.7rem;cursor:pointer;margin-left:4px;}
-        .rank-inp{width:40px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);color:#fff;text-align:center;border-radius:3px;font-size:0.8rem;}
-        .status-badge{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;padding:2px 6px;border-radius:4px;text-transform:uppercase;font-weight:700;}
-        .status-aberto{background:var(--verde);}
-        .status-travado{background:var(--ouro);}
-        .status-encerrado{background:rgba(255,255,255,0.2);}
+        .modal-noticia{display:none;position:fixed;inset:0;z-index:2500;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;padding:1rem;}
+        .modal-noticia.aberto{display:flex;}
+        .modal-noticia-box{background:#003a7a;border:1px solid rgba(255,255,255,0.2);border-radius:12px;width:100%;max-width:420px;position:relative;max-height:90vh;overflow-y:auto;}
+        .modal-noticia-img{width:100%;max-height:220px;object-fit:cover;border-radius:12px 12px 0 0;}
+        .modal-noticia-body{padding:1.5rem;}
+        .modal-noticia-titulo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;margin-bottom:0.6rem;line-height:1.1;}
+        .modal-noticia-texto{color:rgba(255,255,255,0.82);font-size:0.92rem;line-height:1.7;margin-bottom:0.8rem;}
+        .modal-noticia-data{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.35);letter-spacing:1px;}
+        .palpites-tabela{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:0.8rem;}
+        .palpites-tabela th{background:rgba(0,0,0,0.3);padding:6px 8px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5);}
+        .palpites-tabela td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.07);}
+        .edit-pts-wrap{display:inline-flex;align-items:center;gap:4px;}
+        .edit-pts-inp{width:50px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;text-align:center;padding:2px 4px;outline:none;}
+        .edit-pts-btn{background:#166534;color:#fff;border:none;border-radius:4px;padding:3px 7px;cursor:pointer;font-size:0.72rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;}
     </style>
 </head>
 <body>
@@ -129,11 +134,16 @@
 <div class="lb" id="lb" onclick="this.style.display='none'"><img id="lb-img" src="" alt=""></div>
 <div class="toast" id="toast"></div>
 
-<div class="modal" id="modal-noticia">
-<div class="modal-box" style="max-width:500px">
-  <button class="modal-fechar" onclick="fecharModalNoticia()">✕</button>
-  <div id="noticia-full-conteudo"></div>
-</div>
+<div class="modal-noticia" id="modal-noticia">
+  <div class="modal-noticia-box">
+    <button class="modal-fechar" onclick="fecharModalNoticia()" style="z-index:10">✕</button>
+    <img id="mn-img" src="" alt="" class="modal-noticia-img" style="display:none">
+    <div class="modal-noticia-body">
+      <div class="modal-noticia-titulo" id="mn-titulo"></div>
+      <div class="modal-noticia-texto" id="mn-texto"></div>
+      <div class="modal-noticia-data" id="mn-data"></div>
+    </div>
+  </div>
 </div>
 
 <div class="modal" id="modal-auth">
@@ -213,13 +223,37 @@
     <div class="sec-sub">Últimas notícias da embaixada</div>
     <div id="home-noticias"><div class="loading">Carregando...</div></div>
   </div>
+  <div style="background:rgba(0,20,60,0.4);border-left:4px solid var(--vermelho);margin:0;padding:1.5rem">
+    <div style="display:flex;gap:1rem;align-items:flex-start">
+      <span style="font-size:1.5rem;flex-shrink:0">🔴</span>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;margin-bottom:0.4rem">Nossa <span style="color:var(--vermelho)">Missão</span></div>
+        <p id="txt-miss" style="color:rgba(255,255,255,0.82);font-size:0.92rem;line-height:1.7">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p>
+      </div>
+    </div>
+  </div>
   <div class="sec">
     <div class="sec-titulo">Loja <span>UK Tricolor</span></div>
+    <div class="sec-sub">Produtos oficiais e exclusivos</div>
     <div class="loja-grid" id="home-loja"><div class="loading">Carregando...</div></div>
+    <div style="text-align:center;margin-top:1rem"><button class="btn-b" onclick="ir('loja')" style="font-size:0.82rem;padding:9px 18px">Ver todos →</button></div>
   </div>
   <div class="sec" style="padding-top:0">
     <div class="sec-titulo">Galeria de <span>Eventos</span></div>
+    <div class="sec-sub">Momentos da nossa torcida</div>
     <div class="galeria" id="home-galeria"></div>
+    <div style="text-align:center;margin-top:1rem"><button class="btn-b" onclick="ir('sobre')" style="font-size:0.82rem;padding:9px 18px">Ver todas →</button></div>
+  </div>
+  <div class="sec" style="padding-top:0">
+    <div class="sec-titulo">🎬 <span>Vídeo</span></div>
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4" allowfullscreen></iframe></div>
+  </div>
+  <div class="sec" style="padding-top:0">
+    <a href="https://www.instagram.com/uktricolor" target="_blank" class="insta-link">
+      <span style="font-size:24px">📸</span>
+      <div><div style="font-weight:900;font-size:0.9rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">@UKTRICOLOR NO INSTAGRAM</div><div style="font-size:0.78rem;opacity:0.8">Siga-nos!</div></div>
+      <span style="margin-left:auto">→</span>
+    </a>
   </div>
 </div>
 
@@ -230,19 +264,25 @@
   </div>
   <div class="sec">
     <div class="loja-grid" id="loja-grid"><div class="loading">Carregando...</div></div>
+    <p style="text-align:center;margin-top:1rem;color:rgba(255,255,255,0.4);font-size:0.8rem">💬 <a href="https://www.instagram.com/uktricolor" target="_blank" style="color:var(--vermelho)">@uktricolor</a> · Transferência e PayPal</p>
   </div>
 </div>
 
 <div id="bolao" class="page">
   <div style="background:rgba(0,20,60,0.8);padding:2rem 1.5rem;text-align:center;border-bottom:3px solid var(--vermelho)">
     <h1 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:3px">🏆 Bolão <span style="color:var(--vermelho)">UK</span> Tricolor</h1>
-    <p style="color:rgba(255,255,255,0.65);font-size:0.88rem">Dispute com os membros!</p>
+    <p style="color:rgba(255,255,255,0.65);font-size:0.88rem">Dispute com os membros da embaixada!</p>
   </div>
   <div class="sec">
     <div id="bolao-conteudo"></div>
     <div style="margin-top:1.5rem">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;margin-bottom:0.8rem">🏅 <span style="color:var(--vermelho)">Classificação</span></div>
       <div id="ranking"></div>
+    </div>
+    <div class="reg" style="margin-top:1rem">
+      <h3>📋 Regulamento</h3>
+      <div class="reg-item"><div class="reg-num">3</div><div class="reg-txt"><strong>Placar exato</strong> — 3 pontos</div></div>
+      <div class="reg-item"><div class="reg-num">£</div><div class="reg-txt"><strong>Premiação</strong> — os 3 primeiros dividem o prêmio</div></div>
     </div>
   </div>
 </div>
@@ -256,10 +296,18 @@
   </div>
   <div class="sec">
     <div class="sobre-cards">
-      <div class="card"><h3>🔵 Nossa História</h3><p id="txt-hist">A UK Tricolor nasceu da saudade e do amor ao Esquadrão.</p></div>
-      <div class="card"><h3>🔴 Nossa Missão</h3><p id="txt-miss2">Reunir bahianos e amantes do Bahia no UK.</p></div>
-      <div class="card"><h3>🇬🇧 Onde Estamos</h3><p id="txt-onde">Londres, Manchester e outras cidades.</p></div>
+      <div class="card"><h3>🔵 Nossa História</h3><p id="txt-hist">A UK Tricolor nasceu da saudade e do amor ao Esquadrão de Aço. Somos a 1ª Embaixada Oficial do Bahia na Europa.</p></div>
+      <div class="card"><h3>🔴 Nossa Missão</h3><p id="txt-miss2">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p></div>
+      <div class="card"><h3>🇬🇧 Onde Estamos</h3><p id="txt-onde">Membros em Londres, Manchester, Birmingham, Leeds, Bristol, Edimburgo e outras cidades.</p></div>
     </div>
+  </div>
+  <div class="sec" style="padding-top:0">
+    <div class="sec-titulo">Galeria <span>Completa</span></div>
+    <div class="galeria" id="sobre-galeria"></div>
+  </div>
+  <div class="sec" style="padding-top:0">
+    <div class="sec-titulo">🎬 <span>Vídeo</span></div>
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4" allowfullscreen></iframe></div>
   </div>
 </div>
 
@@ -270,11 +318,13 @@
   </div>
   <div class="tab-conteudo ativo" id="tc-lista">
     <div class="sec">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem">Família <span style="color:var(--vermelho)">UK Tricolor</span></div>
       <div class="membros-grid" id="membros-grid"><div class="loading">Carregando...</div></div>
     </div>
   </div>
   <div class="tab-conteudo" id="tc-reunioes">
     <div class="sec">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem">📅 Próximas <span style="color:var(--vermelho)">Reuniões</span></div>
       <div id="reunioes-lista"></div>
     </div>
   </div>
@@ -284,9 +334,11 @@
   <div id="admin-login">
     <div class="admin-wrap">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:0.3rem">Painel de <span style="color:var(--vermelho)">Admin</span></div>
+      <p style="color:rgba(255,255,255,0.5);margin-bottom:1.2rem;font-size:0.88rem">Área restrita.</p>
       <div class="admin-card">
-        <input class="inp" type="password" placeholder="Senha do Admin" id="adm-pass">
-        <button class="btn-adm" onclick="entrarAdmin()">ENTRAR</button>
+        <div class="admin-card-titulo">🔒 Senha do Admin</div>
+        <input class="inp" type="password" placeholder="Digite a senha..." id="adm-pass">
+        <button class="btn-adm" onclick="entrarAdmin()">ENTRAR NO PAINEL</button>
       </div>
     </div>
   </div>
@@ -302,107 +354,131 @@
     </div>
 
     <div class="tab-conteudo ativo" id="adm-site">
-        <div class="admin-wrap" style="max-width:500px">
-            <div class="admin-card">
-              <div class="admin-card-titulo">🖼️ Foto de Capa</div>
-              <input class="inp" id="cfg-capa" placeholder="URL da imagem">
-              <button class="btn-adm" onclick="salvarCapa()">ATUALIZAR</button>
-            </div>
-            <div class="admin-card">
-              <div class="admin-card-titulo">📖 Textos</div>
-              <textarea class="inp" id="cfg-hist" rows="2" placeholder="História"></textarea>
-              <textarea class="inp" id="cfg-miss" rows="2" placeholder="Missão"></textarea>
-              <textarea class="inp" id="cfg-onde" rows="2" placeholder="Onde"></textarea>
-              <button class="btn-adm" onclick="salvarTextos()">SALVAR</button>
-            </div>
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card" style="margin-top:1rem">
+          <div class="admin-card-titulo">🖼️ Foto de Capa</div>
+          <input class="inp" id="cfg-capa" placeholder="https://i.ibb.co/...">
+          <button class="btn-adm" onclick="salvarCapa()">ATUALIZAR CAPA</button>
         </div>
+        <div class="admin-card">
+          <div class="admin-card-titulo">📖 Textos da Página Sobre</div>
+          <label class="label">Nossa História</label>
+          <textarea class="inp" id="cfg-hist" rows="3" style="resize:vertical"></textarea>
+          <label class="label">Nossa Missão</label>
+          <textarea class="inp" id="cfg-miss-adm" rows="3" style="resize:vertical"></textarea>
+          <label class="label">Onde Estamos</label>
+          <textarea class="inp" id="cfg-onde" rows="2" style="resize:vertical"></textarea>
+          <button class="btn-adm" onclick="salvarTextos()">SALVAR TEXTOS</button>
+        </div>
+      </div>
     </div>
 
     <div class="tab-conteudo" id="adm-jogos">
-        <div class="admin-wrap" style="max-width:500px">
-          <div class="admin-card">
-            <div class="admin-card-titulo">➕ Adicionar Jogo</div>
-            <input class="inp" placeholder="Visitante" id="j-fora">
-            <input class="inp" type="date" id="j-data">
-            <input class="inp" type="number" placeholder="Rodada" id="j-rodada">
-            <button class="btn-adm" onclick="adicionarJogo()">CRIAR JOGO</button>
-          </div>
-          <div class="admin-card">
-            <div class="admin-card-titulo">⚙️ Gestão de Jogos</div>
-            <div id="adm-jogos-lista"></div>
-          </div>
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card" style="margin-top:1rem">
+          <div class="admin-card-titulo">➕ Adicionar Jogo</div>
+          <input class="inp" placeholder="Time da casa" id="j-casa" value="Bahia">
+          <input class="inp" placeholder="Visitante" id="j-fora">
+          <input class="inp" type="date" id="j-data">
+          <input class="inp" type="number" placeholder="Rodada" id="j-rodada" value="1">
+          <button class="btn-adm" onclick="adicionarJogo()">ADICIONAR JOGO</button>
         </div>
+        <div class="admin-card">
+          <div class="admin-card-titulo">🔒 Fechar Palpites</div>
+          <select class="sel" id="j-fechar"><option value="">Selecione o jogo...</option></select>
+          <button class="btn-adm" onclick="fecharPalpites()" style="background:#7e4f00">🔒 FECHAR PALPITES</button>
+        </div>
+        <div class="admin-card">
+          <div class="admin-card-titulo">✅ Encerrar Jogo</div>
+          <select class="sel" id="j-encerrar"><option value="">Selecione o jogo...</option></select>
+          <div style="display:flex;gap:7px">
+            <input class="inp" type="number" placeholder="Gols casa" id="j-gols-casa">
+            <input class="inp" type="number" placeholder="Gols fora" id="j-gols-fora">
+          </div>
+          <button class="btn-adm" onclick="encerrarJogo()" style="background:#166534">ENCERRAR E CALCULAR</button>
+        </div>
+        <div id="adm-jogos-lista"></div>
+      </div>
     </div>
 
     <div class="tab-conteudo" id="adm-membros">
-        <div class="admin-wrap" style="max-width:500px">
-          <div class="admin-card">
-            <div class="admin-card-titulo">🔑 Redefinir Senha</div>
-            <select class="sel" id="rs-usuario"></select>
-            <input class="inp" type="password" placeholder="Nova Senha" id="rs-nova-senha">
-            <button class="btn-adm" onclick="redefinirSenha()">REDEFINIR</button>
-          </div>
-          <div class="admin-card">
-            <div class="admin-card-titulo">⏳ Pendentes</div>
-            <div id="adm-pendentes"></div>
-          </div>
-          <div class="admin-card">
-            <div class="admin-card-titulo">✅ Ativos</div>
-            <div id="adm-ativos"></div>
-          </div>
+      <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-card">
+          <div class="admin-card-titulo">⏳ Aguardando Aprovação</div>
+          <div id="adm-pendentes"></div>
         </div>
+        <div class="admin-card">
+          <div class="admin-card-titulo">✅ Membros Ativos</div>
+          <div id="adm-ativos"></div>
+        </div>
+        <div class="admin-card">
+          <div class="admin-card-titulo">🔑 Redefinir Senha</div>
+          <select class="sel" id="reset-membro"><option value="">Selecione...</option></select>
+          <input class="inp" type="password" placeholder="Nova senha" id="reset-senha">
+          <button class="btn-adm" onclick="redefinirSenha()">REDEFINIR SENHA</button>
+        </div>
+      </div>
     </div>
 
     <div class="tab-conteudo" id="adm-galeria">
-        <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-wrap">
             <div class="admin-card">
-                <input class="inp" id="gal-url" placeholder="URL da Foto">
-                <button class="btn-adm" onclick="adicionarFoto()">ADD FOTO</button>
+                <input class="inp" id="gal-url" placeholder="Link da foto">
+                <button class="btn-adm" onclick="adicionarFoto()">ADICIONAR FOTO</button>
             </div>
             <div id="adm-galeria-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px"></div>
         </div>
     </div>
 
     <div class="tab-conteudo" id="adm-loja">
-        <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-wrap">
             <div class="admin-card">
-                <input class="inp" id="p-nome" placeholder="Produto">
-                <input class="inp" type="number" id="p-preco" placeholder="Preço">
-                <input class="inp" id="p-foto" placeholder="URL Foto">
-                <button class="btn-adm" onclick="adicionarProduto()">ADD LOJA</button>
+                <input class="inp" placeholder="Nome" id="p-nome">
+                <input class="inp" type="number" placeholder="Preço (£)" id="p-preco">
+                <input class="inp" placeholder="Emoji" id="p-emoji" value="👕">
+                <button class="btn-adm" onclick="adicionarProduto()">ADICIONAR PRODUTO</button>
             </div>
             <div id="adm-produtos-lista"></div>
         </div>
     </div>
 
     <div class="tab-conteudo" id="adm-noticias">
-        <div class="admin-wrap" style="max-width:500px">
+        <div class="admin-wrap">
             <div class="admin-card">
-                <input class="inp" id="n-titulo" placeholder="Título">
-                <textarea class="inp" id="n-texto" placeholder="Texto"></textarea>
-                <input class="inp" id="n-foto" placeholder="URL Foto">
-                <button class="btn-adm" onclick="adicionarNoticia()">POSTAR</button>
+                <input class="inp" placeholder="Título" id="n-titulo">
+                <textarea class="inp" placeholder="Texto" id="n-texto"></textarea>
+                <button class="btn-adm" onclick="adicionarNoticia()">PUBLICAR</button>
             </div>
             <div id="adm-noticias-lista"></div>
         </div>
     </div>
 
     <div class="tab-conteudo" id="adm-relatorio">
-        <div class="admin-wrap" style="max-width:600px">
-            <button class="btn-adm" onclick="exportarCSV()">BAIXAR CSV</button>
-            <div id="rel-tabela"></div>
+        <div class="admin-wrap">
+            <button class="btn-adm" onclick="exportarCSV()" style="background:#166534">📥 EXPORTAR CSV</button>
+            <div id="rel-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px"></div>
+            <div id="rel-tabela" style="margin-top:15px"></div>
         </div>
     </div>
   </div>
 </div>
 
 <footer>
-  <p>🔵🔴⚪ UK TRICOLOR · 1ª Embaixada Oficial na Europa</p>
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;margin-bottom:0.5rem">
+    <img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt="" style="width:32px;height:32px;border-radius:50%">
+    UK <span style="color:var(--vermelho)">TRICOLOR</span>
+  </div>
+  <div class="foot-links">
+    <a onclick="ir('home')">Início</a><a onclick="ir('loja')">Loja</a>
+    <a onclick="ir('bolao')">Bolão</a><a onclick="ir('sobre')">Sobre</a>
+    <a onclick="ir('membros')">Membros</a>
+  </div>
+  <p>🔵🔴⚪ 1ª Embaixada Oficial do Bahia na Europa · Bora Bahêa!</p>
 </footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC4mbBoPsFOdkIU66TbUgaWxXMTCp10Dnk",
@@ -416,280 +492,222 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const SENHA_ADMIN = "uktricolor2024";
-let usuarioLogado = null;
-let isAdminLogado = false;
-let jogosCache = [];
-let palpitesCache = [];
-let pontosManualCache = [];
-let usuariosCache = [];
 
-function toast(msg, tipo="ok") {
+// Variaveis de Estado no window para garantir acesso global
+window.usuarioLogado = null;
+window.adminLogado = false;
+window.jogosCache = [];
+window.palpitesCache = [];
+window.pontosManualCache = [];
+
+// Funções de Utilidade Exportadas para o Window
+window.toast = function(msg, tipo) {
   const t = document.getElementById("toast");
-  t.textContent = msg; t.className = `toast ${tipo} show`;
+  t.textContent = msg;
+  t.className = "toast " + (tipo||"ok") + " show";
   setTimeout(() => t.classList.remove("show"), 3000);
-}
+};
 
-// NAVIGATION
 window.ir = function(pag) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  const target = document.getElementById(pag);
-  if(target) target.classList.add("active");
+  const t = document.getElementById(pag);
+  if(t) t.classList.add("active");
   document.getElementById("menu").style.display = "none";
   window.scrollTo(0,0);
-  if(pag==="bolao") renderBolao();
-  if(pag==="membros") { renderMembros(); renderReunioes(); }
-};
-window.toggleMenu = () => {
-    const m = document.getElementById("menu");
-    m.style.display = m.style.display === "block" ? "none" : "block";
-};
-window.abrirModal = () => document.getElementById("modal-auth").classList.add("aberto");
-window.fecharModal = () => document.getElementById("modal-auth").classList.remove("aberto");
-window.trocarTab = (t) => {
-    document.getElementById("auth-entrar").style.display = t==="entrar"?"block":"none";
-    document.getElementById("auth-cadastrar").style.display = t==="cadastrar"?"block":"none";
-    document.getElementById("mtab-entrar").classList.toggle("ativo", t==="entrar");
-    document.getElementById("mtab-cadastrar").classList.toggle("ativo", t==="cadastrar");
+  if(pag === "membros") { renderMembros(); renderReunioes(); }
+  if(pag === "bolao") renderBolao();
+  if(pag === "admin") abrirPaginaAdmin();
 };
 
-// 6 MELHORIAS: NOTÍCIA MODAL
-window.abrirNoticiaFull = async function(id) {
-    const snap = await getDoc(doc(db,"noticias",id));
-    if(!snap.exists()) return;
-    const n = snap.data();
-    document.getElementById("noticia-full-conteudo").innerHTML = `
-        ${n.foto ? `<img src="${n.foto}" style="width:100%; border-radius:8px; margin-bottom:1rem">` : ''}
-        <h2 style="font-family:'Bebas Neue'; letter-spacing:1px; margin-bottom:1rem">${n.titulo}</h2>
-        <div style="font-size:0.95rem; line-height:1.6; color:rgba(255,255,255,0.8); white-space:pre-wrap">${n.texto}</div>
-        <p style="font-size:0.7rem; opacity:0.4; margin-top:1.5rem">Publicado em: ${n.data}</p>
-    `;
-    document.getElementById("modal-noticia").classList.add("aberto");
-};
-window.fecharModalNoticia = () => document.getElementById("modal-noticia").classList.remove("aberto");
-
-// 6 MELHORIAS: REDEFINIR SENHA
-window.redefinirSenha = async function() {
-    const uid = document.getElementById("rs-usuario").value;
-    const nova = document.getElementById("rs-nova-senha").value;
-    if(!uid || !nova) return toast("Preencha tudo","err");
-    await updateDoc(doc(db, "usuarios", uid), { senha: nova });
-    toast("✅ Senha alterada!");
-    document.getElementById("rs-nova-senha").value = "";
+window.toggleMenu = function() {
+  const m = document.getElementById("menu");
+  m.style.display = (m.style.display === "block") ? "none" : "block";
 };
 
-// 6 MELHORIAS: RANKING EDITÁVEL
-window.salvarPontosDireto = async function(uid, email) {
-    const novoValor = parseInt(document.getElementById(`edit-pts-${uid}`).value);
-    if(isNaN(novoValor)) return;
-    const ptsAtuais = calcPontos(uid, email);
-    const diferenca = novoValor - ptsAtuais;
-    await addDoc(collection(db,"pontosManual"), {
-        membroId: uid, 
-        membroEmail: email || "",
-        pontos: diferenca, 
-        motivo: "Ajuste via Ranking", 
-        data: new Date().toLocaleDateString(), 
-        ts: Date.now()
-    });
-    toast("✅ Pontos ajustados!");
-    renderBolao();
+window.abrirModal = function() {
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("modal-auth").classList.add("aberto");
 };
 
-// CORE LÓGICA BOLÃO (Travar/Palpites Visíveis/Bug Corrigido)
-async function carregarDados() {
-    const [j, p, pm, u] = await Promise.all([
-        getDocs(collection(db,"jogos")),
-        getDocs(collection(db,"palpites")),
-        getDocs(collection(db,"pontosManual")),
-        getDocs(collection(db,"usuarios"))
-    ]);
-    jogosCache = j.docs.map(d=>({id:d.id,...d.data()}));
-    palpitesCache = p.docs.map(d=>({id:d.id,...d.data()}));
-    pontosManualCache = pm.docs.map(d=>({id:d.id,...d.data()}));
-    usuariosCache = u.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.aprovado);
-}
-
-function calcPontos(uid, email) {
-    let pts = 0;
-    jogosCache.forEach(j => {
-        if(j.encerrado) {
-            const pal = palpitesCache.find(p=>p.jogoId===j.id && p.usuarioId===uid);
-            if(pal && pal.casa===j.golsCasa && pal.fora===j.golsFora) pts += 3;
-        }
-    });
-    // Melhoria: Bug Corrigido (cruza por ID e por Email)
-    pontosManualCache.forEach(m => {
-        if(m.membroId === uid || (email && m.membroEmail === email)) pts += m.pontos;
-    });
-    return pts;
-}
-
-window.renderBolao = async function() {
-    await carregarDados();
-    const box = document.getElementById("bolao-conteudo");
-    const rank = document.getElementById("ranking");
-    
-    if(!usuarioLogado) {
-        box.innerHTML = `<div style="text-align:center; padding:2rem">Faça login para ver e participar do bolão.</div>`;
-    } else {
-        let html = "";
-        jogosCache.sort((a,b)=>b.rodada - a.rodada).forEach(j => {
-            const pLogado = palpitesCache.find(x=>x.jogoId===j.id && x.usuarioId===usuarioLogado.id);
-            const status = j.encerrado ? "encerrado" : (j.travado ? "travado" : "aberto");
-            
-            html += `<div class="admin-card">
-                <div style="display:flex; justify-content:space-between; margin-bottom:1rem">
-                    <span class="status-badge status-${status}">${status}</span>
-                    <span style="font-size:0.7rem; opacity:0.5">Rodada ${j.rodada}</span>
-                </div>
-                <h3 style="text-align:center; font-family:'Barlow Condensed'">${j.casa} ${j.encerrado?j.golsCasa:''} x ${j.encerrado?j.golsFora:''} ${j.fora}</h3>
-                
-                ${status === 'aberto' ? `
-                    <div style="display:flex; justify-content:center; gap:10px; margin:1rem 0">
-                        <input class="inp" style="width:50px; text-align:center" type="number" id="c-${j.id}" value="${pLogado?pLogado.casa:''}">
-                        <input class="inp" style="width:50px; text-align:center" type="number" id="f-${j.id}" value="${pLogado?pLogado.fora:''}">
-                    </div>
-                    <button class="btn-submit" onclick="salvarPalpite('${j.id}')">SALVAR PALPITE</button>
-                ` : `
-                    <div style="text-align:center; padding:1rem; background:rgba(0,0,0,0.2); border-radius:6px; margin:1rem 0">
-                        ${pLogado ? `Seu palpite: ${pLogado.casa} x ${pLogado.fora}` : 'Você não palpitou'}
-                    </div>
-                `}
-
-                <div class="palpites-visiveis">
-                    <div style="font-weight:700; margin-bottom:5px">PALPITES DA GALERA:</div>
-                    ${palpitesCache.filter(x=>x.jogoId===j.id).map(pal => {
-                        const u = usuariosCache.find(x=>x.id===pal.usuarioId);
-                        const acertou = j.encerrado && pal.casa===j.golsCasa && pal.fora===j.golsFora;
-                        return `<div class="palpites-row">
-                            <span>${u?u.nome:'Membro'}</span>
-                            <span>${pal.casa}x${pal.fora} ${acertou?'✅':'❌'}</span>
-                        </div>`;
-                    }).join("")}
-                </div>
-            </div>`;
-        });
-        box.innerHTML = html;
-    }
-
-    // Ranking com Edição para Admin
-    const rData = usuariosCache.map(u => ({ id: u.id, nome: u.nome, email: u.email, pts: calcPontos(u.id, u.email) }));
-    rData.sort((a,b)=>b.pts - a.pts);
-    rank.innerHTML = rData.map((u, i) => `
-        <div class="palpites-row" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.1)">
-            <span>${i+1}. ${u.nome}</span>
-            <div style="display:flex; align-items:center">
-                ${isAdminLogado ? `
-                    <input type="number" class="rank-inp" id="edit-pts-${u.id}" value="${u.pts}">
-                    <button class="rank-edit-btn" onclick="salvarPontosDireto('${u.id}','${u.email}')">✓</button>
-                ` : `<span style="font-weight:700; color:var(--vermelho)">${u.pts} pts</span>`}
-            </div>
-        </div>
-    `).join("");
+window.fecharModal = function() {
+  document.getElementById("modal-auth").classList.remove("aberto");
 };
 
-window.salvarPalpite = async function(jid) {
-    const c = parseInt(document.getElementById(`c-${jid}`).value);
-    const f = parseInt(document.getElementById(`f-${jid}`).value);
-    if(isNaN(c) || isNaN(f)) return toast("Insira o placar","err");
-    const existente = palpitesCache.find(p=>p.jogoId===jid && p.usuarioId===usuarioLogado.id);
-    if(existente) await updateDoc(doc(db,"palpites",existente.id), {casa:c, fora:f});
-    else await addDoc(collection(db,"palpites"), {jogoId:jid, usuarioId:usuarioLogado.id, casa:c, fora:f});
-    toast("✅ Palpite enviado!");
-    renderBolao();
-}
-
-// ADMIN FUNCTIONS (TRAVAR/ENCERRAR)
-window.entrarAdmin = function() {
-    if(document.getElementById("adm-pass").value === SENHA_ADMIN) {
-        isAdminLogado = true;
-        document.getElementById("admin-login").style.display="none";
-        document.getElementById("admin-panel").style.display="block";
-        renderAdmJogos();
-        popularSelectUsuarios();
-    } else toast("Senha incorreta","err");
-};
-
-async function popularSelectUsuarios() {
-    const sel = document.getElementById("rs-usuario");
-    const u = await getDocs(collection(db,"usuarios"));
-    sel.innerHTML = u.docs.map(d=>`<option value="${d.id}">${d.data().nome}</option>`).join("");
-}
-
-window.renderAdmJogos = async function() {
-    const j = await getDocs(collection(db,"jogos"));
-    const list = document.getElementById("adm-jogos-lista");
-    list.innerHTML = j.docs.map(d => {
-        const jd = d.data();
-        return `<div class="admin-card" style="padding:10px">
-            <div>${jd.casa} x ${jd.fora} (Rd ${jd.rodada})</div>
-            <div style="display:flex; gap:5px; margin-top:5px">
-                <button onclick="toggleTrava('${d.id}', ${jd.travado})" style="background:${jd.travado?'#444':'var(--ouro)'}; border:none; color:#fff; padding:4px; border-radius:4px; font-size:0.7rem">${jd.travado?'DESTRAVAR':'TRAVAR'}</button>
-                <button onclick="encerrarPrompt('${d.id}')" style="background:var(--verde); border:none; color:#fff; padding:4px; border-radius:4px; font-size:0.7rem">ENCERRAR</button>
-                <button onclick="deletarJogo('${d.id}')" style="background:var(--vermelho); border:none; color:#fff; padding:4px; border-radius:4px; font-size:0.7rem">🗑️</button>
-            </div>
-        </div>`;
-    }).join("");
-};
-
-window.toggleTrava = async (id, atual) => { await updateDoc(doc(db,"jogos",id), {travado: !atual}); renderAdmJogos(); };
-window.encerrarPrompt = async (id) => {
-    const gc = prompt("Gols Casa:");
-    const gf = prompt("Gols Fora:");
-    if(gc!==null && gf!==null) {
-        await updateDoc(doc(db,"jogos",id), {golsCasa:parseInt(gc), golsFora:parseInt(gf), encerrado:true, travado:true});
-        renderAdmJogos();
-    }
+window.trocarTab = function(t) {
+  document.getElementById("auth-entrar").style.display = t==="entrar"?"block":"none";
+  document.getElementById("auth-cadastrar").style.display = t==="cadastrar"?"block":"none";
+  document.getElementById("mtab-entrar").classList.toggle("ativo", t==="entrar");
+  document.getElementById("mtab-cadastrar").classList.toggle("ativo", t==="cadastrar");
 };
 
 // LOGIN / CADASTRO
 window.entrar = async function() {
-    const e = document.getElementById("l-email").value.trim().toLowerCase();
-    const s = document.getElementById("l-senha").value;
-    const snap = await getDocs(collection(db,"usuarios"));
-    const u = snap.docs.map(d=>({id:d.id,...d.data()})).find(x=>x.email.toLowerCase()===e && x.senha===s);
-    if(!u) return toast("Credenciais inválidas","err");
-    if(!u.aprovado) return toast("Aguarde aprovação","err");
-    usuarioLogado = u;
-    fecharModal();
-    toast("Bem-vindo!");
+  const email = document.getElementById("l-email").value.trim().toLowerCase();
+  const senha = document.getElementById("l-senha").value;
+  const erro = document.getElementById("l-erro");
+  try {
+    const q = await getDocs(collection(db,"usuarios"));
+    const u = q.docs.map(d=>({id:d.id,...d.data()})).find(x=>x.email.toLowerCase()===email&&x.senha===senha);
+    if(!u) { erro.textContent="Email ou senha incorretos."; erro.style.display="block"; return; }
+    if(!u.aprovado) { erro.textContent="Cadastro ainda não aprovado."; erro.style.display="block"; return; }
+    window.usuarioLogado = u; 
+    erro.style.display="none"; 
+    window.fecharModal();
+    window.toast("✅ Bem-vindo, "+u.nome+"!"); 
     renderBolao();
+  } catch(e) { erro.textContent="Erro de conexão."; erro.style.display="block"; }
 };
 
 window.cadastrar = async function() {
-    const n = document.getElementById("c-nome").value;
-    const e = document.getElementById("c-email").value.trim().toLowerCase();
-    const s = document.getElementById("c-senha").value;
-    const cid = document.getElementById("c-cidade").value;
-    if(!n||!e||!s) return toast("Preencha tudo","err");
+  const nome = document.getElementById("c-nome").value.trim();
+  const email = document.getElementById("c-email").value.trim().toLowerCase();
+  const senha = document.getElementById("c-senha").value;
+  if(!nome || !email || senha.length < 6) { window.toast("⚠️ Preencha os dados corretamente","err"); return; }
+  try {
     const id = Date.now().toString();
-    await setDoc(doc(db,"usuarios",id), {nome:n, email:e, senha:s, cidade:cid, aprovado:false, bairro:document.getElementById("c-bairro").value, postcode:document.getElementById("c-postcode").value});
-    await setDoc(doc(db,"pendentes",id), {nome:n, email:e, cidade:cid});
-    fecharModal();
-    toast("Cadastro enviado!");
+    await setDoc(doc(db,"usuarios",id), {
+      nome, email, senha, aprovado: false, 
+      cidade: document.getElementById("c-cidade").value,
+      bairro: document.getElementById("c-bairro").value,
+      postcode: document.getElementById("c-postcode").value
+    });
+    await setDoc(doc(db,"pendentes",id), {nome, email, cidade: document.getElementById("c-cidade").value});
+    window.fecharModal();
+    window.toast("✅ Enviado! Aguarde aprovação.");
+  } catch(e) { window.toast("❌ Erro ao cadastrar","err"); }
 };
 
-// OUTRAS FUNÇÕES (Notícias, Loja, Galeria)
+// ADMIN 
+window.abrirPaginaAdmin = function() {
+  const painel = document.getElementById("admin-panel");
+  if(!window.adminLogado) {
+    document.getElementById("admin-login").style.display="block";
+    painel.style.display="none";
+  }
+};
+
+window.entrarAdmin = function() {
+  if(document.getElementById("adm-pass").value === SENHA_ADMIN) {
+    window.adminLogado = true;
+    document.getElementById("admin-login").style.display="none";
+    document.getElementById("admin-panel").style.display="block";
+    carregarDadosAdmin();
+    window.toast("✅ Acesso Liberado");
+  } else { window.toast("⚠️ Senha errada","err"); }
+};
+
+async function carregarDadosAdmin() {
+    renderAdmMembros();
+    renderAdmJogos();
+    renderAdmProdutos();
+    renderAdmNoticias();
+    renderAdmGaleria();
+    popularSelectReset();
+    atualizarSelectJogos();
+}
+
+// LÓGICA DE BOLÃO
+async function carregarJogosEPalpites() {
+  const [j, p, pm] = await Promise.all([getDocs(collection(db,"jogos")), getDocs(collection(db,"palpites")), getDocs(collection(db,"pontosManual"))]);
+  window.jogosCache = j.docs.map(d=>({id:d.id,...d.data()}));
+  window.palpitesCache = p.docs.map(d=>({id:d.id,...d.data()}));
+  window.pontosManualCache = pm.docs.map(d=>({id:d.id,...d.data()}));
+}
+
+window.renderBolao = async function() {
+  const box = document.getElementById("bolao-conteudo");
+  const rank = document.getElementById("ranking");
+  if(!box) return;
+  await carregarJogosEPalpites();
+
+  if(!window.usuarioLogado) {
+    box.innerHTML = `<button class="btn-v" onclick="abrirModal()">Entrar para palpitar</button>`;
+  } else {
+    let html = "";
+    window.jogosCache.forEach(j => {
+      const p = window.palpitesCache.find(x => x.jogoId === j.id && x.usuarioId === window.usuarioLogado.id);
+      html += `<div class="card" style="margin-bottom:10px">
+        <p>${j.casa} x ${j.fora}</p>
+        <div style="display:flex;gap:5px;margin-top:5px">
+            <input class="inp" style="width:50px;text-align:center" type="number" id="j${j.id}c" value="${p?p.casa:''}">
+            <input class="inp" style="width:50px;text-align:center" type="number" id="j${j.id}f" value="${p?p.fora:''}">
+            <button class="btn-v" style="padding:5px" onclick="salvarPalpite('${j.id}')">OK</button>
+        </div>
+      </div>`;
+    });
+    box.innerHTML = html;
+  }
+  // Render Ranking simples
+  const uSnap = await getDocs(collection(db, "usuarios"));
+  const listaRank = uSnap.docs.map(d => ({nome: d.data().nome, pts: 0})).slice(0,10);
+  rank.innerHTML = listaRank.map(r => `<p>${r.nome}: ${r.pts} pts</p>`).join("");
+};
+
+window.salvarPalpite = async function(jogoId) {
+  const c = document.getElementById("j"+jogoId+"c").value;
+  const f = document.getElementById("j"+jogoId+"f").value;
+  if(c==="" || f==="") return window.toast("Preencha o placar","err");
+  await addDoc(collection(db,"palpites"), {
+    jogoId, usuarioId: window.usuarioLogado.id, 
+    nomeUsuario: window.usuarioLogado.nome,
+    casa: parseInt(c), fora: parseInt(f)
+  });
+  window.toast("✅ Palpite salvo!");
+};
+
+// Funções de renderização que faltavam no escopo
+async function renderMembros() {
+    const snap = await getDocs(collection(db,"membros"));
+    const grid = document.getElementById("membros-grid");
+    grid.innerHTML = snap.docs.map(d => `<div class="membro">${d.data().nome}</div>`).join("");
+}
+
+async function renderAdmMembros() {
+    const pSnap = await getDocs(collection(db,"pendentes"));
+    const aSnap = await getDocs(collection(db,"membros"));
+    document.getElementById("adm-pendentes").innerHTML = pSnap.docs.map(d => `<p>${d.data().nome} <button onclick="aprovarMembro('${d.id}')">✅</button></p>`).join("");
+    document.getElementById("adm-ativos").innerHTML = aSnap.docs.map(d => `<p>${d.data().nome}</p>`).join("");
+}
+
+window.aprovarMembro = async function(id) {
+    const docRef = doc(db, "pendentes", id);
+    const data = (await getDoc(docRef)).data();
+    await setDoc(doc(db, "membros", id), {...data, status: 'ativo'});
+    await updateDoc(doc(db, "usuarios", id), {aprovado: true});
+    await deleteDoc(docRef);
+    renderAdmMembros();
+    window.toast("Membro Aprovado");
+};
+
+// Inicialização
 async function init() {
-    // Render Inicial de Notícias com Modal
-    const ns = await getDocs(query(collection(db,"noticias"), orderBy("ts", "desc")));
-    document.getElementById("home-noticias").innerHTML = ns.docs.map(d => {
-        const n = d.data();
-        return `<div class="admin-card" onclick="abrirNoticiaFull('${d.id}')" style="cursor:pointer">
-            <h4 style="font-family:'Bebas Neue'; color:var(--vermelho)">${n.titulo}</h4>
-            <p style="font-size:0.8rem; opacity:0.7">${n.texto.substring(0,80)}...</p>
-        </div>`;
-    }).join("");
-    
-    // Configurações básicas
-    const cfg = await getDoc(doc(db,"config","geral"));
-    if(cfg.exists()){
-        const c = cfg.data();
-        if(c.capa) document.getElementById("hero-bg").style.backgroundImage = `url('${c.capa}')`;
-    }
+  const cSnap = await getDoc(doc(db,"config","geral"));
+  if(cSnap.exists()) {
+      const d = cSnap.data();
+      if(d.capa) document.getElementById("hero-bg").style.backgroundImage = `url(${d.capa})`;
+  }
+  // Carrega infos iniciais
+  const mSnap = await getDocs(collection(db, "membros"));
+  document.getElementById("st-membros").textContent = mSnap.size;
+  
+  // Noticias
+  const nSnap = await getDocs(collection(db, "noticias"));
+  document.getElementById("home-noticias").innerHTML = nSnap.docs.map(d => `<div class="card"><h4>${d.data().titulo}</h4></div>`).join("");
 }
 
 init();
+
+// Exportando demais funções para evitar erro de 'not defined'
+window.trocarTabMembros = (t) => {
+    document.getElementById("tc-lista").classList.toggle("ativo", t==='lista');
+    document.getElementById("tc-reunioes").classList.toggle("ativo", t==='reunioes');
+};
+window.trocarTabAdmin = (t) => {
+    document.querySelectorAll("#admin-panel .tab-conteudo").forEach(c => c.classList.remove("active"));
+    const target = document.getElementById("adm-"+t);
+    if(target) target.classList.add("active");
+};
+window.fecharModalNoticia = () => document.getElementById("modal-noticia").classList.remove("aberto");
 </script>
 </body>
 </html>
