@@ -1,151 +1,359 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UK Tricolor</title>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#004791">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="UK Tricolor">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;}
-        :root{--azul:#004791;--vermelho:#CC0000;}
-        body{font-family:'Barlow',sans-serif;background:var(--azul);color:#fff;overflow-x:hidden;}
-        nav{position:fixed;top:0;width:100%;z-index:1000;background:rgba(0,30,80,0.97);border-bottom:3px solid var(--vermelho);display:flex;align-items:center;padding:0 1rem;height:60px;}
-        .logo{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;cursor:pointer;}
-        .logo img{width:36px;height:36px;border-radius:50%;border:2px solid #fff;}
-        .menu-btn{margin-left:auto;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;padding:4px 10px;}
-        .menu-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:#003070;z-index:999;border-bottom:3px solid var(--vermelho);}
-        .menu-mobile a{display:block;padding:1rem 1.5rem;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.1);cursor:pointer;}
-        .page{display:none;min-height:100vh;padding-top:60px;}
-        .page.active{display:block;}
-        .hero{position:relative;min-height:85vh;display:flex;align-items:flex-end;overflow:hidden;}
-        .hero-bg{position:absolute;inset:0;background:url('https://i.ibb.co/ksxSXgfG/Screenshot-20260424-162814-Instagram.jpg') center/cover;filter:brightness(0.3);}
-        .hero-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,30,80,0.97) 0%,transparent 60%);}
-        .hero-content{position:relative;z-index:2;padding:2rem 1.5rem;}
-        .hero h1{font-family:'Bebas Neue',sans-serif;font-size:5rem;line-height:0.9;letter-spacing:3px;margin-bottom:0.8rem;}
-        .hero h1 span{color:var(--vermelho);}
-        .hero p{font-family:'Barlow Condensed',sans-serif;font-size:1rem;color:rgba(255,255,255,0.7);margin-bottom:1.5rem;letter-spacing:2px;text-transform:uppercase;}
-        .btns{display:flex;gap:0.8rem;flex-wrap:wrap;}
-        .btn-v{background:var(--vermelho);color:#fff;border:none;padding:12px 22px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
-        .btn-b{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.4);padding:12px 22px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
-        .stats{display:grid;grid-template-columns:repeat(2,1fr);background:rgba(0,20,60,0.5);border-top:1px solid rgba(255,255,255,0.12);border-bottom:1px solid rgba(255,255,255,0.12);}
-        .stat{padding:1.2rem;text-align:center;border-right:1px solid rgba(255,255,255,0.1);}
-        .stat:last-child{border-right:none;}
-        .stat-n{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--vermelho);}
-        .stat-l{font-family:'Barlow Condensed',sans-serif;color:rgba(255,255,255,0.5);font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;}
-        .sec{padding:2rem 1.5rem;}
-        .sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:0.2rem;}
-        .sec-titulo span{color:var(--vermelho);}
-        .sec-sub{color:rgba(255,255,255,0.45);font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:1.2rem;font-family:'Barlow Condensed',sans-serif;}
-        .galeria{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
-        .foto{aspect-ratio:1;overflow:hidden;border-radius:6px;cursor:pointer;}
-        .foto img{width:100%;height:100%;object-fit:cover;}
-        .foto.grande{grid-column:span 2;}
-        .loja-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
-        .produto{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;}
-        .produto-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:rgba(0,50,120,0.3);overflow:hidden;}
-        .produto-body{padding:0.8rem;}
-        .produto-nome{font-family:'Barlow Condensed',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:2px;}
-        .produto-preco{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#4ade80;margin-bottom:0.5rem;}
-        .btn-pedir{width:100%;background:#0059b8;color:#fff;border:none;padding:7px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
-        .sobre-cards{display:grid;gap:1rem;}
-        .card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:1.3rem;border-top:3px solid var(--vermelho);}
-        .card h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;margin-bottom:0.6rem;}
-        .card p{color:rgba(255,255,255,0.82);line-height:1.7;font-size:0.9rem;}
-        .video-destaque{width:100%;margin:0 0 1rem 0;}
-        .video-wrap{position:relative;padding-bottom:45%;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.15);}
-        .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
-        .reg{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1.3rem;}
-        .reg h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--vermelho);margin-bottom:0.8rem;}
-        .reg-item{display:flex;gap:0.7rem;margin-bottom:0.7rem;align-items:flex-start;}
-        .reg-num{background:var(--vermelho);color:#fff;width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;flex-shrink:0;}
-        .reg-txt{color:rgba(255,255,255,0.8);font-size:0.88rem;line-height:1.6;}
-        .membros-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.8rem;}
-        .membro{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:1rem;text-align:center;}
-        .membro-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#0059b8,var(--vermelho));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;margin:0 auto 0.5rem;}
-        .membro-nome{font-weight:700;font-size:0.85rem;}
-        .membro-cidade{color:rgba(255,255,255,0.5);font-size:0.75rem;}
-        .membro-cargo{background:var(--vermelho);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:0.62rem;letter-spacing:1px;padding:2px 6px;border-radius:8px;text-transform:uppercase;margin-top:3px;display:inline-block;}
-        .admin-wrap{max-width:360px;margin:2rem auto;padding:0 1.5rem;}
-        .admin-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:1.3rem;margin-bottom:1rem;}
-        .admin-card-titulo{font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.9rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(255,255,255,0.1);}
-        .inp{width:100%;padding:9px 12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);border-radius:6px;color:#fff;font-family:'Barlow',sans-serif;font-size:0.88rem;outline:none;margin-bottom:7px;}
-        .inp::placeholder{color:rgba(255,255,255,0.3);}
-        .btn-adm{background:var(--vermelho);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;width:100%;margin-top:4px;}
-        .admin-panel{display:none;}
-        .tabs{display:flex;background:rgba(0,20,60,0.5);border-bottom:1px solid rgba(255,255,255,0.12);overflow-x:auto;}
-        .tab-btn{flex:1;min-width:fit-content;padding:0.9rem 0.6rem;background:none;border:none;color:rgba(255,255,255,0.55);font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;}
-        .tab-btn.ativo{color:#fff;border-bottom-color:var(--vermelho);}
-        .tab-conteudo{display:none;}
-        .tab-conteudo.ativo{display:block;}
-        .modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:1rem;}
-        .modal.aberto{display:flex;}
-        .modal-box{background:#003a7a;border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:2rem;width:100%;max-width:400px;position:relative;max-height:90vh;overflow-y:auto;}
-        .modal-fechar{position:absolute;top:0.8rem;right:0.8rem;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.3rem;cursor:pointer;}
-        .modal h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem;}
-        .modal h2 span{color:var(--vermelho);}
-        .modal-tabs{display:flex;gap:0;margin-bottom:1.2rem;border-bottom:2px solid rgba(255,255,255,0.1);}
-        .modal-tab{flex:1;padding:0.6rem;background:none;border:none;color:rgba(255,255,255,0.5);font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
-        .modal-tab.ativo{color:#fff;border-bottom-color:var(--vermelho);}
-        .label{display:block;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.6);}
-        .btn-submit{width:100%;background:var(--vermelho);color:#fff;border:none;padding:12px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:0.3rem;}
-        .sel{width:100%;padding:10px 12px;background:#003a7a;border:1px solid rgba(255,255,255,0.22);border-radius:6px;color:#fff;font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;margin-bottom:0.8rem;}
-        .erro{color:#f87171;font-size:0.8rem;margin-bottom:0.6rem;display:none;}
-        .toast{position:fixed;bottom:1.2rem;right:1.2rem;z-index:4000;background:#003a7a;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:0.8rem 1.2rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;font-size:0.85rem;transform:translateY(60px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:280px;}
-        .toast.show{transform:translateY(0);opacity:1;}
-        .toast.ok{border-color:#4ade80;}
-        .toast.err{border-color:var(--vermelho);}
-        .lb{position:fixed;inset:0;background:rgba(0,0,0,0.96);display:none;align-items:center;justify-content:center;z-index:3000;cursor:pointer;padding:16px;}
-        .lb img{max-width:100%;max-height:90vh;border-radius:8px;}
-        footer{background:rgba(0,0,0,0.4);border-top:3px solid var(--vermelho);padding:1.5rem;text-align:center;}
-        footer p{color:rgba(255,255,255,0.4);font-size:0.78rem;margin-top:0.5rem;}
-        .foot-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:0.8rem 0;}
-        .foot-links a{color:rgba(255,255,255,0.4);font-size:0.8rem;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;}
-        .insta-link{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#7e22ce,#db2777,#ea580c);border-radius:12px;padding:14px 18px;text-decoration:none;color:#fff;margin-bottom:1rem;}
-        .loading{text-align:center;padding:2rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;}
-        .rel-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
-        .rel-table th{background:rgba(0,0,0,0.3);padding:8px 10px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5);}
-        .rel-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.07);}
-        .rel-stat{background:rgba(0,0,0,0.25);border-radius:8px;padding:0.8rem;text-align:center;}
-        .rel-stat-n{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--vermelho);}
-        .rel-stat-l{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;opacity:0.6;margin-top:2px;}
-        /* Modal Notícia */
-        .modal-noticia{display:none;position:fixed;inset:0;z-index:2500;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;padding:1rem;}
-        .modal-noticia.aberto{display:flex;}
-        .modal-noticia-box{background:#003a7a;border:1px solid rgba(255,255,255,0.2);border-radius:12px;width:100%;max-width:420px;position:relative;max-height:90vh;overflow-y:auto;}
-        .modal-noticia-img{width:100%;max-height:220px;object-fit:cover;border-radius:12px 12px 0 0;}
-        .modal-noticia-body{padding:1.5rem;}
-        .modal-noticia-titulo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;margin-bottom:0.6rem;line-height:1.1;}
-        .modal-noticia-texto{color:rgba(255,255,255,0.82);font-size:0.92rem;line-height:1.7;margin-bottom:0.8rem;}
-        .modal-noticia-data{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.35);letter-spacing:1px;}
-        /* Palpites tabela */
-        .palpites-tabela{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:0.8rem;}
-        .palpites-tabela th{background:rgba(0,0,0,0.3);padding:6px 8px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.5);}
-        .palpites-tabela td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.07);}
-        /* Edit pontos inline */
-        .edit-pts-wrap{display:inline-flex;align-items:center;gap:4px;}
-        .edit-pts-inp{width:50px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:4px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;text-align:center;padding:2px 4px;outline:none;}
-        .edit-pts-btn{background:#166534;color:#fff;border:none;border-radius:4px;padding:3px 7px;cursor:pointer;font-size:0.72rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;}
-        /* Botão controle vídeo */
-        .video-control{display:flex;justify-content:center;margin-top:0.8rem;}
-        .btn-sound{background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:6px 14px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;cursor:pointer;transition:0.2s;}
-        .btn-sound:hover{background:var(--vermelho);}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>UK Tricolor</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#00224d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="UK Tricolor">
+<link rel="apple-touch-icon" href="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --azul:#004791;--azul-esc:#00224d;--azul-md:#0a3a7a;--vermelho:#d4121f;--verde:#22c55e;
+  --card:rgba(255,255,255,.07);--borda:rgba(255,255,255,.14);--txt2:rgba(255,255,255,.72);--txt3:rgba(255,255,255,.45);
+  --nav-h:62px;--tab-h:64px;--raio:14px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:linear-gradient(180deg,#003a7a 0%,#00224d 100%) fixed;color:#fff;overflow-x:hidden;
+  padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px));padding-bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px));line-height:1.5;}
+button,input,select,textarea{font-family:inherit;}
+a{color:inherit;}
+:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+.display{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-weight:400;}
+.cond{font-family:'Barlow Condensed',sans-serif;}
+
+/* ===== TOPO ===== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,26,64,.96);backdrop-filter:blur(8px);border-bottom:3px solid var(--vermelho);
+  height:calc(var(--nav-h) + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 1rem 0;display:flex;align-items:center;gap:1rem;}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0;}
+.logo img{width:38px;height:38px;border-radius:50%;border:2px solid #fff;object-fit:cover;}
+.logo span{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:2px;}
+.nav-links{display:none;gap:.3rem;margin-left:1rem;}
+.nav-links a{padding:8px 14px;border-radius:999px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.5px;color:var(--txt2);cursor:pointer;text-decoration:none;}
+.nav-links a:hover{background:rgba(255,255,255,.1);color:#fff;}
+.nav-links a.ativo{background:#fff;color:var(--azul-esc);}
+.auth-area{margin-left:auto;position:relative;}
+.btn-entrar{background:var(--vermelho);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.5px;cursor:pointer;box-shadow:0 2px 10px rgba(212,18,31,.45);}
+.btn-entrar:active{transform:scale(.97);}
+.user-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid var(--borda);color:#fff;padding:4px 14px 4px 4px;border-radius:999px;cursor:pointer;font-weight:600;font-size:.9rem;}
+.user-chip .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0059b8,var(--vermelho));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;}
+.user-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);background:#003a7a;border:1px solid var(--borda);border-radius:12px;min-width:190px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+.user-menu.aberto{display:block;}
+.user-menu div.nome{padding:12px 16px;font-size:.8rem;color:var(--txt3);border-bottom:1px solid var(--borda);}
+.user-menu a{display:block;padding:12px 16px;cursor:pointer;font-size:.92rem;}
+.user-menu a:hover{background:rgba(255,255,255,.08);}
+
+/* ===== ABAS INFERIORES (celular) ===== */
+.bottom-tabs{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:rgba(0,26,64,.97);backdrop-filter:blur(8px);border-top:1px solid var(--borda);
+  height:calc(var(--tab-h) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);display:flex;}
+.bottom-tabs a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:var(--txt3);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.5px;position:relative;}
+.bottom-tabs a .ic{font-size:1.35rem;line-height:1;}
+.bottom-tabs a.ativo{color:#fff;}
+.bottom-tabs a.ativo::before{content:"";position:absolute;top:0;left:25%;right:25%;height:3px;background:var(--vermelho);border-radius:0 0 3px 3px;}
+@media(min-width:820px){
+  .nav-links{display:flex;}
+  .bottom-tabs{display:none;}
+  body{padding-bottom:0;}
+}
+
+/* ===== PÁGINAS ===== */
+.page{display:none;min-height:calc(100vh - var(--nav-h));}
+.page.active{display:block;}
+.wrap{max-width:980px;margin:0 auto;padding:0 1.2rem;}
+.sec{padding:1.8rem 0;}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem;}
+.sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:2px;line-height:1.1;}
+.sec-titulo span{color:var(--vermelho);}
+.sec-sub{color:var(--txt3);font-size:.85rem;}
+.ver-todos{background:none;border:none;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+.page-head{padding:2rem 1.2rem 1.5rem;text-align:center;border-bottom:1px solid var(--borda);background:rgba(0,20,60,.35);}
+.page-head h1{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:3px;line-height:1;}
+.page-head h1 span{color:var(--vermelho);}
+.page-head p{color:var(--txt2);margin-top:.4rem;font-size:.95rem;}
+
+/* HERO */
+.hero{position:relative;min-height:62vh;display:flex;align-items:flex-end;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:url('https://i.ibb.co/ksxSXgfG/Screenshot-20260424-162814-Instagram.jpg') center/cover;filter:brightness(.38);}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(to top,#00224d 0%,rgba(0,34,77,.2) 70%);}
+.hero-content{position:relative;z-index:2;width:100%;max-width:980px;margin:0 auto;padding:2rem 1.2rem 2.2rem;}
+.pill{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:5px 14px;border-radius:999px;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:600;margin-bottom:1rem;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.8rem,15vw,7rem);line-height:.88;letter-spacing:3px;margin-bottom:.8rem;}
+.hero h1 span{color:var(--vermelho);}
+.hero p{font-size:1.05rem;color:var(--txt2);margin-bottom:1.4rem;max-width:460px;}
+.btns{display:flex;gap:.7rem;flex-wrap:wrap;}
+.btn-v,.btn-b,.btn-adm,.btn-submit{border:none;border-radius:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px;cursor:pointer;}
+.btn-v{background:var(--vermelho);color:#fff;padding:13px 24px;font-size:1.05rem;}
+.btn-b{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.35);padding:11px 22px;font-size:1.05rem;}
+.btn-v:active,.btn-b:active{transform:scale(.97);}
+
+/* STATS + ATALHOS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);background:rgba(0,20,60,.55);border-top:1px solid var(--borda);border-bottom:1px solid var(--borda);}
+.stat{padding:1.1rem .5rem;text-align:center;border-right:1px solid var(--borda);}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;color:#fff;line-height:1;}
+.stat-l{font-family:'Barlow Condensed',sans-serif;color:var(--txt3);font-size:.82rem;margin-top:3px;}
+.atalhos{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;}
+@media(min-width:620px){.atalhos{grid-template-columns:repeat(4,1fr);}}
+.atalho{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:1.1rem;cursor:pointer;display:flex;flex-direction:column;gap:4px;text-align:left;color:#fff;}
+.atalho:hover{background:rgba(255,255,255,.12);}
+.atalho .ic{font-size:1.8rem;}
+.atalho b{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;}
+.atalho small{color:var(--txt3);font-size:.78rem;line-height:1.3;}
+
+/* CARDS GERAIS */
+.card{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:1.3rem;}
+.card h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;margin-bottom:.5rem;}
+.card p{color:var(--txt2);line-height:1.7;font-size:.95rem;}
+.grid-cards{display:grid;gap:1rem;}
+@media(min-width:720px){.grid-cards.tres{grid-template-columns:repeat(3,1fr);}}
+.missao{border-left:4px solid var(--vermelho);}
+
+/* VÍDEO */
+.video-wrap{position:relative;aspect-ratio:16/9;border-radius:var(--raio);overflow:hidden;border:1px solid var(--borda);background:#000;}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+.video-control{display:flex;justify-content:center;margin-top:.7rem;}
+.btn-sound{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.3);color:#fff;padding:7px 16px;border-radius:999px;font-size:.82rem;cursor:pointer;}
+
+/* NOTÍCIAS */
+.noticia-card{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);overflow:hidden;display:flex;margin-bottom:.8rem;cursor:pointer;}
+.noticia-card:hover{border-color:rgba(255,255,255,.35);}
+.noticia-card .thumb{width:110px;min-width:110px;}
+.noticia-card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.noticia-card .corpo{padding:1rem;flex:1;min-width:0;}
+.noticia-card .tit{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;line-height:1.2;margin-bottom:.3rem;}
+.noticia-card .res{font-size:.88rem;color:var(--txt2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.noticia-card .meta{font-size:.75rem;color:var(--txt3);margin-top:.4rem;}
+
+/* LOJA */
+.loja-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+@media(min-width:720px){.loja-grid{grid-template-columns:repeat(4,1fr);}}
+.produto{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);overflow:hidden;display:flex;flex-direction:column;}
+.produto-img{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:rgba(0,50,120,.35);overflow:hidden;cursor:pointer;}
+.produto-img img{width:100%;height:100%;object-fit:cover;}
+.produto-body{padding:.9rem;display:flex;flex-direction:column;gap:2px;flex:1;}
+.produto-nome{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;line-height:1.2;}
+.produto-desc{font-size:.78rem;color:var(--txt3);}
+.produto-preco{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#4ade80;margin:.2rem 0 .5rem;letter-spacing:1px;}
+.btn-pedir{margin-top:auto;width:100%;background:#0059b8;color:#fff;border:none;padding:10px;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;}
+
+/* GALERIA */
+.galeria{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+@media(min-width:720px){.galeria{grid-template-columns:repeat(3,1fr);}}
+.foto{aspect-ratio:1;overflow:hidden;border-radius:10px;cursor:pointer;background:rgba(0,0,0,.25);}
+.foto img{width:100%;height:100%;object-fit:cover;transition:transform .25s;}
+.foto:hover img{transform:scale(1.04);}
+.foto.grande{grid-column:span 2;aspect-ratio:2/1;}
+
+/* BOLÃO */
+.jogo{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:1.2rem;margin-bottom:.9rem;}
+.jogo.fechado{border-color:rgba(230,130,0,.55);}
+.jogo.fim{border-color:rgba(34,197,94,.3);}
+.jogo-topo{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;font-size:.8rem;color:var(--txt3);}
+.badge{padding:3px 10px;border-radius:999px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;}
+.badge.aberto{background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.4);color:#86efac;}
+.badge.trancado{background:rgba(230,130,0,.2);border:1px solid rgba(230,130,0,.5);color:#fdba74;}
+.badge.ok{background:rgba(255,255,255,.12);}
+.jogo-times{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:.9rem;}
+.placar-inputs{display:flex;align-items:center;gap:.8rem;margin-bottom:.9rem;justify-content:center;}
+.placar-inputs input{width:56px;height:56px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);border-radius:10px;color:#fff;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;outline:none;}
+.placar-inputs input:focus{border-color:#fff;}
+.placar-inputs span{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--txt3);}
+.aviso{text-align:center;font-size:.88rem;padding:9px;border-radius:8px;background:rgba(0,89,184,.3);margin-bottom:.4rem;}
+.palpites-tabela{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:.6rem;}
+.palpites-tabela th{background:rgba(0,0,0,.3);padding:6px 8px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;color:var(--txt3);}
+.palpites-tabela td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.07);}
+.sub-titulo{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.9rem;color:var(--txt3);margin:1.1rem 0 .6rem;}
+.rank-item{display:flex;align-items:center;gap:.8rem;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.rank-pos{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;flex-shrink:0;background:rgba(255,255,255,.12);}
+.rank-pts{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;letter-spacing:1px;}
+.reg{background:rgba(255,255,255,.05);border:1px solid var(--borda);border-radius:var(--raio);padding:1.2rem;margin-top:1.2rem;}
+.reg h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;margin-bottom:.8rem;}
+.reg-item{display:flex;gap:.7rem;margin-bottom:.6rem;align-items:center;}
+.reg-num{background:var(--vermelho);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;flex-shrink:0;}
+.reg-txt{color:var(--txt2);font-size:.9rem;}
+.edit-pts-wrap{display:inline-flex;align-items:center;gap:4px;}
+.edit-pts-inp{width:56px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:6px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;text-align:center;padding:3px;outline:none;}
+.edit-pts-btn{background:#166534;color:#fff;border:none;border-radius:6px;padding:5px 9px;cursor:pointer;}
+.vazio{text-align:center;padding:2rem 1rem;background:var(--card);border:1px dashed var(--borda);border-radius:var(--raio);}
+.vazio .ic{font-size:2.4rem;margin-bottom:.5rem;}
+.vazio h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;margin-bottom:.3rem;}
+.vazio p{color:var(--txt2);font-size:.92rem;margin-bottom:1rem;}
+
+/* MEMBROS */
+.tabs{display:flex;background:rgba(0,20,60,.5);border-bottom:1px solid var(--borda);overflow-x:auto;}
+.tab-btn{flex:1;min-width:fit-content;padding:.95rem .9rem;background:none;border:none;color:var(--txt3);font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;}
+.tab-btn.ativo{color:#fff;border-bottom-color:var(--vermelho);}
+.tab-conteudo{display:none;}
+.tab-conteudo.ativo{display:block;}
+.membros-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;}
+@media(min-width:720px){.membros-grid{grid-template-columns:repeat(4,1fr);}}
+.membro{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:1rem;text-align:center;}
+.membro-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0059b8,var(--vermelho));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.5rem;margin:0 auto .5rem;}
+.membro-nome{font-weight:600;font-size:.92rem;}
+.membro-cidade{color:var(--txt3);font-size:.78rem;}
+.membro-cargo{background:var(--vermelho);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.72rem;padding:2px 9px;border-radius:999px;margin-top:4px;display:inline-block;}
+.reuniao{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:1.1rem;margin-bottom:.8rem;display:flex;gap:14px;}
+.reuniao .dia{background:rgba(0,0,0,.3);border-radius:10px;padding:8px 12px;text-align:center;flex-shrink:0;min-width:56px;}
+
+/* ADMIN */
+.admin-wrap{max-width:520px;margin:0 auto;padding:1rem 1.2rem 2rem;}
+.admin-card{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:1.2rem;margin-bottom:1rem;}
+.admin-card-titulo{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;color:var(--txt2);margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:1px solid var(--borda);}
+.inp,.sel{width:100%;padding:11px 13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:8px;color:#fff;font-size:.95rem;outline:none;margin-bottom:8px;}
+.sel{background:#003a7a;}
+.inp::placeholder{color:rgba(255,255,255,.35);}
+.btn-adm{background:var(--vermelho);color:#fff;padding:12px 18px;font-size:1rem;width:100%;margin-top:4px;}
+.admin-panel{display:none;}
+.label{display:block;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;color:var(--txt2);}
+.file-drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:2px dashed rgba(255,255,255,.3);border-radius:12px;padding:1.1rem;text-align:center;cursor:pointer;margin-bottom:8px;background:rgba(255,255,255,.04);}
+.file-drop:hover{background:rgba(255,255,255,.09);}
+.file-drop input{display:none;}
+.file-drop .ic{font-size:1.8rem;}
+.file-drop small{color:var(--txt3);font-size:.78rem;}
+.preview{width:100%;max-height:170px;object-fit:cover;border-radius:10px;margin-bottom:8px;display:none;}
+.rel-table{width:100%;border-collapse:collapse;font-size:.82rem;}
+.rel-table th{background:rgba(0,0,0,.3);padding:8px 10px;text-align:left;font-size:.78rem;color:var(--txt3);}
+.rel-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.07);}
+.rel-stat{background:rgba(0,0,0,.25);border-radius:10px;padding:.8rem;text-align:center;}
+.rel-stat-n{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;}
+.rel-stat-l{font-size:.75rem;color:var(--txt3);}
+
+/* MODAIS */
+.modal,.modal-noticia{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);align-items:center;justify-content:center;padding:1rem;}
+.modal.aberto,.modal-noticia.aberto{display:flex;}
+.modal-box,.modal-noticia-box{background:#003a7a;border:1px solid rgba(255,255,255,.2);border-radius:16px;width:100%;max-width:410px;position:relative;max-height:90vh;overflow-y:auto;}
+.modal-box{padding:1.8rem;}
+.modal-noticia-box{max-width:460px;}
+.modal-fechar{position:absolute;top:.7rem;right:.7rem;z-index:5;background:rgba(0,0,0,.35);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:1.1rem;cursor:pointer;}
+.modal h2{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:2px;margin-bottom:1rem;line-height:1.05;}
+.modal h2 span{color:var(--vermelho);}
+.modal-tabs{display:flex;margin:0 0 1.2rem;border-bottom:2px solid var(--borda);}
+.modal-tab{flex:1;padding:.7rem;background:none;border:none;color:var(--txt3);font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;}
+.modal-tab.ativo{color:#fff;border-bottom-color:var(--vermelho);}
+.btn-submit{width:100%;background:var(--vermelho);color:#fff;padding:13px;font-size:1.1rem;margin-top:.3rem;}
+.erro{color:#fca5a5;font-size:.85rem;margin-bottom:.6rem;display:none;}
+.modal-noticia-img{width:100%;max-height:230px;object-fit:cover;border-radius:16px 16px 0 0;display:block;}
+.modal-noticia-body{padding:1.4rem;}
+.modal-noticia-titulo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:2px;margin-bottom:.6rem;line-height:1.1;}
+.modal-noticia-texto{color:var(--txt2);line-height:1.7;margin-bottom:.8rem;white-space:pre-wrap;}
+.modal-noticia-data{font-size:.78rem;color:var(--txt3);}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:3000;cursor:pointer;padding:16px;}
+.lb img{max-width:100%;max-height:90vh;border-radius:8px;}
+.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 18px + env(safe-area-inset-bottom,0px));z-index:4000;background:#003a7a;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:.7rem 1.3rem;font-size:.9rem;font-weight:600;transform:translate(-50%,20px);opacity:0;transition:all .25s;pointer-events:none;max-width:90vw;text-align:center;}
+@media(min-width:820px){.toast{bottom:24px;}}
+.toast.show{transform:translate(-50%,0);opacity:1;}
+.toast.ok{border-color:#4ade80;}
+.toast.err{border-color:var(--vermelho);}
+.loading{text-align:center;padding:1.5rem;color:var(--txt3);}
+.insta-link{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#7e22ce,#db2777,#ea580c);border-radius:var(--raio);padding:15px 18px;text-decoration:none;color:#fff;}
+footer{background:rgba(0,0,0,.35);border-top:3px solid var(--vermelho);padding:1.6rem 1rem;text-align:center;margin-top:1rem;}
+footer p{color:var(--txt3);font-size:.82rem;margin-top:.5rem;}
+footer .admin-link{background:none;border:none;color:rgba(255,255,255,.25);font-size:.75rem;cursor:pointer;margin-top:.6rem;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important;}}
+
+/* ===== VISUAL v2 ===== */
+:root{--raio:20px;}
+body{background:radial-gradient(900px 520px at 88% -8%,rgba(212,18,31,.24),transparent 60%),radial-gradient(800px 600px at -12% 22%,rgba(0,120,255,.28),transparent 60%),linear-gradient(180deg,#00356f 0%,#001a40 100%) fixed;
+  padding-bottom:calc(var(--tab-h) + 30px + env(safe-area-inset-bottom,0px));}
+@media(min-width:820px){body{padding-bottom:0;}}
+.topbar{border-bottom:none;background:rgba(0,22,56,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+.topbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--azul),var(--vermelho) 50%,var(--azul));}
+.bottom-tabs{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));height:var(--tab-h);padding-bottom:0;border-radius:24px;border:1px solid rgba(255,255,255,.14);background:rgba(0,22,56,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 10px 30px rgba(0,0,0,.45);}
+.bottom-tabs a{border-radius:18px;margin:6px 3px;}
+.bottom-tabs a.ativo{background:rgba(255,255,255,.15);}
+.bottom-tabs a.ativo::before{display:none;}
+.toast{bottom:calc(var(--tab-h) + 38px + env(safe-area-inset-bottom,0px));}
+@media(min-width:820px){.toast{bottom:24px;}}
+.card,.atalho,.produto,.noticia-card,.membro,.jogo,.reuniao,.admin-card,.reg,.vazio{background:linear-gradient(160deg,rgba(255,255,255,.11),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 24px rgba(0,0,0,.18);}
+.atalho{transition:transform .15s,background .15s;}
+.atalho:hover{transform:translateY(-2px);}
+.hero{border-radius:0 0 32px 32px;}
+.stats{width:calc(100% - 2.4rem);max-width:940px;margin:-30px auto 0;position:relative;z-index:3;border-radius:20px;border:1px solid rgba(255,255,255,.16);background:rgba(0,26,64,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.35);}
+.btn-v,.btn-b,.btn-submit,.btn-adm{border-radius:999px;}
+.btn-v,.btn-submit{background:linear-gradient(135deg,#e5202d,#b30f1a);box-shadow:0 6px 18px rgba(212,18,31,.35);}
+.btn-pedir{border-radius:999px;}
+.inp,.sel{border-radius:12px;}
+.modal-box,.modal-noticia-box{border-radius:24px;}
+.foto{border-radius:16px;}
+.video-wrap{border-radius:22px;}
+.page-head{background:linear-gradient(180deg,rgba(255,255,255,.07),transparent);border-bottom:none;padding:2.4rem 1.2rem 1rem;}
+.page-head h1{font-size:3rem;}
+.produto-img{border-radius:0;}
+/* Bolão */
+.seg{display:flex;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:4px;margin-bottom:.4rem;}
+.seg button{flex:1;border:none;background:none;color:var(--txt2);padding:10px;border-radius:999px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.05rem;cursor:pointer;}
+.seg button span{background:rgba(255,255,255,.15);border-radius:999px;padding:1px 9px;font-size:.8rem;margin-left:4px;}
+.seg button.ativo{background:#fff;color:var(--azul-esc);}
+.seg button.ativo span{background:var(--azul-esc);color:#fff;}
+.dia-titulo{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;color:var(--txt2);margin:1.3rem 0 .6rem;display:flex;align-items:center;gap:10px;}
+.dia-titulo::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.14);}
+.dia-titulo.hoje{color:#fca5a5;}
+.jogo{padding:1.1rem 1.1rem 1.2rem;}
+.confronto{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.5rem;margin:.5rem 0 1rem;}
+.time{display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;min-width:0;}
+.escudo{width:50px;height:50px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,#0059b8,#7a0b14);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;border:2px solid rgba(255,255,255,.4);}
+.time-nome{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.08rem;line-height:1.15;word-break:break-word;}
+.vs{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--txt3);padding:0 .6rem;}
+.placar-final{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:3px;background:rgba(0,0,0,.32);padding:0 14px;border-radius:14px;line-height:1.35;}
+.placar-inputs{margin:0;gap:.5rem;}
+.placar-inputs input{width:50px;height:54px;border-radius:14px;}
+details.palpites-det{margin-top:.9rem;border-top:1px solid rgba(255,255,255,.1);padding-top:.7rem;}
+details.palpites-det summary{cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--txt2);font-size:.98rem;list-style:none;}
+details.palpites-det summary::-webkit-details-marker{display:none;}
+details.palpites-det summary::after{content:" ▾";}
+.rank-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:.7rem .9rem;margin-bottom:.5rem;}
+
+/* ===== ÍCONES (sem emojis) ===== */
+.svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em;flex-shrink:0;}
+.bottom-tabs a .ic{display:flex;font-size:1.4rem;}
+.atalho .ic{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.12);font-size:1.45rem;margin-bottom:6px;}
+.vazio .ic{display:flex;justify-content:center;color:var(--txt2);font-size:2.6rem;margin-bottom:.6rem;}
+.file-drop .ic{display:flex;color:var(--txt2);font-size:1.9rem;}
+.produto-img{color:rgba(255,255,255,.4);font-size:3.2rem;}
+.badge::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px;}
+.badge.ok::before{display:none;}
+.btn-sound{border-radius:999px;}
+</style>
 </head>
 <body>
 
 <div class="lb" id="lb" onclick="this.style.display='none'"><img id="lb-img" src="" alt=""></div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status"></div>
 
-<!-- Modal Notícia -->
+<!-- TOPO -->
+<header class="topbar">
+  <div class="logo" onclick="ir('home')">
+    <img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt="">
+    <span>UK TRICOLOR</span>
+  </div>
+  <nav class="nav-links">
+    <a data-go="home" onclick="ir('home')">Início</a>
+    <a data-go="loja" onclick="ir('loja')">Loja</a>
+    <a data-go="bolao" onclick="ir('bolao')">Bolão</a>
+    <a data-go="membros" onclick="ir('membros')">Membros</a>
+    <a data-go="sobre" onclick="ir('sobre')">Sobre</a>
+  </nav>
+  <div class="auth-area" id="auth-area"></div>
+</header>
+
+<!-- ABAS INFERIORES -->
+<nav class="bottom-tabs">
+  <a data-go="home" onclick="ir('home')"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg></span>Início</a>
+  <a data-go="loja" onclick="ir('loja')"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l1 13H5L6 7zM9 7a3 3 0 016 0"/></svg></span>Loja</a>
+  <a data-go="bolao" onclick="ir('bolao')"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 01-8 0V4zM8 6H4v1a3 3 0 003 3M16 6h4v1a3 3 0 01-3 3M12 13v4M8 20h8M10 17h4"/></svg></span>Bolão</a>
+  <a data-go="membros" onclick="ir('membros')"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M9.5 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM21 20v-1a4 4 0 00-3-3.9M16 4.1a3.5 3.5 0 010 6.8"/></svg></span>Membros</a>
+  <a data-go="sobre" onclick="ir('sobre')"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span>Sobre</a>
+</nav>
+
+<!-- MODAL NOTÍCIA -->
 <div class="modal-noticia" id="modal-noticia">
   <div class="modal-noticia-box">
-    <button class="modal-fechar" onclick="fecharModalNoticia()" style="z-index:10">✕</button>
+    <button class="modal-fechar" onclick="fecharModalNoticia()" aria-label="Fechar">✕</button>
     <img id="mn-img" src="" alt="" class="modal-noticia-img" style="display:none">
     <div class="modal-noticia-body">
       <div class="modal-noticia-titulo" id="mn-titulo"></div>
@@ -155,393 +363,333 @@
   </div>
 </div>
 
+<!-- MODAL LOGIN -->
 <div class="modal" id="modal-auth">
 <div class="modal-box">
-  <button class="modal-fechar" onclick="fecharModal()">✕</button>
+  <button class="modal-fechar" onclick="fecharModal()" aria-label="Fechar">✕</button>
   <div class="modal-tabs">
     <button class="modal-tab ativo" id="mtab-entrar" onclick="trocarTab('entrar')">Entrar</button>
-    <button class="modal-tab" id="mtab-cadastrar" onclick="trocarTab('cadastrar')">Cadastrar</button>
+    <button class="modal-tab" id="mtab-cadastrar" onclick="trocarTab('cadastrar')">Criar conta</button>
   </div>
   <div id="auth-entrar">
     <h2>Entrar na<br><span>UK Tricolor</span></h2>
-    <label class="label">Email</label>
-    <input class="inp" type="email" placeholder="seu@email.com" id="l-email">
-    <label class="label">Senha</label>
-    <input class="inp" type="password" placeholder="••••••••" id="l-senha">
+    <label class="label" for="l-email">Email</label>
+    <input class="inp" type="email" placeholder="seu@email.com" id="l-email" autocomplete="email">
+    <label class="label" for="l-senha">Senha</label>
+    <input class="inp" type="password" placeholder="Sua senha" id="l-senha" autocomplete="current-password">
     <p class="erro" id="l-erro"></p>
-    <button class="btn-submit" onclick="entrar()">ENTRAR</button>
+    <button class="btn-submit" onclick="entrar()">Entrar</button>
   </div>
   <div id="auth-cadastrar" style="display:none">
-    <h2>Criar<br><span>Conta</span></h2>
-    <label class="label">Nome</label>
+    <h2>Criar<br><span>sua conta</span></h2>
+    <label class="label" for="c-nome">Nome *</label>
     <input class="inp" placeholder="Seu nome" id="c-nome">
-    <label class="label">Email</label>
+    <label class="label" for="c-email">Email *</label>
     <input class="inp" type="email" placeholder="seu@email.com" id="c-email">
-    <label class="label">Cidade</label>
+    <label class="label" for="c-cidade">Cidade *</label>
     <input class="inp" placeholder="Ex: London, Manchester..." id="c-cidade">
-    <label class="label">Bairro / Área</label>
+    <label class="label" for="c-bairro">Bairro / Área</label>
     <input class="inp" placeholder="Ex: Hackney, Brixton..." id="c-bairro">
-    <label class="label">Postcode</label>
+    <label class="label" for="c-postcode">Postcode</label>
     <input class="inp" placeholder="Ex: E8 1AA" id="c-postcode">
-    <label class="label">Senha</label>
-    <input class="inp" type="password" placeholder="Mínimo 6 caracteres" id="c-senha">
+    <label class="label" for="c-senha">Senha *</label>
+    <input class="inp" type="password" placeholder="Mínimo 6 caracteres" id="c-senha" autocomplete="new-password">
     <p class="erro" id="c-erro"></p>
-    <button class="btn-submit" onclick="cadastrar()">CRIAR CONTA</button>
+    <button class="btn-submit" onclick="cadastrar()">Criar conta</button>
   </div>
 </div>
 </div>
 
-<nav>
-  <div class="logo" onclick="ir('home')">
-    <img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt="">
-    <span>UK TRICOLOR</span>
-  </div>
-  <button class="menu-btn" onclick="toggleMenu()">☰</button>
-</nav>
-
-<div class="menu-mobile" id="menu">
-  <a onclick="ir('home')">🏠 Início</a>
-  <a onclick="ir('loja')">🛒 Loja</a>
-  <a onclick="ir('bolao')">🏆 Bolão</a>
-  <a onclick="ir('sobre')">ℹ️ Sobre</a>
-  <a onclick="ir('membros')">👥 Membros</a>
-  <a onclick="abrirModal()">🔐 Entrar / Cadastrar</a>
-  <a onclick="ir('admin')" style="color:var(--vermelho)">⚙️ Admin</a>
-</div>
-
-<div id="home" class="page active">
-  <div class="hero">
+<!-- ===== INÍCIO ===== -->
+<main id="home" class="page active">
+  <section class="hero">
     <div class="hero-bg" id="hero-bg"></div>
     <div class="hero-grad"></div>
     <div class="hero-content">
-      <div style="display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:4px 12px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1rem">🇬🇧 Reino Unido · Embaixada Oficial</div>
+      <span class="pill">Reino Unido · Embaixada Oficial</span>
       <h1>UK<br><span>TRICOLOR</span></h1>
       <p>1ª Embaixada Oficial do Bahia na Europa</p>
-      <div class="btns">
-        <button class="btn-v" onclick="ir('loja')">Ver Loja 🛒</button>
-        <button class="btn-b" onclick="ir('bolao')">Ver Bolão 🏆</button>
-      </div>
+      <div class="btns" id="hero-btns"></div>
     </div>
-  </div>
+  </section>
   <div class="stats">
-    <div class="stat"><div class="stat-n" id="st-membros">...</div><div class="stat-l">Membros</div></div>
-    <div class="stat"><div class="stat-n" id="st-prods">...</div><div class="stat-l">Produtos</div></div>
+    <div class="stat"><div class="stat-n" id="st-membros">…</div><div class="stat-l">Membros</div></div>
+    <div class="stat"><div class="stat-n" id="st-cidades">…</div><div class="stat-l">Cidades</div></div>
+    <div class="stat"><div class="stat-n" id="st-prods">…</div><div class="stat-l">Produtos</div></div>
   </div>
 
-  <!-- VÍDEO EM DESTAQUE - POSICIONADO LOGO APÓS STATS, TAMANHO MAIOR -->
-  <div class="video-destaque" style="margin-top:0;">
-    <div class="video-wrap">
-      <iframe id="youtube-iframe" src="https://www.youtube.com/embed/JHpBULP21W4?autoplay=1&mute=1&loop=1&playlist=JHpBULP21W4" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
-    <div class="video-control">
-      <button class="btn-sound" id="sound-toggle" onclick="toggleSound()">🔊 Ativar som</button>
-    </div>
-  </div>
-
-  <div class="sec" style="padding-top:0.5rem;">
-    <div class="sec-titulo">📰 <span>Novidades</span></div>
-    <div class="sec-sub">Últimas notícias da embaixada</div>
-    <div id="home-noticias"><div class="loading">Carregando...</div></div>
-  </div>
-  <div style="background:rgba(0,20,60,0.4);border-left:4px solid var(--vermelho);margin:0;padding:1.5rem">
-    <div style="display:flex;gap:1rem;align-items:flex-start">
-      <span style="font-size:1.5rem;flex-shrink:0">🔴</span>
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;margin-bottom:0.4rem">Nossa <span style="color:var(--vermelho)">Missão</span></div>
-        <p id="txt-miss" style="color:rgba(255,255,255,0.82);font-size:0.92rem;line-height:1.7">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p>
+  <div class="wrap">
+    <section class="sec">
+      <div class="atalhos">
+        <button class="atalho" onclick="ir('bolao')"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 01-8 0V4zM8 6H4v1a3 3 0 003 3M16 6h4v1a3 3 0 01-3 3M12 13v4M8 20h8M10 17h4"/></svg></span><b>Bolão</b><small>Dê seus palpites e dispute o ranking</small></button>
+        <button class="atalho" onclick="ir('loja')"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l1 13H5L6 7zM9 7a3 3 0 016 0"/></svg></span><b>Loja</b><small>Camisas e produtos oficiais</small></button>
+        <button class="atalho" onclick="irReunioes()"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1zM4 10h16M8 3v4M16 3v4"/></svg></span><b>Reuniões</b><small>Próximos encontros da embaixada</small></button>
+        <button class="atalho" onclick="ir('membros')"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M9.5 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM21 20v-1a4 4 0 00-3-3.9M16 4.1a3.5 3.5 0 010 6.8"/></svg></span><b>Membros</b><small>Conheça a família tricolor</small></button>
       </div>
-    </div>
-  </div>
-  <div class="sec">
-    <div class="sec-titulo">Loja <span>UK Tricolor</span></div>
-    <div class="sec-sub">Produtos oficiais e exclusivos</div>
-    <div class="loja-grid" id="home-loja"><div class="loading">Carregando...</div></div>
-    <div style="text-align:center;margin-top:1rem"><button class="btn-b" onclick="ir('loja')" style="font-size:0.82rem;padding:9px 18px">Ver todos →</button></div>
-  </div>
-  <div class="sec" style="padding-top:0">
-    <div class="sec-titulo">Galeria de <span>Eventos</span></div>
-    <div class="sec-sub">Momentos da nossa torcida</div>
-    <div class="galeria" id="home-galeria"></div>
-    <div style="text-align:center;margin-top:1rem"><button class="btn-b" onclick="ir('sobre')" style="font-size:0.82rem;padding:9px 18px">Ver todas →</button></div>
-  </div>
-  <div class="sec" style="padding-top:0">
-    <a href="https://www.instagram.com/uktricolor" target="_blank" class="insta-link">
-      <span style="font-size:24px">📸</span>
-      <div><div style="font-weight:900;font-size:0.9rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">@UKTRICOLOR NO INSTAGRAM</div><div style="font-size:0.78rem;opacity:0.8">Siga-nos!</div></div>
-      <span style="margin-left:auto">→</span>
-    </a>
-  </div>
-</div>
+    </section>
 
-<div id="loja" class="page">
-  <div style="background:rgba(0,20,60,0.8);padding:2rem 1.5rem;text-align:center;border-bottom:3px solid #0059b8">
-    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:3px">🛒 Loja <span style="color:var(--vermelho)">UK</span> Tricolor</h1>
-    <p style="color:rgba(255,255,255,0.65);font-size:0.88rem">Pedidos via Instagram</p>
+    <section class="sec" style="padding-top:0">
+      <div class="video-wrap"><iframe id="youtube-iframe" src="https://www.youtube.com/embed/JHpBULP21W4?autoplay=1&mute=1&loop=1&playlist=JHpBULP21W4" allow="autoplay; encrypted-media" allowfullscreen title="Vídeo UK Tricolor"></iframe></div>
+      <div class="video-control"><button class="btn-sound" id="sound-toggle" onclick="toggleSound()">Ativar som</button></div>
+    </section>
+
+    <section class="sec" style="padding-top:0">
+      <div class="sec-head"><div><div class="sec-titulo">Novi<span>dades</span></div><div class="sec-sub">Últimas notícias da embaixada</div></div></div>
+      <div id="home-noticias"><div class="loading">Carregando...</div></div>
+    </section>
+
+    <section class="sec" style="padding-top:0">
+      <div class="card missao">
+        <h3>Nossa Missão</h3>
+        <p id="txt-miss">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p>
+      </div>
+    </section>
+
+    <section class="sec" style="padding-top:0">
+      <div class="sec-head"><div><div class="sec-titulo">Loja <span>UK Tricolor</span></div><div class="sec-sub">Produtos oficiais e exclusivos</div></div><button class="ver-todos" onclick="ir('loja')">Ver todos</button></div>
+      <div class="loja-grid" id="home-loja"><div class="loading">Carregando...</div></div>
+    </section>
+
+    <section class="sec" style="padding-top:0">
+      <div class="sec-head"><div><div class="sec-titulo">Galeria de <span>Eventos</span></div><div class="sec-sub">Momentos da nossa torcida</div></div><button class="ver-todos" onclick="ir('sobre')">Ver todas</button></div>
+      <div class="galeria" id="home-galeria"></div>
+    </section>
+
+    <section class="sec" style="padding-top:0">
+      <a href="https://www.instagram.com/uktricolor" target="_blank" rel="noopener" class="insta-link">
+        <span style="font-size:28px;display:flex"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4zM12 16a4 4 0 100-8 4 4 0 000 8zM17.5 6.5h.01"/></svg></span>
+        <div><div class="cond" style="font-weight:700;font-size:1.05rem">@uktricolor no Instagram</div><div style="font-size:.82rem;opacity:.85">Siga a embaixada</div></div>
+        <span style="margin-left:auto">→</span>
+      </a>
+    </section>
   </div>
-  <div class="sec">
+</main>
+
+<!-- ===== LOJA ===== -->
+<main id="loja" class="page">
+  <div class="page-head"><h1>Loja <span>UK Tricolor</span></h1><p>Pedidos pelo Instagram · Transferência e PayPal</p></div>
+  <div class="wrap"><section class="sec">
     <div class="loja-grid" id="loja-grid"><div class="loading">Carregando...</div></div>
-    <p style="text-align:center;margin-top:1rem;color:rgba(255,255,255,0.4);font-size:0.8rem">💬 <a href="https://www.instagram.com/uktricolor" target="_blank" style="color:var(--vermelho)">@uktricolor</a> · Transferência e PayPal</p>
-  </div>
-</div>
+    <p style="text-align:center;margin-top:1.2rem;color:var(--txt3);font-size:.85rem">Para pedir, chame <a href="https://www.instagram.com/uktricolor" target="_blank" rel="noopener" style="color:#fff;font-weight:600">@uktricolor</a></p>
+  </section></div>
+</main>
 
-<div id="bolao" class="page">
-  <div style="background:rgba(0,20,60,0.8);padding:2rem 1.5rem;text-align:center;border-bottom:3px solid var(--vermelho)">
-    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:3px">🏆 Bolão <span style="color:var(--vermelho)">UK</span> Tricolor</h1>
-    <p style="color:rgba(255,255,255,0.65);font-size:0.88rem">Dispute com os membros da embaixada!</p>
-  </div>
-  <div class="sec">
+<!-- ===== BOLÃO ===== -->
+<main id="bolao" class="page">
+  <div class="page-head"><h1>Bolão <span>UK Tricolor</span></h1><p>Acerte o placar e suba no ranking</p></div>
+  <div class="wrap"><section class="sec">
     <div id="bolao-conteudo"></div>
-    <div style="margin-top:1.5rem">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;margin-bottom:0.8rem">🏅 <span style="color:var(--vermelho)">Classificação</span></div>
-      <div id="ranking"></div>
+    <div class="sub-titulo" style="font-size:1.1rem;color:#fff;margin-top:1.8rem">Classificação</div>
+    <div id="ranking"></div>
+    <div class="reg">
+      <h3>Regulamento</h3>
+      <div class="reg-item"><div class="reg-num">3</div><div class="reg-txt"><strong>Placar exato</strong>: 3 pontos</div></div>
+      <div class="reg-item"><div class="reg-num">£</div><div class="reg-txt"><strong>Premiação</strong>: os 3 primeiros dividem o prêmio</div></div>
     </div>
-    <div class="reg" style="margin-top:1rem">
-      <h3>📋 Regulamento</h3>
-      <div class="reg-item"><div class="reg-num">3</div><div class="reg-txt"><strong>Placar exato</strong> — 3 pontos</div></div>
-      <div class="reg-item"><div class="reg-num">£</div><div class="reg-txt"><strong>Premiação</strong> — os 3 primeiros dividem o prêmio</div></div>
-    </div>
-  </div>
-</div>
+  </section></div>
+</main>
 
-<div id="sobre" class="page">
+<!-- ===== SOBRE ===== -->
+<main id="sobre" class="page">
   <div style="background:url('https://i.ibb.co/Wv6f945r/Screenshot-20260424-164409-Instagram.jpg') center/cover;height:220px;position:relative;border-bottom:3px solid var(--vermelho);display:flex;align-items:flex-end">
-    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,30,80,0.95),transparent 60%);"></div>
-    <div style="position:relative;z-index:2;padding:1.5rem">
-      <h1 style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:3px">Sobre a UK <span style="color:var(--vermelho)">Tricolor</span></h1>
-    </div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,34,77,.95),transparent 70%)"></div>
+    <div class="wrap" style="position:relative;z-index:2;padding-bottom:1.2rem;width:100%"><h1 class="display" style="font-size:2.7rem;letter-spacing:3px;line-height:1">Sobre a UK <span style="color:var(--vermelho)">Tricolor</span></h1></div>
   </div>
-  <div class="sec">
-    <div class="sobre-cards">
-      <div class="card"><h3>🔵 Nossa História</h3><p id="txt-hist">A UK Tricolor nasceu da saudade e do amor ao Esquadrão de Aço. Somos a 1ª Embaixada Oficial do Bahia na Europa.</p></div>
-      <div class="card"><h3>🔴 Nossa Missão</h3><p id="txt-miss2">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p></div>
-      <div class="card"><h3>🇬🇧 Onde Estamos</h3><p id="txt-onde">Membros em Londres, Manchester, Birmingham, Leeds, Bristol, Edimburgo e outras cidades.</p></div>
-    </div>
+  <div class="wrap">
+    <section class="sec"><div class="grid-cards tres">
+      <div class="card"><h3>Nossa História</h3><p id="txt-hist">A UK Tricolor nasceu da saudade e do amor ao Esquadrão de Aço. Somos a 1ª Embaixada Oficial do Bahia na Europa.</p></div>
+      <div class="card"><h3>Nossa Missão</h3><p id="txt-miss2">Reunir bahianos e amantes do Bahia no UK para assistir os jogos juntos e manter a cultura tricolor viva.</p></div>
+      <div class="card"><h3>Onde Estamos</h3><p id="txt-onde">Membros em Londres, Manchester, Birmingham, Leeds, Bristol, Edimburgo e outras cidades.</p></div>
+    </div></section>
+    <section class="sec" style="padding-top:0">
+      <div class="sec-head"><div class="sec-titulo">Galeria <span>Completa</span></div></div>
+      <div class="galeria" id="sobre-galeria"></div>
+    </section>
+    <section class="sec" style="padding-top:0">
+      <div class="sec-head"><div class="sec-titulo"><span>Vídeo</span></div></div>
+      <div class="video-wrap"><iframe id="youtube-iframe-sobre" src="https://www.youtube.com/embed/JHpBULP21W4" allow="encrypted-media" allowfullscreen title="Vídeo UK Tricolor"></iframe></div>
+    </section>
   </div>
-  <div class="sec" style="padding-top:0">
-    <div class="sec-titulo">Galeria <span>Completa</span></div>
-    <div class="galeria" id="sobre-galeria"></div>
-  </div>
-  <div class="sec" style="padding-top:0">
-    <div class="sec-titulo">🎬 <span>Vídeo</span></div>
-    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/JHpBULP21W4?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-  </div>
-</div>
+</main>
 
-<div id="membros" class="page">
+<!-- ===== MEMBROS ===== -->
+<main id="membros" class="page">
   <div class="tabs">
-    <button class="tab-btn ativo" id="tab-lista" onclick="trocarTabMembros('lista')">👥 Membros</button>
-    <button class="tab-btn" id="tab-reunioes" onclick="trocarTabMembros('reunioes')">📅 Reuniões</button>
+    <button class="tab-btn ativo" id="tab-lista" onclick="trocarTabMembros('lista')">Membros</button>
+    <button class="tab-btn" id="tab-reunioes" onclick="trocarTabMembros('reunioes')">Reuniões</button>
   </div>
-  <div class="tab-conteudo ativo" id="tc-lista">
-    <div class="sec">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem">Família <span style="color:var(--vermelho)">UK Tricolor</span></div>
+  <div class="wrap">
+    <div class="tab-conteudo ativo" id="tc-lista"><section class="sec">
+      <div class="sec-titulo" style="margin-bottom:1rem">Família <span>UK Tricolor</span></div>
       <div class="membros-grid" id="membros-grid"><div class="loading">Carregando...</div></div>
-    </div>
-  </div>
-  <div class="tab-conteudo" id="tc-reunioes">
-    <div class="sec">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:1rem">📅 Próximas <span style="color:var(--vermelho)">Reuniões</span></div>
+    </section></div>
+    <div class="tab-conteudo" id="tc-reunioes"><section class="sec">
+      <div class="sec-titulo" style="margin-bottom:1rem">Próximas <span>Reuniões</span></div>
       <div id="reunioes-lista"></div>
-    </div>
+    </section></div>
   </div>
-</div>
+</main>
 
-<div id="admin" class="page">
+<!-- ===== ADMIN ===== -->
+<main id="admin" class="page">
   <div id="admin-login">
-    <div class="admin-wrap">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:0.3rem">Painel de <span style="color:var(--vermelho)">Admin</span></div>
-      <p style="color:rgba(255,255,255,0.5);margin-bottom:1.2rem;font-size:0.88rem">Área restrita.</p>
+    <div class="admin-wrap" style="margin-top:1.5rem">
+      <div class="display" style="font-size:2rem;margin-bottom:.3rem">Painel de <span style="color:var(--vermelho)">Admin</span></div>
+      <p style="color:var(--txt3);margin-bottom:1.2rem;font-size:.9rem">Área restrita.</p>
       <div class="admin-card">
-        <div class="admin-card-titulo">🔒 Senha do Admin</div>
-        <input class="inp" type="password" placeholder="Digite a senha..." id="adm-pass">
-        <button class="btn-adm" onclick="entrarAdmin()">ENTRAR NO PAINEL</button>
+        <div class="admin-card-titulo">Senha do admin</div>
+        <input class="inp" type="password" placeholder="Digite a senha" id="adm-pass">
+        <button class="btn-adm" onclick="entrarAdmin()">Entrar no painel</button>
       </div>
     </div>
   </div>
   <div class="admin-panel" id="admin-panel">
     <div class="tabs">
-      <button class="tab-btn ativo" id="adm-tab-site" onclick="trocarTabAdmin('site')">🌐 Site</button>
-      <button class="tab-btn" id="adm-tab-jogos" onclick="trocarTabAdmin('jogos')">⚽ Jogos</button>
-      <button class="tab-btn" id="adm-tab-membros" onclick="trocarTabAdmin('membros')">👥 Membros</button>
-      <button class="tab-btn" id="adm-tab-galeria" onclick="trocarTabAdmin('galeria')">📸 Galeria</button>
-      <button class="tab-btn" id="adm-tab-loja" onclick="trocarTabAdmin('loja')">🛒 Loja</button>
-      <button class="tab-btn" id="adm-tab-noticias" onclick="trocarTabAdmin('noticias')">📰 Notícias</button>
-      <button class="tab-btn" id="adm-tab-video" onclick="trocarTabAdmin('video')">🎬 Vídeo</button>
-      <button class="tab-btn" id="adm-tab-relatorio" onclick="trocarTabAdmin('relatorio')">📊 Relatório</button>
+      <button class="tab-btn ativo" id="adm-tab-site" onclick="trocarTabAdmin('site')">Site</button>
+      <button class="tab-btn" id="adm-tab-jogos" onclick="trocarTabAdmin('jogos')">Jogos</button>
+      <button class="tab-btn" id="adm-tab-membros" onclick="trocarTabAdmin('membros')">Membros</button>
+      <button class="tab-btn" id="adm-tab-galeria" onclick="trocarTabAdmin('galeria')">Galeria</button>
+      <button class="tab-btn" id="adm-tab-loja" onclick="trocarTabAdmin('loja')">Loja</button>
+      <button class="tab-btn" id="adm-tab-noticias" onclick="trocarTabAdmin('noticias')">Notícias</button>
+      <button class="tab-btn" id="adm-tab-video" onclick="trocarTabAdmin('video')">Vídeo</button>
+      <button class="tab-btn" id="adm-tab-relatorio" onclick="trocarTabAdmin('relatorio')">Relatório</button>
     </div>
 
-    <div class="tab-conteudo ativo" id="adm-site">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">🖼️ Foto de Capa</div>
-          <input class="inp" id="cfg-capa" placeholder="https://i.ibb.co/...">
-          <button class="btn-adm" onclick="salvarCapa()">ATUALIZAR CAPA</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">📖 Textos da Página Sobre</div>
-          <label class="label">Nossa História</label>
-          <textarea class="inp" id="cfg-hist" rows="3" style="resize:vertical"></textarea>
-          <label class="label">Nossa Missão</label>
-          <textarea class="inp" id="cfg-miss" rows="3" style="resize:vertical"></textarea>
-          <label class="label">Onde Estamos</label>
-          <textarea class="inp" id="cfg-onde" rows="2" style="resize:vertical"></textarea>
-          <button class="btn-adm" onclick="salvarTextos()">SALVAR TEXTOS</button>
+    <div class="tab-conteudo ativo" id="adm-site"><div class="admin-wrap">
+      <div class="admin-card">
+        <div class="admin-card-titulo">Foto de capa</div>
+        <img class="preview" id="capa-preview" alt="">
+        <label class="file-drop"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1zM12 17a4 4 0 100-8 4 4 0 000 8z"/></svg></span><b>Escolher foto do celular</b><small>JPG ou PNG. O site ajusta o tamanho sozinho.</small><input type="file" accept="image/*" id="cfg-capa-file" onchange="mostrarPreview(this,'capa-preview')"></label>
+        <button class="btn-adm" onclick="salvarCapa()">Atualizar capa</button>
+      </div>
+      <div class="admin-card">
+        <div class="admin-card-titulo">Textos da página Sobre</div>
+        <label class="label">Nossa História</label>
+        <textarea class="inp" id="cfg-hist" rows="3" style="resize:vertical"></textarea>
+        <label class="label">Nossa Missão</label>
+        <textarea class="inp" id="cfg-miss" rows="3" style="resize:vertical"></textarea>
+        <label class="label">Onde Estamos</label>
+        <textarea class="inp" id="cfg-onde" rows="2" style="resize:vertical"></textarea>
+        <button class="btn-adm" onclick="salvarTextos()">Salvar textos</button>
+      </div>
+    </div></div>
+
+    <div class="tab-conteudo" id="adm-jogos"><div class="admin-wrap">
+      <div class="admin-card">
+        <div class="admin-card-titulo">Adicionar jogo</div>
+        <input class="inp" placeholder="Time da casa" id="j-casa" value="Bahia">
+        <input class="inp" placeholder="Visitante" id="j-fora">
+        <input class="inp" type="date" id="j-data">
+        <input class="inp" type="number" placeholder="Rodada" id="j-rodada" value="1">
+        <button class="btn-adm" onclick="adicionarJogo()">Adicionar jogo</button>
+      </div>
+      <div class="admin-card">
+        <div class="admin-card-titulo">Trancar ou destrancar palpites</div>
+        <p style="font-size:.82rem;color:#fde68a;background:rgba(255,200,0,.08);border:1px solid rgba(255,200,0,.25);border-radius:8px;padding:.6rem;margin-bottom:.8rem">Trancar impede novos palpites antes do jogo começar. Destrancar reabre o jogo para palpites. Na lista, cada jogo aparece como Trancado ou Aberto.</p>
+        <select class="sel" id="j-fechar"><option value="">Selecione o jogo...</option></select>
+        <div style="display:flex;gap:8px">
+          <button class="btn-adm" onclick="fecharPalpites()" style="background:#7e4f00">Trancar</button>
+          <button class="btn-adm" onclick="destrancarPalpites()" style="background:#166534">Destrancar</button>
         </div>
       </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-jogos">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">➕ Adicionar Jogo</div>
-          <input class="inp" placeholder="Time da casa" id="j-casa" value="Bahia">
-          <input class="inp" placeholder="Visitante" id="j-fora">
-          <input class="inp" type="date" id="j-data">
-          <input class="inp" type="number" placeholder="Rodada" id="j-rodada" value="1">
-          <button class="btn-adm" onclick="adicionarJogo()">ADICIONAR JOGO</button>
+      <div class="admin-card">
+        <div class="admin-card-titulo">Encerrar jogo (colocar placar)</div>
+        <select class="sel" id="j-encerrar"><option value="">Selecione o jogo...</option></select>
+        <div style="display:flex;gap:8px">
+          <input class="inp" type="number" placeholder="Gols casa" id="j-gols-casa" style="margin-bottom:0">
+          <input class="inp" type="number" placeholder="Gols fora" id="j-gols-fora" style="margin-bottom:0">
         </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">🔒 Fechar Palpites</div>
-          <p style="font-size:0.78rem;color:rgba(255,200,0,0.9);background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.2);border-radius:6px;padding:0.6rem;margin-bottom:0.8rem;font-family:'Barlow Condensed',sans-serif">Impede novos palpites antes do jogo começar. O placar ainda não foi definido.</p>
-          <select class="sel" id="j-fechar"><option value="">Selecione o jogo...</option></select>
-          <button class="btn-adm" onclick="fecharPalpites()" style="background:#7e4f00">🔒 FECHAR PALPITES</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">✅ Encerrar Jogo (colocar placar)</div>
-          <select class="sel" id="j-encerrar"><option value="">Selecione o jogo...</option></select>
-          <div style="display:flex;gap:7px">
-            <input class="inp" type="number" placeholder="Gols casa" id="j-gols-casa" style="margin-bottom:0">
-            <input class="inp" type="number" placeholder="Gols fora" id="j-gols-fora" style="margin-bottom:0">
-          </div>
-          <button class="btn-adm" onclick="encerrarJogo()" style="margin-top:7px;background:#166534">ENCERRAR E CALCULAR</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">📋 Jogos Cadastrados</div>
-          <div id="adm-jogos-lista"></div>
-        </div>
+        <button class="btn-adm" onclick="encerrarJogo()" style="margin-top:8px;background:#166534">Encerrar e calcular</button>
       </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-membros">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">⏳ Aguardando Aprovação</div>
-          <div id="adm-pendentes"></div>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">✅ Membros Ativos</div>
-          <div id="adm-ativos"></div>
-        </div>
-        <div class="admin-card" style="border-top:3px solid #0059b8">
-          <div class="admin-card-titulo">🔑 Redefinir Senha de Membro</div>
-          <select class="sel" id="reset-membro"><option value="">Selecione o membro...</option></select>
-          <input class="inp" type="password" placeholder="Nova senha (mín. 6 caracteres)" id="reset-senha">
-          <button class="btn-adm" onclick="redefinirSenha()" style="background:#0059b8">REDEFINIR SENHA</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">➕ Adicionar Manualmente</div>
-          <input class="inp" placeholder="Nome" id="adm-m-nome">
-          <input class="inp" placeholder="Cidade" id="adm-m-cidade">
-          <input class="inp" placeholder="Cargo (ex: Presidente)" id="adm-m-cargo">
-          <button class="btn-adm" onclick="adicionarMembroManual()">ADICIONAR</button>
-        </div>
+      <div class="admin-card">
+        <div class="admin-card-titulo">Jogos cadastrados</div>
+        <div id="adm-jogos-lista"></div>
       </div>
-    </div>
+    </div></div>
 
-    <div class="tab-conteudo" id="adm-galeria">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">➕ Adicionar Foto</div>
-          <p style="font-size:0.78rem;color:rgba(255,200,0,0.9);background:rgba(255,200,0,0.1);border:1px solid rgba(255,200,0,0.25);border-radius:6px;padding:0.6rem;margin-bottom:0.7rem">Suba a foto em imgbb.com e cola o link aqui</p>
-          <input class="inp" id="gal-url" placeholder="https://i.ibb.co/...">
-          <button class="btn-adm" onclick="adicionarFoto()">ADICIONAR FOTO</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">🖼️ Fotos na Galeria</div>
-          <div id="adm-galeria-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
-        </div>
+    <div class="tab-conteudo" id="adm-membros"><div class="admin-wrap">
+      <div class="admin-card"><div class="admin-card-titulo">⏳ Aguardando aprovação</div><div id="adm-pendentes"></div></div>
+      <div class="admin-card"><div class="admin-card-titulo">Membros ativos</div><div id="adm-ativos"></div></div>
+      <div class="admin-card" style="border-top:3px solid #0059b8">
+        <div class="admin-card-titulo">Redefinir senha de membro</div>
+        <select class="sel" id="reset-membro"><option value="">Selecione o membro...</option></select>
+        <input class="inp" type="password" placeholder="Nova senha (mín. 6 caracteres)" id="reset-senha">
+        <button class="btn-adm" onclick="redefinirSenha()" style="background:#0059b8">Redefinir senha</button>
       </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-loja">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">➕ Adicionar Produto</div>
-          <input class="inp" placeholder="Nome do produto" id="p-nome">
-          <div style="display:flex;gap:7px">
-            <input class="inp" type="number" placeholder="Preço (£)" id="p-preco" style="margin-bottom:0">
-            <input class="inp" placeholder="Emoji" id="p-emoji" value="👕" style="margin-bottom:0;max-width:70px">
-          </div>
-          <input class="inp" placeholder="Descrição" id="p-desc" style="margin-top:7px">
-          <input class="inp" placeholder="Link foto (imgbb) — opcional" id="p-foto">
-          <button class="btn-adm" onclick="adicionarProduto()">ADICIONAR PRODUTO</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">📦 Produtos</div>
-          <div id="adm-produtos-lista"></div>
-        </div>
+      <div class="admin-card">
+        <div class="admin-card-titulo">Adicionar manualmente</div>
+        <input class="inp" placeholder="Nome" id="adm-m-nome">
+        <input class="inp" placeholder="Cidade" id="adm-m-cidade">
+        <input class="inp" placeholder="Cargo (ex: Presidente)" id="adm-m-cargo">
+        <button class="btn-adm" onclick="adicionarMembroManual()">Adicionar</button>
       </div>
-    </div>
+    </div></div>
 
-    <div class="tab-conteudo" id="adm-noticias">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card" style="margin-top:1rem">
-          <div class="admin-card-titulo">➕ Adicionar Notícia</div>
-          <input class="inp" placeholder="Título da notícia" id="n-titulo">
-          <textarea class="inp" placeholder="Texto curto..." id="n-texto" rows="3" style="resize:vertical"></textarea>
-          <input class="inp" placeholder="Link da imagem (imgbb) — opcional" id="n-foto">
-          <button class="btn-adm" onclick="adicionarNoticia()">PUBLICAR NOTÍCIA</button>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">📋 Notícias Publicadas</div>
-          <div id="adm-noticias-lista"></div>
-        </div>
+    <div class="tab-conteudo" id="adm-galeria"><div class="admin-wrap">
+      <div class="admin-card">
+        <div class="admin-card-titulo">Adicionar fotos</div>
+        <label class="file-drop"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1zM12 17a4 4 0 100-8 4 4 0 000 8z"/></svg></span><b>Escolher fotos</b><small>Pode selecionar várias de uma vez</small><input type="file" accept="image/*" multiple id="gal-files" onchange="document.getElementById('gal-qtd').textContent=this.files.length?this.files.length+' foto(s) selecionada(s)':''"></label>
+        <p id="gal-qtd" style="text-align:center;font-size:.85rem;color:#86efac;margin-bottom:6px"></p>
+        <button class="btn-adm" onclick="adicionarFotos()">Enviar fotos</button>
       </div>
-    </div>
-
-    <div class="tab-conteudo" id="adm-video">
-      <div class="admin-wrap" style="max-width:500px">
-        <div class="admin-card">
-          <div class="admin-card-titulo">🎬 Vídeo do YouTube (Home)</div>
-          <p style="font-size:0.7rem;color:#aaa;">Insira o ID ou URL completa do vídeo. Ex: JHpBULP21W4 ou https://youtu.be/JHpBULP21W4</p>
-          <input class="inp" id="video-url" placeholder="ID ou URL do YouTube">
-          <button class="btn-adm" onclick="salvarVideoConfig()">ATUALIZAR VÍDEO</button>
-        </div>
+      <div class="admin-card">
+        <div class="admin-card-titulo">Fotos na galeria</div>
+        <div id="adm-galeria-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
       </div>
-    </div>
+    </div></div>
 
-    <div class="tab-conteudo" id="adm-relatorio">
-      <div class="admin-wrap" style="max-width:620px">
-        <div style="margin-top:1rem;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px">📊 <span style="color:var(--vermelho)">Relatório</span></div>
-          <button class="btn-adm" onclick="exportarCSV()" style="width:auto;padding:8px 16px;background:#166534;font-size:0.8rem">📥 EXPORTAR CSV</button>
+    <div class="tab-conteudo" id="adm-loja"><div class="admin-wrap">
+      <div class="admin-card">
+        <div class="admin-card-titulo">Adicionar produto</div>
+        <input class="inp" placeholder="Nome do produto" id="p-nome">
+        <div style="display:flex;gap:8px">
+          <input class="inp" type="number" step="0.01" placeholder="Preço (£)" id="p-preco" style="margin-bottom:8px">
         </div>
-        <div id="rel-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-bottom:1rem"></div>
-        <div class="admin-card" style="overflow-x:auto">
-          <div class="admin-card-titulo">👥 Membros — Endereço Completo</div>
-          <div id="rel-tabela"></div>
-        </div>
-        <div class="admin-card">
-          <div class="admin-card-titulo">🏅 Histórico de Ajustes Manuais</div>
-          <div id="rel-pontos"></div>
-        </div>
+        <input class="inp" placeholder="Descrição" id="p-desc">
+        <img class="preview" id="p-preview" alt="">
+        <label class="file-drop"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1zM12 17a4 4 0 100-8 4 4 0 000 8z"/></svg></span><b>Foto do produto (opcional)</b><input type="file" accept="image/*" id="p-foto-file" onchange="mostrarPreview(this,'p-preview')"></label>
+        <button class="btn-adm" onclick="adicionarProduto()">Adicionar produto</button>
       </div>
-    </div>
+      <div class="admin-card"><div class="admin-card-titulo">Produtos</div><div id="adm-produtos-lista"></div></div>
+    </div></div>
 
+    <div class="tab-conteudo" id="adm-noticias"><div class="admin-wrap">
+      <div class="admin-card">
+        <div class="admin-card-titulo">Nova notícia</div>
+        <input class="inp" placeholder="Título da notícia" id="n-titulo">
+        <textarea class="inp" placeholder="Texto..." id="n-texto" rows="4" style="resize:vertical"></textarea>
+        <img class="preview" id="n-preview" alt="">
+        <label class="file-drop"><span class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1zM12 17a4 4 0 100-8 4 4 0 000 8z"/></svg></span><b>Foto da notícia (opcional)</b><input type="file" accept="image/*" id="n-foto-file" onchange="mostrarPreview(this,'n-preview')"></label>
+        <button class="btn-adm" onclick="adicionarNoticia()">Publicar notícia</button>
+      </div>
+      <div class="admin-card"><div class="admin-card-titulo">Notícias publicadas</div><div id="adm-noticias-lista"></div></div>
+    </div></div>
+
+    <div class="tab-conteudo" id="adm-video"><div class="admin-wrap">
+      <div class="admin-card">
+        <div class="admin-card-titulo">Vídeo do YouTube (início)</div>
+        <p style="font-size:.8rem;color:var(--txt3);margin-bottom:.6rem">Cole o ID ou o link completo. Ex: JHpBULP21W4 ou https://youtu.be/JHpBULP21W4</p>
+        <input class="inp" id="video-url" placeholder="ID ou link do YouTube">
+        <button class="btn-adm" onclick="salvarVideoConfig()">Atualizar vídeo</button>
+      </div>
+    </div></div>
+
+    <div class="tab-conteudo" id="adm-relatorio"><div class="admin-wrap" style="max-width:640px">
+      <div style="margin:.5rem 0 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
+        <div class="display" style="font-size:1.8rem">Relatório</div>
+        <button class="btn-adm" onclick="exportarCSV()" style="width:auto;padding:9px 16px;background:#166534;font-size:.9rem">Exportar CSV</button>
+      </div>
+      <div id="rel-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1rem"></div>
+      <div class="admin-card" style="overflow-x:auto"><div class="admin-card-titulo">Membros e endereço</div><div id="rel-tabela"></div></div>
+      <div class="admin-card"><div class="admin-card-titulo">Histórico de ajustes manuais</div><div id="rel-pontos"></div></div>
+    </div></div>
   </div>
-</div>
+</main>
 
 <footer>
-  <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;margin-bottom:0.5rem">
-    <img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt="" style="width:32px;height:32px;border-radius:50%">
-    UK <span style="color:var(--vermelho)">TRICOLOR</span>
-  </div>
-  <div class="foot-links">
-    <a onclick="ir('home')">Início</a><a onclick="ir('loja')">Loja</a>
-    <a onclick="ir('bolao')">Bolão</a><a onclick="ir('sobre')">Sobre</a>
-    <a onclick="ir('membros')">Membros</a>
-  </div>
-  <p>🔵🔴⚪ 1ª Embaixada Oficial do Bahia na Europa · Bora Bahêa!</p>
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px" class="display"><img src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt="" style="width:30px;height:30px;border-radius:50%"><span style="font-size:1.5rem;letter-spacing:3px">UK <span style="color:var(--vermelho)">TRICOLOR</span></span></div>
+  <p>1ª Embaixada Oficial do Bahia na Europa · Bora Bahêa!</p>
+  <button class="admin-link" onclick="ir('admin')">Área do administrador</button>
 </footer>
 
 <script type="module">
@@ -556,556 +704,817 @@ const firebaseConfig = {
   messagingSenderId: "46277744667",
   appId: "1:46277744667:web:66cd81b94c6f0c12c440be"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const SENHA_ADMIN = "uktricolor2024";
+
 let usuarioLogado = null;
 let adminLogado = false;
-let jogosCache = [];
-let palpitesCache = [];
-let pontosManualCache = [];
-
-// ===== VÍDEO CONFIG =====
+let jogosCache = [], palpitesCache = [], pontosManualCache = [];
+let noticiasCache = [];
+let rankNomes = {};
+let bolaoAba = "proximos";
 let currentVideoId = "JHpBULP21W4";
-async function carregarVideoConfig() {
-  const snap = await getDoc(doc(db, "config", "video"));
-  if (snap.exists()) currentVideoId = snap.data().videoId || "JHpBULP21W4";
-  else currentVideoId = "JHpBULP21W4";
-  atualizarIframeVideo();
-}
-function atualizarIframeVideo() {
-  const iframe = document.getElementById("youtube-iframe");
-  if (iframe) {
-    iframe.src = `https://www.youtube.com/embed/${currentVideoId}?autoplay=1&mute=1&loop=1&playlist=${currentVideoId}`;
-  }
-}
-window.salvarVideoConfig = async function() {
-  let url = document.getElementById("video-url").value.trim();
-  let videoId = url;
-  if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
-  else if (url.includes("youtube.com/embed/")) videoId = url.split("embed/")[1].split("?")[0];
-  else if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
-  if (!videoId && url.length > 0) videoId = url;
-  if (videoId && videoId !== currentVideoId) {
-    currentVideoId = videoId;
-    await setDoc(doc(db, "config", "video"), { videoId: currentVideoId });
-    atualizarIframeVideo();
-    toast("✅ Vídeo atualizado!");
-  } else if (url && !videoId) toast("⚠️ ID inválido", "err");
-  else toast("Nenhuma alteração");
-};
-window.toggleSound = function() {
-  const iframe = document.getElementById("youtube-iframe");
-  if (iframe) {
-    const isMuted = iframe.src.includes("mute=1");
-    const newSrc = iframe.src.replace(isMuted ? "mute=1" : "mute=0", isMuted ? "mute=0" : "mute=1");
-    iframe.src = newSrc;
-    document.getElementById("sound-toggle").textContent = isMuted ? "🔇 Desativar som" : "🔊 Ativar som";
-  }
-};
+let noticiaAbertaId = null;
 
-// Outras funções já definidas anteriormente (toast, ir, menu, modal, config, auth, admin, membros, galeria, loja, notícias, reuniões, bolão, jogos, relatório)
-// Para não repetir todo o código (que é muito longo), serão mantidas as funções já existentes no seu arquivo original.
-// Como você me passou o código completo anterior, vou reaproveitar todas as funções abaixo, pois são idênticas ao que você enviou (exceto o vídeo e a mudança de posição na home).
-// Aqui vou apenas declarar as funções que não mudaram (para o código ficar completo e funcional).
+const $ = id => document.getElementById(id);
+const ICONES = {'home': '<path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>', 'loja': '<path d="M6 7h12l1 13H5L6 7zM9 7a3 3 0 016 0"/>', 'trofeu': '<path d="M8 4h8v5a4 4 0 01-8 0V4zM8 6H4v1a3 3 0 003 3M16 6h4v1a3 3 0 01-3 3M12 13v4M8 20h8M10 17h4"/>', 'membros': '<path d="M16 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1M9.5 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM21 20v-1a4 4 0 00-3-3.9M16 4.1a3.5 3.5 0 010 6.8"/>', 'info': '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>', 'calendario': '<path d="M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1zM4 10h16M8 3v4M16 3v4"/>', 'camera': '<path d="M4 7h3l2-3h6l2 3h3a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1zM12 17a4 4 0 100-8 4 4 0 000 8z"/>', 'clipboard': '<path d="M9 4h6v3H9zM7 5H5a1 1 0 00-1 1v14a1 1 0 001 1h14a1 1 0 001-1V6a1 1 0 00-1-1h-2M8 12h8M8 16h5"/>', 'instagram': '<path d="M7 3h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4zM12 16a4 4 0 100-8 4 4 0 000 8zM17.5 6.5h.01"/>', 'camisa': '<path d="M9 3L3 6l2 4 3-1v11h8V9l3 1 2-4-6-3c-.5 1.5-1.5 2-3 2s-2.5-.5-3-2z"/>'};
+const ico = n => `<svg class="svg" viewBox="0 0 24 24" aria-hidden="true">${ICONES[n] || ""}</svg>`;
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const mesAno = () => new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"});
+const novoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 
 function toast(msg, tipo) {
-  const t = document.getElementById("toast");
+  const t = $("toast");
+  if (!t) return;
   t.textContent = msg;
-  t.className = "toast " + (tipo||"ok") + " show";
-  setTimeout(() => t.classList.remove("show"), 3000);
+  t.className = "toast " + (tipo || "ok") + " show";
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 3000);
 }
 
-window.ir = function(pag) {
+/* ============ UPLOAD DE FOTOS (sem site de terceiros) ============ */
+function comprimirImagem(file, maxLado = 1200, qualidade = 0.8) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type.startsWith("image/")) return reject(new Error("Escolha um arquivo de imagem."));
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Não foi possível ler a foto."));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Imagem inválida."));
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        const maior = Math.max(w, h);
+        if (maior > maxLado) { w = Math.round(w * maxLado / maior); h = Math.round(h * maxLado / maior); }
+        const c = document.createElement("canvas");
+        c.width = w; c.height = h;
+        const ctx = c.getContext("2d");
+        ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        let q = qualidade, out = c.toDataURL("image/jpeg", q);
+        while (out.length > 900000 && q > 0.4) { q -= 0.1; out = c.toDataURL("image/jpeg", q); }
+        if (out.length > 900000) return reject(new Error("Foto muito grande. Tente outra."));
+        resolve(out);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+let _previewUrlAnterior = null;
+window.mostrarPreview = function(input, imgId) {
+  const img = $(imgId);
+  const f = input.files && input.files[0];
+  if (_previewUrlAnterior) { try { URL.revokeObjectURL(_previewUrlAnterior); } catch (e) {} _previewUrlAnterior = null; }
+  if (!f) { img.style.display = "none"; return; }
+  _previewUrlAnterior = URL.createObjectURL(f);
+  img.src = _previewUrlAnterior;
+  img.style.display = "block";
+};
+
+/* ============ NAVEGAÇÃO ============ */
+window.ir = function(pag, semHash) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  const t = document.getElementById(pag);
-  if(t) t.classList.add("active");
-  document.getElementById("menu").style.display = "none";
-  window.scrollTo(0,0);
-  if(pag === "membros") { renderMembros(); renderReunioes(); }
-  if(pag === "bolao") renderBolao();
-  if(pag === "admin") abrirPaginaAdmin();
+  const alvo = $(pag) || $("home");
+  alvo.classList.add("active");
+  document.querySelectorAll("[data-go]").forEach(a => a.classList.toggle("ativo", a.dataset.go === pag));
+  $("user-menu")?.classList.remove("aberto");
+  window.scrollTo(0, 0);
+  if (!semHash) history.replaceState(null, "", "#" + pag);
+  if (pag === "membros") { renderMembros(); renderReunioes(); }
+  if (pag === "bolao") renderBolao();
+  if (pag === "admin") abrirPaginaAdmin();
 };
-window.toggleMenu = function() {
-  const m = document.getElementById("menu");
-  m.style.display = m.style.display === "block" ? "none" : "block";
-};
-window.abrirModal = function() {
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("modal-auth").classList.add("aberto");
-};
-window.fecharModal = function() {
-  document.getElementById("modal-auth").classList.remove("aberto");
-};
-document.getElementById("modal-auth").addEventListener("click", function(e) { if(e.target===this) window.fecharModal(); });
+window.irReunioes = function() { ir("membros"); trocarTabMembros("reunioes"); };
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (h && $(h) && $(h).classList.contains("page")) ir(h, true); });
+
+window.abrirModal = function() { $("modal-auth").classList.add("aberto"); setTimeout(() => $("l-email").focus(), 50); };
+window.fecharModal = function() { $("modal-auth").classList.remove("aberto"); };
+$("modal-auth").addEventListener("click", e => { if (e.target === e.currentTarget) fecharModal(); });
 window.trocarTab = function(t) {
-  document.getElementById("auth-entrar").style.display = t==="entrar"?"block":"none";
-  document.getElementById("auth-cadastrar").style.display = t==="cadastrar"?"block":"none";
-  document.getElementById("mtab-entrar").classList.toggle("ativo", t==="entrar");
-  document.getElementById("mtab-cadastrar").classList.toggle("ativo", t==="cadastrar");
+  $("auth-entrar").style.display = t === "entrar" ? "block" : "none";
+  $("auth-cadastrar").style.display = t === "cadastrar" ? "block" : "none";
+  $("mtab-entrar").classList.toggle("ativo", t === "entrar");
+  $("mtab-cadastrar").classList.toggle("ativo", t === "cadastrar");
 };
+$("l-senha").addEventListener("keydown", e => { if (e.key === "Enter") entrar(); });
+$("l-email").addEventListener("keydown", e => { if (e.key === "Enter") entrar(); });
+$("adm-pass").addEventListener("keydown", e => { if (e.key === "Enter") entrarAdmin(); });
+document.addEventListener("click", e => { if (!e.target.closest(".auth-area")) $("user-menu")?.classList.remove("aberto"); });
+
 window.trocarTabMembros = function(t) {
   document.querySelectorAll("#membros .tab-btn").forEach(b => b.classList.remove("ativo"));
   document.querySelectorAll("#membros .tab-conteudo").forEach(c => c.classList.remove("ativo"));
-  document.getElementById("tab-"+t).classList.add("ativo");
-  document.getElementById("tc-"+t).classList.add("ativo");
+  $("tab-" + t)?.classList.add("ativo");
+  $("tc-" + t)?.classList.add("ativo");
 };
 window.trocarTabAdmin = function(t) {
   document.querySelectorAll("#admin-panel .tab-btn").forEach(b => b.classList.remove("ativo"));
   document.querySelectorAll("#admin-panel .tab-conteudo").forEach(c => c.classList.remove("ativo"));
-  const btn = document.getElementById("adm-tab-"+t);
-  const cont = document.getElementById("adm-"+t);
-  if(btn) btn.classList.add("ativo");
-  if(cont) cont.classList.add("ativo");
-  if(t==="noticias") renderAdmNoticias();
-  if(t==="membros") { renderAdmMembros(); popularSelectReset(); }
-  if(t==="galeria") renderAdmGaleria();
-  if(t==="loja") renderAdmProdutos();
-  if(t==="jogos") { renderAdmJogos(); atualizarSelectJogos(); }
-  if(t==="video") document.getElementById("video-url").value = currentVideoId;
-  if(t==="relatorio") renderRelatorio();
+  $("adm-tab-" + t)?.classList.add("ativo");
+  $("adm-" + t)?.classList.add("ativo");
+  if (t === "noticias") renderAdmNoticias();
+  if (t === "membros") { renderAdmMembros(); popularSelectReset(); }
+  if (t === "galeria") renderAdmGaleria();
+  if (t === "loja") renderAdmProdutos();
+  if (t === "jogos") { renderAdmJogos(); atualizarSelectJogos(); }
+  if (t === "video") $("video-url").value = currentVideoId;
+  if (t === "relatorio") renderRelatorio();
 };
-window.abrirFoto = function(src) {
-  document.getElementById("lb-img").src = src;
-  document.getElementById("lb").style.display = "flex";
+window.abrirFoto = function(src) { $("lb-img").src = src; $("lb").style.display = "flex"; };
+
+window.abrirNoticia = function(i) {
+  const n = noticiasCache[i]; if (!n) return;
+  noticiaAbertaId = n.id || null;
+  const img = $("mn-img");
+  if (n.foto) { img.src = n.foto; img.style.display = "block"; } else { img.style.display = "none"; }
+  $("mn-titulo").textContent = n.titulo;
+  $("mn-texto").textContent = n.texto;
+  $("mn-data").textContent = n.data || "";
+  $("modal-noticia").classList.add("aberto");
+};
+window.fecharModalNoticia = function() { $("modal-noticia").classList.remove("aberto"); };
+$("modal-noticia").addEventListener("click", e => { if (e.target === e.currentTarget) fecharModalNoticia(); });
+
+/* ============ VÍDEO ============ */
+async function carregarVideoConfig() {
+  try {
+    const snap = await getDoc(doc(db, "config", "video"));
+    currentVideoId = snap.exists() ? (snap.data().videoId || currentVideoId) : currentVideoId;
+  } catch (e) {}
+  atualizarIframeVideo();
+}
+function atualizarIframeVideo() {
+  const f = $("youtube-iframe");
+  if (f) f.src = `https://www.youtube.com/embed/${currentVideoId}?autoplay=1&mute=1&loop=1&playlist=${currentVideoId}`;
+  const s = $("youtube-iframe-sobre");
+  if (s) s.src = `https://www.youtube.com/embed/${currentVideoId}`;
+  const b = $("sound-toggle");
+  if (b) b.textContent = "Ativar som";
+}
+window.salvarVideoConfig = async function() {
+  const url = $("video-url").value.trim();
+  let id = url;
+  if (url.includes("youtu.be/")) id = url.split("youtu.be/")[1].split("?")[0];
+  else if (url.includes("youtube.com/embed/")) id = url.split("embed/")[1].split("?")[0];
+  else if (url.includes("v=")) id = url.split("v=")[1].split("&")[0];
+  if (!id) { toast("Informe o ID ou link", "err"); return; }
+  if (id === currentVideoId) { toast("Nenhuma alteração"); return; }
+  currentVideoId = id;
+  await setDoc(doc(db, "config", "video"), { videoId: id });
+  atualizarIframeVideo();
+  toast("Vídeo atualizado!");
+};
+window.toggleSound = function() {
+  const f = $("youtube-iframe"); if (!f) return;
+  const mudo = f.src.includes("mute=1");
+  f.src = f.src.replace(mudo ? "mute=1" : "mute=0", mudo ? "mute=0" : "mute=1");
+  const b = $("sound-toggle");
+  if (b) b.textContent = mudo ? "Desativar som" : "Ativar som";
 };
 
-// ===== MODAL NOTÍCIA CORRIGIDO =====
-window.abrirModalNoticia = function(titulo, texto, foto, data) {
-  const img = document.getElementById("mn-img");
-  if(foto && foto !== "") { img.src = foto; img.style.display = "block"; }
-  else img.style.display = "none";
-  document.getElementById("mn-titulo").textContent = titulo;
-  document.getElementById("mn-texto").textContent = texto;
-  document.getElementById("mn-data").textContent = data;
-  document.getElementById("modal-noticia").classList.add("aberto");
-};
-window.fecharModalNoticia = function() {
-  document.getElementById("modal-noticia").classList.remove("aberto");
-};
-document.getElementById("modal-noticia").addEventListener("click", function(e) {
-  if(e.target === this || e.target.classList.contains("modal-fechar")) window.fecharModalNoticia();
-});
-
-// CONFIG
+/* ============ CONFIG DO SITE ============ */
 async function carregarConfig() {
   try {
-    const snap = await getDoc(doc(db,"config","geral"));
-    if(snap.exists()) {
+    const snap = await getDoc(doc(db, "config", "geral"));
+    if (snap.exists()) {
       const c = snap.data();
-      if(c.capa) document.getElementById("hero-bg").style.backgroundImage = `url('${c.capa}')`;
-      if(c.hist) document.getElementById("txt-hist").textContent = c.hist;
-      if(c.miss) { document.getElementById("txt-miss").textContent = c.miss; document.getElementById("txt-miss2").textContent = c.miss; }
-      if(c.onde) document.getElementById("txt-onde").textContent = c.onde;
+      if (c.capa) $("hero-bg").style.backgroundImage = `url("${c.capa}")`;
+      if (c.hist) $("txt-hist").textContent = c.hist;
+      if (c.miss) { $("txt-miss").textContent = c.miss; $("txt-miss2").textContent = c.miss; }
+      if (c.onde) $("txt-onde").textContent = c.onde;
     }
-  } catch(e) {}
+  } catch (e) {}
 }
 window.salvarCapa = async function() {
-  const u = document.getElementById("cfg-capa").value.trim();
-  if(!u) { toast("⚠️ Cole o link","err"); return; }
-  await setDoc(doc(db,"config","geral"), {capa:u}, {merge:true});
-  document.getElementById("hero-bg").style.backgroundImage = `url('${u}')`;
-  toast("✅ Capa atualizada!");
+  const f = $("cfg-capa-file").files[0];
+  if (!f) { toast("Escolha uma foto", "err"); return; }
+  try {
+    toast("Enviando foto...");
+    const data = await comprimirImagem(f, 1600, 0.78);
+    await setDoc(doc(db, "config", "geral"), { capa: data }, { merge: true });
+    $("hero-bg").style.backgroundImage = `url("${data}")`;
+    $("cfg-capa-file").value = ""; $("capa-preview").style.display = "none";
+    toast("Capa atualizada!");
+  } catch (e) { toast(e.message, "err"); }
 };
 window.salvarTextos = async function() {
-  const hist = document.getElementById("cfg-hist").value;
-  const miss = document.getElementById("cfg-miss").value;
-  const onde = document.getElementById("cfg-onde").value;
-  await setDoc(doc(db,"config","geral"), {hist,miss,onde}, {merge:true});
-  if(hist) document.getElementById("txt-hist").textContent = hist;
-  if(miss) { document.getElementById("txt-miss").textContent = miss; document.getElementById("txt-miss2").textContent = miss; }
-  if(onde) document.getElementById("txt-onde").textContent = onde;
-  toast("✅ Textos salvos!");
+  const hist = $("cfg-hist").value, miss = $("cfg-miss").value, onde = $("cfg-onde").value;
+  await setDoc(doc(db, "config", "geral"), { hist, miss, onde }, { merge: true });
+  if (hist) $("txt-hist").textContent = hist;
+  if (miss) { $("txt-miss").textContent = miss; $("txt-miss2").textContent = miss; }
+  if (onde) $("txt-onde").textContent = onde;
+  toast("Textos salvos!");
 };
-window.entrar = async function() {
-  const email = document.getElementById("l-email").value.trim().toLowerCase();
-  const senha = document.getElementById("l-senha").value;
-  const erro = document.getElementById("l-erro");
+
+/* ============ LOGIN ============ */
+function renderAuth() {
+  const el = $("auth-area");
+  const hero = $("hero-btns");
+  if (!el || !hero) return;
+  if (usuarioLogado) {
+    const nome = usuarioLogado.nome || "Membro";
+    el.innerHTML = `<button class="user-chip" onclick="toggleUserMenu(event)" aria-label="Menu da conta"><span class="av">${esc(nome.charAt(0).toUpperCase())}</span><span>${esc(nome.split(" ")[0])}</span></button>
+      <div class="user-menu" id="user-menu"><div class="nome">${esc(usuarioLogado.email || "")}</div><a onclick="ir('bolao')">Meus palpites</a><a onclick="sair()">Sair da conta</a></div>`;
+    hero.innerHTML = `<button class="btn-v" onclick="ir('bolao')">Fazer palpites</button><button class="btn-b" onclick="ir('loja')">Ver loja</button>`;
+  } else {
+    el.innerHTML = `<button class="btn-entrar" onclick="abrirModal()">Entrar</button>`;
+    hero.innerHTML = `<button class="btn-v" onclick="abrirModal()">Entrar ou criar conta</button><button class="btn-b" onclick="ir('loja')">Ver loja</button>`;
+  }
+}
+window.toggleUserMenu = function(e) { e.stopPropagation(); $("user-menu")?.classList.toggle("aberto"); };
+window.sair = function() {
+  usuarioLogado = null;
+  localStorage.removeItem("uk_uid");
+  renderAuth(); renderBolao();
+  toast("Você saiu da conta");
+};
+async function restaurarSessao() {
   try {
-    const q = await getDocs(collection(db,"usuarios"));
-    const u = q.docs.map(d=>({id:d.id,...d.data()})).find(x=>x.email.toLowerCase()===email&&x.senha===senha);
-    if(!u) { erro.textContent="Email ou senha incorretos."; erro.style.display="block"; return; }
-    if(!u.aprovado) { erro.textContent="Cadastro ainda não aprovado."; erro.style.display="block"; return; }
-    usuarioLogado = u; erro.style.display="none"; window.fecharModal();
-    toast("✅ Bem-vindo, "+u.nome+"!"); renderBolao();
-  } catch(e) { erro.textContent="Erro de conexão."; erro.style.display="block"; }
+    const id = localStorage.getItem("uk_uid"); if (!id) return;
+    const s = await getDoc(doc(db, "usuarios", id));
+    if (s.exists() && s.data().aprovado) usuarioLogado = { id: s.id, ...s.data() };
+    else localStorage.removeItem("uk_uid");
+  } catch (e) {}
+}
+window.entrar = async function() {
+  const email = $("l-email").value.trim().toLowerCase();
+  const senha = $("l-senha").value;
+  const erro = $("l-erro");
+  if (!email || !senha) { erro.textContent = "Digite email e senha."; erro.style.display = "block"; return; }
+  try {
+    const q = await getDocs(collection(db, "usuarios"));
+    const u = q.docs.map(d => ({ id: d.id, ...d.data() })).find(x => (x.email || "").toLowerCase() === email && x.senha === senha);
+    if (!u) { erro.textContent = "Email ou senha incorretos."; erro.style.display = "block"; return; }
+    if (!u.aprovado) { erro.textContent = "Seu cadastro ainda não foi aprovado."; erro.style.display = "block"; return; }
+    usuarioLogado = u;
+    localStorage.setItem("uk_uid", u.id);
+    erro.style.display = "none"; $("l-senha").value = "";
+    fecharModal(); renderAuth();
+    toast("Bem-vindo, " + u.nome + "!");
+    renderBolao();
+  } catch (e) { erro.textContent = "Erro de conexão. Tente de novo."; erro.style.display = "block"; }
 };
 window.cadastrar = async function() {
-  const nome = document.getElementById("c-nome").value.trim();
-  const email = document.getElementById("c-email").value.trim().toLowerCase();
-  const cidade = document.getElementById("c-cidade").value.trim();
-  const bairro = document.getElementById("c-bairro").value.trim();
-  const postcode = document.getElementById("c-postcode").value.trim().toUpperCase();
-  const senha = document.getElementById("c-senha").value;
-  const erro = document.getElementById("c-erro");
-  if(!nome||!email||!cidade||!senha) { erro.textContent="Preencha todos os campos obrigatórios!"; erro.style.display="block"; return; }
-  if(senha.length<6) { erro.textContent="Senha mínimo 6 caracteres."; erro.style.display="block"; return; }
+  const nome = $("c-nome").value.trim();
+  const email = $("c-email").value.trim().toLowerCase();
+  const cidade = $("c-cidade").value.trim();
+  const bairro = $("c-bairro").value.trim();
+  const postcode = $("c-postcode").value.trim().toUpperCase();
+  const senha = $("c-senha").value;
+  const erro = $("c-erro");
+  if (!nome || !email || !cidade || !senha) { erro.textContent = "Preencha nome, email, cidade e senha."; erro.style.display = "block"; return; }
+  if (senha.length < 6) { erro.textContent = "A senha precisa ter pelo menos 6 caracteres."; erro.style.display = "block"; return; }
   try {
-    const q = await getDocs(collection(db,"usuarios"));
-    if(q.docs.some(d=>d.data().email.toLowerCase()===email)) { erro.textContent="Email já cadastrado."; erro.style.display="block"; return; }
-    const id = Date.now().toString();
-    await setDoc(doc(db,"usuarios",id), {nome,email,senha,cidade,bairro,postcode,aprovado:false,criadoEm:new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"})});
-    await setDoc(doc(db,"pendentes",id), {nome,email,cidade,bairro,postcode,desde:new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"})});
-    erro.style.display="none"; window.fecharModal();
-    toast("✅ Cadastro enviado! Aguarde aprovação.");
-  } catch(e) { erro.textContent="Erro ao cadastrar."; erro.style.display="block"; }
+    const q = await getDocs(collection(db, "usuarios"));
+    if (q.docs.some(d => (d.data().email || "").toLowerCase() === email)) { erro.textContent = "Este email já está cadastrado."; erro.style.display = "block"; return; }
+    const id = novoId();
+    await setDoc(doc(db, "usuarios", id), { nome, email, senha, cidade, bairro, postcode, aprovado: false, criadoEm: mesAno() });
+    await setDoc(doc(db, "pendentes", id), { nome, email, cidade, bairro, postcode, desde: mesAno() });
+    erro.style.display = "none"; fecharModal(); trocarTab("entrar");
+    toast("Cadastro enviado! Aguarde a aprovação.");
+  } catch (e) { erro.textContent = "Erro ao cadastrar. Tente de novo."; erro.style.display = "block"; }
 };
+
+/* ============ ADMIN ============ */
 window.abrirPaginaAdmin = function() {
-  const painel = document.getElementById("admin-panel");
-  if(painel.style.display!=="block") {
-    document.getElementById("admin-login").style.display="block";
-    painel.style.display="none";
-  }
+  if (adminLogado) return;
+  $("admin-login").style.display = "block";
+  $("admin-panel").style.display = "none";
 };
 window.entrarAdmin = function() {
-  const s = document.getElementById("adm-pass").value;
-  if(s===SENHA_ADMIN) {
+  if ($("adm-pass").value === SENHA_ADMIN) {
     adminLogado = true;
-    document.getElementById("admin-login").style.display="none";
-    document.getElementById("admin-panel").style.display="block";
-    carregarDadosAdmin(); toast("✅ Bem-vindo ao painel admin!");
-  } else toast("⚠️ Senha incorreta","err");
+    $("adm-pass").value = "";
+    $("admin-login").style.display = "none";
+    $("admin-panel").style.display = "block";
+    carregarDadosAdmin(); toast("Painel admin liberado");
+    renderBolao();
+  } else toast("Senha incorreta", "err");
 };
 async function carregarDadosAdmin() {
-  const snap = await getDoc(doc(db,"config","geral"));
-  if(snap.exists()) {
-    const c = snap.data();
-    document.getElementById("cfg-capa").value = c.capa||"";
-    document.getElementById("cfg-hist").value = c.hist||"";
-    document.getElementById("cfg-miss").value = c.miss||"";
-    document.getElementById("cfg-onde").value = c.onde||"";
-  }
-  renderAdmMembros(); popularSelectReset(); renderAdmGaleria(); renderAdmProdutos(); renderAdmNoticias(); renderAdmJogos(); atualizarSelectJogos();
+  try {
+    const snap = await getDoc(doc(db, "config", "geral"));
+    if (snap.exists()) {
+      const c = snap.data();
+      $("cfg-hist").value = c.hist || ""; $("cfg-miss").value = c.miss || ""; $("cfg-onde").value = c.onde || "";
+      if (c.capa) { $("capa-preview").src = c.capa; $("capa-preview").style.display = "block"; }
+    }
+  } catch (e) {}
+  // Fora do try: cada render independente
+  try { renderAdmMembros(); } catch (e) {}
+  try { popularSelectReset(); } catch (e) {}
+  try { renderAdmGaleria(); } catch (e) {}
+  try { renderAdmProdutos(); } catch (e) {}
+  try { renderAdmNoticias(); } catch (e) {}
+  try { renderAdmJogos(); } catch (e) {}
+  try { atualizarSelectJogos(); } catch (e) {}
 }
+
+/* ============ MEMBROS ============ */
 async function renderMembros() {
-  const grid = document.getElementById("membros-grid");
-  if(!grid) return;
-  grid.innerHTML = '<div class="loading">Carregando...</div>';
-  const snap = await getDocs(collection(db,"membros"));
-  const membros = snap.docs.map(d=>d.data()).filter(m=>m.status==="ativo");
-  const stM = document.getElementById("st-membros");
-  if(stM) stM.textContent = membros.length;
-  grid.innerHTML = membros.length ? membros.map(m=>`<div class="membro"><div class="membro-av">${m.nome?m.nome.charAt(0):'?'}</div><div class="membro-nome">${m.nome}</div><div class="membro-cidade">📍 ${m.cidade||"UK"}</div>${m.cargo?`<div class="membro-cargo">${m.cargo}</div>`:""}</div>`).join("") : '<p style="color:rgba(255,255,255,0.4)">Nenhum membro ainda.</p>';
+  const grid = $("membros-grid"); if (!grid) return;
+  try {
+    const snap = await getDocs(collection(db, "membros"));
+    const membros = snap.docs.map(d => d.data()).filter(m => m.status === "ativo");
+    if ($("st-membros")) $("st-membros").textContent = membros.length;
+    if ($("st-cidades")) $("st-cidades").textContent = new Set(membros.map(m => (m.cidade || "").trim().toLowerCase()).filter(Boolean)).size;
+    grid.innerHTML = membros.length ? membros.map(m => `<div class="membro"><div class="membro-av">${esc(m.nome ? m.nome.charAt(0) : "?")}</div><div class="membro-nome">${esc(m.nome)}</div><div class="membro-cidade">${esc(m.cidade || "UK")}</div>${m.cargo && m.cargo !== "Membro" ? `<div class="membro-cargo">${esc(m.cargo)}</div>` : ""}</div>`).join("") : '<p class="loading">Nenhum membro ainda.</p>';
+  } catch (e) {
+    grid.innerHTML = '<p class="loading">Erro ao carregar membros.</p>';
+  }
 }
 async function renderAdmMembros() {
-  const pEl = document.getElementById("adm-pendentes");
-  const aEl = document.getElementById("adm-ativos");
-  if(!pEl) return;
-  const [pendSnap,memSnap] = await Promise.all([getDocs(collection(db,"pendentes")),getDocs(collection(db,"membros"))]);
-  const pendentes = pendSnap.docs.map(d=>({id:d.id,...d.data()}));
-  const ativos = memSnap.docs.map(d=>({id:d.id,...d.data()})).filter(m=>m.status==="ativo");
-  pEl.innerHTML = pendentes.length ? pendentes.map(m=>`<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.08)"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-weight:700;font-size:0.88rem">${m.nome}</div><div style="font-size:0.75rem;opacity:0.6">📍 ${m.cidade}${m.bairro?' · '+m.bairro:''}${m.postcode?' · '+m.postcode:''}</div><div style="font-size:0.72rem;opacity:0.5">✉️ ${m.email||'—'}</div></div><div style="display:flex;gap:5px;flex-shrink:0;margin-left:8px"><button onclick="aprovarMembro('${m.id}')" style="background:#166534;color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✅</button><button onclick="recusarMembro('${m.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button></div></div></div>`).join("") : '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhum pendente.</p>';
-  aEl.innerHTML = ativos.length ? ativos.map(m=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)"><div><div style="font-weight:700;font-size:0.88rem">${m.nome}</div><div style="font-size:0.75rem;opacity:0.6">${m.cidade||""}</div></div><button onclick="removerMembro('${m.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button></div>`).join("") : '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhum membro ativo.</p>';
+  const pEl = $("adm-pendentes"), aEl = $("adm-ativos"); if (!pEl) return;
+  try {
+    const [pendSnap, memSnap] = await Promise.all([getDocs(collection(db, "pendentes")), getDocs(collection(db, "membros"))]);
+    const pendentes = pendSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const ativos = memSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(m => m.status === "ativo");
+    pEl.innerHTML = pendentes.length ? pendentes.map(m => `<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;gap:8px"><div><div style="font-weight:700">${esc(m.nome)}</div><div style="font-size:.78rem;opacity:.65">${esc(m.cidade)}${m.bairro ? " · " + esc(m.bairro) : ""}${m.postcode ? " · " + esc(m.postcode) : ""}</div><div style="font-size:.75rem;opacity:.5">${esc(m.email || "—")}</div></div><div style="display:flex;gap:6px;flex-shrink:0"><button onclick="aprovarMembro('${m.id}')" style="background:#166534;color:#fff;border:none;border-radius:6px;padding:6px 10px;cursor:pointer">Aprovar</button><button onclick="recusarMembro('${m.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:6px;padding:6px 10px;cursor:pointer">Recusar</button></div></div>`).join("") : '<p style="color:var(--txt3);font-size:.85rem">Nenhum pendente.</p>';
+    aEl.innerHTML = ativos.length ? ativos.map(m => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)"><div><div style="font-weight:700">${esc(m.nome)}</div><div style="font-size:.78rem;opacity:.6">${esc(m.cidade || "")}</div></div><button onclick="removerMembro('${m.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:6px;padding:6px 10px;cursor:pointer">Remover</button></div>`).join("") : '<p style="color:var(--txt3);font-size:.85rem">Nenhum membro ativo.</p>';
+  } catch (e) { pEl.innerHTML = '<p style="color:var(--txt3);font-size:.85rem">Erro ao carregar.</p>'; }
 }
 window.aprovarMembro = async function(id) {
-  const snap = await getDoc(doc(db,"pendentes",id));
-  if(!snap.exists()) return;
-  const p = snap.data();
-  await setDoc(doc(db,"membros",Date.now().toString()), {nome:p.nome,cidade:p.cidade,bairro:p.bairro||"",postcode:p.postcode||"",cargo:"Membro",desde:new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"}),status:"ativo",email:p.email||""});
-  await updateDoc(doc(db,"usuarios",id), {aprovado:true});
-  await deleteDoc(doc(db,"pendentes",id));
-  renderAdmMembros(); renderMembros(); popularSelectReset(); toast("✅ Membro aprovado!");
+  try {
+    const snap = await getDoc(doc(db, "pendentes", id)); if (!snap.exists()) return;
+    const p = snap.data();
+    await setDoc(doc(db, "membros", novoId()), { nome: p.nome, cidade: p.cidade, bairro: p.bairro || "", postcode: p.postcode || "", cargo: "Membro", desde: mesAno(), status: "ativo", email: p.email || "" });
+    await updateDoc(doc(db, "usuarios", id), { aprovado: true });
+    await deleteDoc(doc(db, "pendentes", id));
+    renderAdmMembros(); renderMembros(); popularSelectReset(); toast("Membro aprovado!");
+  } catch (e) { toast("Erro ao aprovar", "err"); }
 };
 window.recusarMembro = async function(id) {
-  await deleteDoc(doc(db,"pendentes",id));
-  await deleteDoc(doc(db,"usuarios",id));
-  renderAdmMembros(); toast("✅ Recusado!");
+  try {
+    await deleteDoc(doc(db, "pendentes", id));
+    await deleteDoc(doc(db, "usuarios", id));
+    renderAdmMembros(); toast("Cadastro recusado");
+  } catch (e) { toast("Erro ao recusar", "err"); }
 };
 window.removerMembro = async function(id) {
-  if(!confirm("Remover membro?")) return;
-  await deleteDoc(doc(db,"membros",id));
-  renderAdmMembros(); renderMembros(); popularSelectReset(); toast("✅ Removido!");
+  if (!confirm("Remover membro?")) return;
+  try {
+    await deleteDoc(doc(db, "membros", id));
+    renderAdmMembros(); renderMembros(); popularSelectReset(); toast("Removido!");
+  } catch (e) { toast("Erro ao remover", "err"); }
 };
 window.adicionarMembroManual = async function() {
-  const n = document.getElementById("adm-m-nome").value.trim();
-  if(!n) { toast("⚠️ Digite o nome","err"); return; }
-  await addDoc(collection(db,"membros"), {nome:n,cidade:document.getElementById("adm-m-cidade").value,cargo:document.getElementById("adm-m-cargo").value||"Membro",desde:new Date().toLocaleDateString("pt-BR",{month:"short",year:"numeric"}),status:"ativo"});
-  document.getElementById("adm-m-nome").value="";
-  renderAdmMembros(); renderMembros(); popularSelectReset(); toast("✅ Adicionado!");
+  const n = $("adm-m-nome").value.trim();
+  if (!n) { toast("Digite o nome", "err"); return; }
+  try {
+    await addDoc(collection(db, "membros"), { nome: n, cidade: $("adm-m-cidade").value, cargo: $("adm-m-cargo").value || "Membro", desde: mesAno(), status: "ativo" });
+    ["adm-m-nome", "adm-m-cidade", "adm-m-cargo"].forEach(i => $(i).value = "");
+    renderAdmMembros(); renderMembros(); popularSelectReset(); toast("Adicionado!");
+  } catch (e) { toast("Erro ao adicionar", "err"); }
 };
 async function popularSelectReset() {
-  const sel = document.getElementById("reset-membro");
-  if(!sel) return;
-  const snap = await getDocs(collection(db,"usuarios"));
-  const aprovados = snap.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.aprovado);
-  sel.innerHTML = '<option value="">Selecione o membro...</option>' + aprovados.map(u=>`<option value="${u.id}">${u.nome} — ${u.email}</option>`).join("");
+  const sel = $("reset-membro"); if (!sel) return;
+  try {
+    const snap = await getDocs(collection(db, "usuarios"));
+    const aprovados = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(u => u.aprovado);
+    sel.innerHTML = '<option value="">Selecione o membro...</option>' + aprovados.map(u => `<option value="${u.id}">${esc(u.nome)} — ${esc(u.email)}</option>`).join("");
+  } catch (e) {}
 }
 window.redefinirSenha = async function() {
-  const uid = document.getElementById("reset-membro").value;
-  const novaSenha = document.getElementById("reset-senha").value;
-  if(!uid) { toast("⚠️ Selecione o membro","err"); return; }
-  if(!novaSenha || novaSenha.length < 6) { toast("⚠️ Mínimo 6 caracteres","err"); return; }
-  await updateDoc(doc(db,"usuarios",uid), {senha: novaSenha});
-  document.getElementById("reset-senha").value = "";
-  toast("✅ Senha redefinida com sucesso!");
+  const uid = $("reset-membro").value, nova = $("reset-senha").value;
+  if (!uid) { toast("Selecione o membro", "err"); return; }
+  if (!nova || nova.length < 6) { toast("Mínimo 6 caracteres", "err"); return; }
+  try {
+    await updateDoc(doc(db, "usuarios", uid), { senha: nova });
+    $("reset-senha").value = "";
+    toast("Senha redefinida!");
+  } catch (e) { toast("Erro ao redefinir", "err"); }
 };
+
+/* ============ GALERIA ============ */
+const FOTOS_PADRAO = [
+  "https://i.ibb.co/KpYh8zBB/Screenshot-20260424-164442-Instagram.jpg",
+  "https://i.ibb.co/Wv6f945r/Screenshot-20260424-164409-Instagram.jpg",
+  "https://i.ibb.co/5hNMgKR7/Screenshot-20260424-164158-Instagram.jpg",
+  "https://i.ibb.co/Kpt2jC2x/Screenshot-20260424-163811-Instagram.jpg",
+  "https://i.ibb.co/sp0ZsTwN/Screenshot-20260424-163324-Instagram.jpg",
+  "https://i.ibb.co/PGNV8HFM/Screenshot-20260424-163245-Instagram.jpg"
+];
+async function listarFotos() {
+  try {
+    const [novas, antiga] = await Promise.all([getDocs(collection(db, "galeria")), getDoc(doc(db, "config", "galeria"))]);
+    const lista = novas.docs.map(d => ({ src: d.data().src, ts: d.data().ts || 0, id: d.id, legado: -1 })).sort((a, b) => b.ts - a.ts);
+    const legadas = antiga.exists() ? (antiga.data().fotos || []) : [];
+    legadas.forEach((src, i) => lista.push({ src, ts: 0, id: null, legado: i }));
+    return lista;
+  } catch (e) { return []; }
+}
 async function renderGaleria() {
-  const snap = await getDoc(doc(db,"config","galeria"));
-  const fotos = snap.exists()?(snap.data().fotos||[]):[
-    "https://i.ibb.co/KpYh8zBB/Screenshot-20260424-164442-Instagram.jpg",
-    "https://i.ibb.co/Wv6f945r/Screenshot-20260424-164409-Instagram.jpg",
-    "https://i.ibb.co/5hNMgKR7/Screenshot-20260424-164158-Instagram.jpg",
-    "https://i.ibb.co/Kpt2jC2x/Screenshot-20260424-163811-Instagram.jpg",
-    "https://i.ibb.co/sp0ZsTwN/Screenshot-20260424-163324-Instagram.jpg",
-    "https://i.ibb.co/PGNV8HFM/Screenshot-20260424-163245-Instagram.jpg"
-  ];
-  const home = document.getElementById("home-galeria");
-  const sobre = document.getElementById("sobre-galeria");
-  if(home) home.innerHTML = fotos.slice(0,6).map((f,i)=>`<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
-  if(sobre) sobre.innerHTML = fotos.map((f,i)=>`<div class="foto${i===0?' grande':''}"><img src="${f}" onclick="abrirFoto(this.src)"></div>`).join("");
+  let fotos = [];
+  try { fotos = (await listarFotos()).map(f => f.src); } catch (e) {}
+  if (!fotos.length) fotos = FOTOS_PADRAO;
+  const item = (f, i) => `<div class="foto${i === 0 ? " grande" : ""}"><img src="${esc(f)}" alt="Foto da UK Tricolor" loading="lazy" onclick="abrirFoto(this.src)"></div>`;
+  if ($("home-galeria")) $("home-galeria").innerHTML = fotos.slice(0, 6).map(item).join("");
+  if ($("sobre-galeria")) $("sobre-galeria").innerHTML = fotos.map(item).join("");
 }
 async function renderAdmGaleria() {
-  const snap = await getDoc(doc(db,"config","galeria"));
-  const fotos = snap.exists()?(snap.data().fotos||[]):[];
-  const adm = document.getElementById("adm-galeria-grid");
-  if(!adm) return;
-  adm.innerHTML = fotos.map((f,i)=>`<div style="position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.15)"><img src="${f}" style="width:100%;height:100%;object-fit:cover"><button onclick="removerFoto(${i})" style="position:absolute;top:3px;right:3px;background:var(--vermelho);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:10px">✕</button></div>`).join("");
+  const adm = $("adm-galeria-grid"); if (!adm) return;
+  const fotos = await listarFotos();
+  adm.innerHTML = fotos.length ? fotos.map(f => `<div style="position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid var(--borda)"><img src="${esc(f.src)}" alt="" style="width:100%;height:100%;object-fit:cover"><button onclick="removerFoto('${f.id || ""}',${f.legado})" style="position:absolute;top:4px;right:4px;background:var(--vermelho);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:11px">✕</button></div>`).join("") : '<p style="grid-column:1/-1;color:var(--txt3);font-size:.85rem">Nenhuma foto enviada ainda.</p>';
 }
-window.adicionarFoto = async function() {
-  const u = document.getElementById("gal-url").value.trim();
-  if(!u) { toast("⚠️ Cole o link","err"); return; }
-  const snap = await getDoc(doc(db,"config","galeria"));
-  const fotos = snap.exists()?(snap.data().fotos||[]):[];
-  fotos.push(u);
-  await setDoc(doc(db,"config","galeria"), {fotos});
-  document.getElementById("gal-url").value="";
-  renderGaleria(); renderAdmGaleria(); toast("✅ Foto adicionada!");
+window.adicionarFotos = async function() {
+  const files = Array.from($("gal-files").files);
+  if (!files.length) { toast("Escolha pelo menos uma foto", "err"); return; }
+  let ok = 0;
+  for (let i = 0; i < files.length; i++) {
+    try {
+      toast(`Enviando ${i + 1} de ${files.length}...`);
+      const src = await comprimirImagem(files[i], 1200, 0.78);
+      await addDoc(collection(db, "galeria"), { src, ts: Date.now() + i });
+      ok++;
+    } catch (e) { toast(files[i].name + ": " + e.message, "err"); await new Promise(r => setTimeout(r, 1500)); }
+  }
+  $("gal-files").value = ""; if ($("gal-qtd")) $("gal-qtd").textContent = "";
+  renderGaleria(); renderAdmGaleria();
+  if (ok) toast(`${ok} foto(s) adicionada(s)!`);
 };
-window.removerFoto = async function(i) {
-  if(!confirm("Remover foto?")) return;
-  const snap = await getDoc(doc(db,"config","galeria"));
-  const fotos = snap.exists()?(snap.data().fotos||[]):[];
-  fotos.splice(i,1);
-  await setDoc(doc(db,"config","galeria"), {fotos});
-  renderGaleria(); renderAdmGaleria(); toast("✅ Removida!");
+window.removerFoto = async function(id, legado) {
+  if (!confirm("Remover foto?")) return;
+  try {
+    if (id) await deleteDoc(doc(db, "galeria", id));
+    else if (legado >= 0) {
+      const snap = await getDoc(doc(db, "config", "galeria"));
+      const fotos = snap.exists() ? (snap.data().fotos || []) : [];
+      fotos.splice(legado, 1);
+      await setDoc(doc(db, "config", "galeria"), { fotos });
+    }
+    renderGaleria(); renderAdmGaleria(); toast("Removida!");
+  } catch (e) { toast("Erro ao remover", "err"); }
 };
+
+/* ============ LOJA ============ */
 async function renderLoja() {
-  const snap = await getDocs(collection(db,"produtos"));
-  const produtos = snap.docs.map(d=>({id:d.id,...d.data()}));
-  const stP = document.getElementById("st-prods");
-  if(stP) stP.textContent = produtos.length||0;
-  const html = produtos.length ? produtos.map(p=>`<div class="produto"><div class="produto-img">${p.foto?`<img src="${p.foto}" style="width:100%;height:100%;object-fit:contain;padding:8px">`:p.emoji||"👕"}</div><div class="produto-body"><div class="produto-nome">${p.nome}</div><div class="produto-preco">£${p.preco}</div><button class="btn-pedir" onclick="pedirProduto()">Pedir via Instagram</button></div></div>`).join("") : '<p class="loading">Nenhum produto cadastrado.</p>';
-  const g = document.getElementById("loja-grid");
-  const h = document.getElementById("home-loja");
-  if(g) g.innerHTML = html;
-  if(h) h.innerHTML = html;
+  try {
+    const snap = await getDocs(collection(db, "produtos"));
+    const produtos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if ($("st-prods")) $("st-prods").textContent = produtos.length;
+    const card = p => `<div class="produto"><div class="produto-img" ${p.foto ? `onclick="abrirFoto('${esc(p.foto)}')"` : ""}>${p.foto ? `<img src="${esc(p.foto)}" alt="${esc(p.nome)}" loading="lazy">` : ico("camisa")}</div><div class="produto-body"><div class="produto-nome">${esc(p.nome)}</div>${p.desc ? `<div class="produto-desc">${esc(p.desc)}</div>` : ""}<div class="produto-preco">£${esc(p.preco)}</div><button class="btn-pedir" onclick="pedirProduto()">Pedir pelo Instagram</button></div></div>`;
+    const vazio = '<p class="loading" style="grid-column:1/-1">Nenhum produto cadastrado ainda.</p>';
+    if ($("loja-grid")) $("loja-grid").innerHTML = produtos.length ? produtos.map(card).join("") : vazio;
+    if ($("home-loja")) $("home-loja").innerHTML = produtos.length ? produtos.slice(0, 4).map(card).join("") : vazio;
+  } catch (e) {
+    if ($("loja-grid")) $("loja-grid").innerHTML = '<p class="loading" style="grid-column:1/-1">Erro ao carregar produtos.</p>';
+  }
 }
-window.pedirProduto = function() { toast("📱 Abrindo Instagram..."); setTimeout(()=>window.open("https://www.instagram.com/uktricolor","_blank"),800); };
+window.pedirProduto = function() { toast("Abrindo Instagram..."); setTimeout(() => window.open("https://www.instagram.com/uktricolor", "_blank"), 700); };
 async function renderAdmProdutos() {
-  const snap = await getDocs(collection(db,"produtos"));
-  const produtos = snap.docs.map(d=>({id:d.id,...d.data()}));
-  const el = document.getElementById("adm-produtos-lista");
-  if(!el) return;
-  el.innerHTML = produtos.length ? produtos.map(p=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)"><div style="display:flex;gap:8px;align-items:center"><div style="font-size:1.5rem">${p.emoji||"👕"}</div><div><div style="font-weight:700;font-size:0.88rem">${p.nome}</div><div style="font-size:0.75rem;color:#4ade80">£${p.preco}</div></div></div><button onclick="deletarProduto('${p.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button></div>`).join("") : '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhum produto.</p>';
+  const el = $("adm-produtos-lista"); if (!el) return;
+  try {
+    const snap = await getDocs(collection(db, "produtos"));
+    const produtos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    el.innerHTML = produtos.length ? produtos.map(p => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)"><div style="display:flex;gap:10px;align-items:center">${p.foto ? `<img src="${esc(p.foto)}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px">` : `<div style="font-size:1.6rem">${ico("camisa")}</div>`}<div><div style="font-weight:700">${esc(p.nome)}</div><div style="font-size:.8rem;color:#4ade80">£${esc(p.preco)}</div></div></div><button onclick="deletarProduto('${p.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:6px;padding:6px 10px;cursor:pointer">Remover</button></div>`).join("") : '<p style="color:var(--txt3);font-size:.85rem">Nenhum produto.</p>';
+  } catch (e) { el.innerHTML = '<p style="color:var(--txt3);font-size:.85rem">Erro ao carregar.</p>'; }
 }
 window.adicionarProduto = async function() {
-  const nome = document.getElementById("p-nome").value;
-  const preco = document.getElementById("p-preco").value;
-  if(!nome||!preco) { toast("⚠️ Preencha nome e preço","err"); return; }
-  await addDoc(collection(db,"produtos"), {nome,preco:Number(preco),desc:document.getElementById("p-desc").value,foto:document.getElementById("p-foto").value,emoji:document.getElementById("p-emoji").value||"👕"});
-  ["p-nome","p-preco","p-desc","p-foto"].forEach(id=>document.getElementById(id).value="");
-  renderAdmProdutos(); renderLoja(); toast("✅ Produto adicionado!");
+  const nome = $("p-nome").value.trim(), preco = $("p-preco").value;
+  if (!nome || !preco) { toast("Preencha nome e preço", "err"); return; }
+  let foto = "";
+  const f = $("p-foto-file").files[0];
+  try {
+    if (f) { toast("Enviando foto..."); foto = await comprimirImagem(f, 900, 0.8); }
+    await addDoc(collection(db, "produtos"), { nome, preco: Number(preco), desc: $("p-desc").value, foto });
+  } catch (e) { toast(e.message, "err"); return; }
+  ["p-nome", "p-preco", "p-desc", "p-foto-file"].forEach(id => { const el = $(id); if (el) el.value = ""; });
+  $("p-preview").style.display = "none";
+  renderAdmProdutos(); renderLoja(); toast("Produto adicionado!");
 };
 window.deletarProduto = async function(id) {
-  if(!confirm("Remover produto?")) return;
-  await deleteDoc(doc(db,"produtos",id));
-  renderAdmProdutos(); renderLoja(); toast("✅ Removido!");
+  if (!confirm("Remover produto?")) return;
+  try {
+    await deleteDoc(doc(db, "produtos", id));
+    renderAdmProdutos(); renderLoja(); toast("Removido!");
+  } catch (e) { toast("Erro ao remover", "err"); }
 };
+
+/* ============ NOTÍCIAS ============ */
 async function renderNoticias() {
-  const el = document.getElementById("home-noticias");
-  if(!el) return;
-  const snap = await getDocs(collection(db,"noticias"));
-  const noticias = snap.docs.map(d=>d.data()).sort((a,b)=>(b.ts||0)-(a.ts||0));
-  // Usando dataset para evitar problemas com aspas no onclick
-  el.innerHTML = noticias.length ? noticias.map(n=>`
-    <div data-titulo="${n.titulo.replace(/"/g, '&quot;')}" data-texto="${n.texto.replace(/"/g, '&quot;')}" data-foto="${n.foto||''}" data-data="${n.data}" class="noticia-card" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;display:flex;margin-bottom:0.8rem;cursor:pointer;transition:border-color 0.2s">
-      ${n.foto?`<div style="width:100px;min-width:100px;overflow:hidden"><img src="${n.foto}" style="width:100%;height:100%;object-fit:cover"></div>`:""}
-      <div style="padding:0.9rem;flex:1">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px;margin-bottom:0.3rem">${n.titulo}</div>
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.65);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${n.texto}</div>
-        <div style="font-size:0.68rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;font-family:'Barlow Condensed',sans-serif">${n.data} · toque para ver mais</div>
-      </div>
-    </div>`).join("") : '<p style="color:rgba(255,255,255,0.3);font-size:0.82rem;font-family:Barlow Condensed,sans-serif;letter-spacing:1px">Nenhuma novidade ainda.</p>';
-  // Adicionar evento de clique em cada notícia
-  document.querySelectorAll('.noticia-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const titulo = card.dataset.titulo;
-      const texto = card.dataset.texto;
-      const foto = card.dataset.foto;
-      const data = card.dataset.data;
-      window.abrirModalNoticia(titulo, texto, foto, data);
-    });
-  });
+  const el = $("home-noticias"); if (!el) return;
+  try {
+    const snap = await getDocs(collection(db, "noticias"));
+    noticiasCache = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    el.innerHTML = noticiasCache.length ? noticiasCache.map((n, i) => `<div class="noticia-card" onclick="abrirNoticia(${i})">${n.foto ? `<div class="thumb"><img src="${esc(n.foto)}" alt="" loading="lazy"></div>` : ""}<div class="corpo"><div class="tit">${esc(n.titulo)}</div><div class="res">${esc(n.texto)}</div><div class="meta">${esc(n.data)} · toque para ler</div></div></div>`).join("") : '<p class="loading">Nenhuma novidade ainda.</p>';
+  } catch (e) {
+    el.innerHTML = '<p class="loading">Erro ao carregar notícias.</p>';
+  }
 }
 async function renderAdmNoticias() {
-  const snap = await getDocs(collection(db,"noticias"));
-  const noticias = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.ts||0)-(a.ts||0));
-  const adm = document.getElementById("adm-noticias-lista");
-  if(!adm) return;
-  adm.innerHTML = noticias.length ? noticias.map(n=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)"><div><div style="font-weight:700;font-size:0.88rem">${n.titulo}</div><div style="font-size:0.72rem;opacity:0.5">${n.data}</div></div><button onclick="deletarNoticia('${n.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:0.75rem">✕</button></div>`).join("") : '<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhuma notícia.</p>';
+  const adm = $("adm-noticias-lista"); if (!adm) return;
+  try {
+    const snap = await getDocs(collection(db, "noticias"));
+    const noticias = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    adm.innerHTML = noticias.length ? noticias.map(n => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)"><div><div style="font-weight:700">${esc(n.titulo)}</div><div style="font-size:.75rem;opacity:.5">${esc(n.data)}</div></div><button onclick="deletarNoticia('${n.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:6px;padding:6px 10px;cursor:pointer">Remover</button></div>`).join("") : '<p style="color:var(--txt3);font-size:.85rem">Nenhuma notícia.</p>';
+  } catch (e) { adm.innerHTML = '<p style="color:var(--txt3);font-size:.85rem">Erro ao carregar.</p>'; }
 }
 window.adicionarNoticia = async function() {
-  const titulo = document.getElementById("n-titulo").value.trim();
-  const texto = document.getElementById("n-texto").value.trim();
-  if(!titulo||!texto) { toast("⚠️ Preencha título e texto","err"); return; }
-  await addDoc(collection(db,"noticias"), {titulo,texto,foto:document.getElementById("n-foto").value.trim(),data:new Date().toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"}),ts:Date.now()});
-  document.getElementById("n-titulo").value="";
-  document.getElementById("n-texto").value="";
-  document.getElementById("n-foto").value="";
-  renderNoticias(); renderAdmNoticias(); toast("✅ Notícia publicada!");
+  const titulo = $("n-titulo").value.trim(), texto = $("n-texto").value.trim();
+  if (!titulo || !texto) { toast("Preencha título e texto", "err"); return; }
+  let foto = "";
+  const f = $("n-foto-file").files[0];
+  try {
+    if (f) { toast("Enviando foto..."); foto = await comprimirImagem(f, 1000, 0.8); }
+    await addDoc(collection(db, "noticias"), { titulo, texto, foto, data: new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }), ts: Date.now() });
+  } catch (e) { toast(e.message, "err"); return; }
+  ["n-titulo", "n-texto", "n-foto-file"].forEach(id => { const el = $(id); if (el) el.value = ""; });
+  $("n-preview").style.display = "none";
+  renderNoticias(); renderAdmNoticias(); toast("Notícia publicada!");
 };
 window.deletarNoticia = async function(id) {
-  if(!confirm("Remover notícia?")) return;
-  await deleteDoc(doc(db,"noticias",id));
-  renderNoticias(); renderAdmNoticias(); toast("✅ Removida!");
+  if (!confirm("Remover notícia?")) return;
+  try {
+    await deleteDoc(doc(db, "noticias", id));
+    renderNoticias(); renderAdmNoticias(); toast("Removida!");
+  } catch (e) { toast("Erro ao remover", "err"); }
 };
+
+/* ============ REUNIÕES ============ */
 async function renderReunioes() {
-  const el = document.getElementById("reunioes-lista");
-  if(!el) return;
-  const snap = await getDocs(collection(db,"reunioes"));
-  const reunioes = snap.docs.map(d=>d.data());
-  if(!reunioes.length) { el.innerHTML='<p class="loading">Nenhuma reunião agendada.</p>'; return; }
-  el.innerHTML = reunioes.map(r=>{
-    const d = new Date(r.data+"T00:00:00");
-    return `<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:1.2rem;margin-bottom:0.8rem;display:flex;gap:12px"><div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px 12px;text-align:center;flex-shrink:0;min-width:50px"><div style="font-family:Bebas Neue,sans-serif;font-size:1.8rem;line-height:1">${d.getDate()}</div><div style="font-size:0.7rem;opacity:0.6;text-transform:uppercase;font-family:Barlow Condensed,sans-serif">${d.toLocaleDateString("pt-BR",{month:"short"})}</div></div><div><div style="font-weight:700;font-family:Barlow Condensed,sans-serif">${d.toLocaleDateString("pt-BR",{weekday:"long"})}</div>${r.hora?`<div style="font-size:0.82rem;opacity:0.6;margin-top:3px">🕐 ${r.hora}h</div>`:""}<div style="font-size:0.85rem;margin-top:5px">📍 ${r.local}</div>${r.pauta?`<div style="font-size:0.75rem;opacity:0.5;margin-top:4px;font-style:italic">📋 ${r.pauta}</div>`:""}</div></div>`;
-  }).join("");
+  const el = $("reunioes-lista"); if (!el) return;
+  try {
+    const snap = await getDocs(collection(db, "reunioes"));
+    const reunioes = snap.docs.map(d => d.data());
+    if (!reunioes.length) { el.innerHTML = '<p class="loading">Nenhuma reunião agendada.</p>'; return; }
+    el.innerHTML = reunioes.map(r => {
+      const d = new Date(r.data + "T00:00:00");
+      return `<div class="reuniao"><div class="dia"><div class="display" style="font-size:1.9rem;line-height:1">${d.getDate()}</div><div style="font-size:.75rem;opacity:.65;text-transform:uppercase">${d.toLocaleDateString("pt-BR", { month: "short" })}</div></div><div><div class="cond" style="font-weight:700;font-size:1.1rem">${d.toLocaleDateString("pt-BR", { weekday: "long" })}${r.hora ? " · " + esc(r.hora) + "h" : ""}</div><div style="font-size:.9rem;margin-top:3px">Local: ${esc(r.local)}</div>${r.pauta ? `<div style="font-size:.8rem;opacity:.6;margin-top:4px;font-style:italic">Pauta: ${esc(r.pauta)}</div>` : ""}</div></div>`;
+    }).join("");
+  } catch (e) { el.innerHTML = '<p class="loading">Erro ao carregar reuniões.</p>'; }
 }
+
+/* ============ BOLÃO ============ */
 async function carregarJogosEPalpites() {
-  const [j,p,pm] = await Promise.all([getDocs(collection(db,"jogos")),getDocs(collection(db,"palpites")),getDocs(collection(db,"pontosManual"))]);
-  jogosCache = j.docs.map(d=>({id:d.id,...d.data()}));
-  palpitesCache = p.docs.map(d=>({id:d.id,...d.data()}));
-  pontosManualCache = pm.docs.map(d=>({id:d.id,...d.data()}));
+  try {
+    const [j, p, pm] = await Promise.all([getDocs(collection(db, "jogos")), getDocs(collection(db, "palpites")), getDocs(collection(db, "pontosManual"))]);
+    jogosCache = j.docs.map(d => ({ id: d.id, ...d.data() }));
+    palpitesCache = p.docs.map(d => ({ id: d.id, ...d.data() }));
+    pontosManualCache = pm.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (e) {
+    jogosCache = []; palpitesCache = []; pontosManualCache = [];
+  }
 }
 function calcPontosUsuario(uid) {
   let pts = 0;
-  jogosCache.forEach(j=>{ if(!j.encerrado) return; const p = palpitesCache.find(x=>x.jogoId===j.id&&x.usuarioId===uid); if(p&&p.casa===j.golsCasa&&p.fora===j.golsFora) pts+=3; });
-  pontosManualCache.forEach(pm=>{ if(pm.membroId===uid) pts+=pm.pontos; });
-  return pts;
-}
-async function renderBolao() {
-  const box = document.getElementById("bolao-conteudo");
-  const rank = document.getElementById("ranking");
-  if(!box) return;
-  await carregarJogosEPalpites();
-  const usuariosSnap = await getDocs(collection(db,"usuarios"));
-  const usuariosMap = new Map();
-  usuariosSnap.docs.forEach(doc => { const data = doc.data(); if(data.aprovado) usuariosMap.set(doc.id, data.nome); });
-  if(!usuarioLogado) {
-    box.innerHTML=`<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:2rem;text-align:center"><div style="font-size:2.5rem;margin-bottom:0.8rem">🏆</div><div style="font-family:Bebas Neue,sans-serif;font-size:1.5rem;letter-spacing:2px;margin-bottom:0.5rem">ENTRE PARA PARTICIPAR</div><p style="color:rgba(255,255,255,0.55);font-size:0.88rem;margin-bottom:1.2rem">Faça login para enviar seus palpites!</p><button class="btn-v" onclick="abrirModal()">Entrar / Cadastrar</button></div>`;
-  } else {
-    const abertos = jogosCache.filter(j=>!j.encerrado);
-    const encerrados = jogosCache.filter(j=>j.encerrado);
-    let html="";
-    if(abertos.length) {
-      html+='<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);font-family:Barlow Condensed,sans-serif;text-transform:uppercase;margin-bottom:0.6rem">Jogos em andamento</div>';
-      abertos.forEach(j=>{
-        const p=palpitesCache.find(x=>x.jogoId===j.id&&x.usuarioId===usuarioLogado.id);
-        const outrosPalpites = palpitesCache.filter(x=>x.jogoId===j.id);
-        const fechado = !!j.palpitesFechados;
-        html+=`<div style="background:rgba(255,255,255,0.08);border:1px solid ${fechado?'rgba(200,100,0,0.5)':'rgba(255,255,255,0.15)'};border-radius:8px;padding:1.3rem;margin-bottom:0.8rem">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem"><span style="font-size:0.72rem;letter-spacing:1px;opacity:0.5;font-family:Barlow Condensed,sans-serif">RODADA ${j.rodada}</span>${fechado?'<span style="background:rgba(120,60,0,0.6);border:1px solid rgba(200,100,0,0.5);padding:2px 8px;border-radius:10px;font-family:Barlow Condensed,sans-serif;font-size:0.65rem;letter-spacing:1px">🔒 PALPITES FECHADOS</span>':'<span style="background:rgba(30,100,0,0.4);border:1px solid rgba(50,180,0,0.3);padding:2px 8px;border-radius:10px;font-family:Barlow Condensed,sans-serif;font-size:0.65rem;letter-spacing:1px">🟢 ABERTO</span>'}</div>
-          <div style="font-family:Barlow Condensed,sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.8rem;text-align:center">${j.casa} × ${j.fora}</div>
-          ${fechado ? (p ? `<div style="text-align:center;font-size:0.85rem;padding:8px;border-radius:8px;background:rgba(0,89,184,0.25);color:rgba(255,255,255,0.8);margin-bottom:0.5rem">Seu palpite: <strong>${p.casa} × ${p.fora}</strong></div>` : '<div style="text-align:center;font-size:0.78rem;padding:8px;border-radius:8px;background:rgba(0,0,0,0.2);color:rgba(255,255,255,0.35);margin-bottom:0.5rem">Você não enviou palpite</div>') : `<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;justify-content:center"><input type="number" min="0" id="j${j.id}c" value="${p?p.casa:""}" style="width:52px;height:52px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);border-radius:6px;color:#fff;text-align:center;font-family:Bebas Neue,sans-serif;font-size:1.7rem;outline:none"><span style="font-family:Bebas Neue,sans-serif;font-size:1.3rem;color:rgba(255,255,255,0.3)">×</span><input type="number" min="0" id="j${j.id}f" value="${p?p.fora:""}" style="width:52px;height:52px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.25);border-radius:6px;color:#fff;text-align:center;font-family:Bebas Neue,sans-serif;font-size:1.7rem;outline:none"></div><button style="width:100%;background:#0059b8;color:#fff;border:none;padding:10px;border-radius:4px;font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer" onclick="salvarPalpite('${j.id}')">${p?"✏️ Atualizar":"✅ Confirmar"}</button>`}
-          ${outrosPalpites.length&&(fechado||p)?`<div style="margin-top:0.8rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:0.8rem"><div style="font-size:0.68rem;letter-spacing:1.5px;color:rgba(255,255,255,0.4);font-family:Barlow Condensed,sans-serif;text-transform:uppercase;margin-bottom:0.5rem">Palpites dos membros</div><div style="overflow-x:auto"><table class="palpites-tabela"><thead><tr><th>Membro</th><th style="text-align:center">Palpite</th></tr></thead><tbody>${outrosPalpites.map(pp=>{ const nome = usuariosMap.get(pp.usuarioId) || pp.nomeUsuario || 'Membro'; return `<tr><td>${nome}</td><td style="text-align:center;font-family:Bebas Neue,sans-serif;font-size:1rem">${pp.casa} × ${pp.fora}</td></tr>`;}).join("")}</tbody></table></div></div>`:""}
-        </div>`;
-      });
+  jogosCache.forEach(j => { if (!j.encerrado) return; const p = palpitesCache.find(x => x.jogoId === j.id && x.usuarioId === uid); if (p && p.casa === j.golsCasa && p.fora === j.golsFora) pts += 3; });
+  // Ajuste manual: usa o mais recente por membro (não soma infinito)
+  const ajustes = pontosManualCache.filter(pm => pm.membroId === uid).sort((a, b) => (a.ts || 0) - (b.ts || 0));
+  if (ajustes.length) {
+    const ult = ajustes[ajustes.length - 1];
+    if (ult.motivo === "Edição direta no ranking" && typeof ult.valorFinal === "number") {
+      // Se salvamos valorFinal, prevalece (evita somar sobre acúmulo)
+      const autoPts = pts;
+      return Math.max(0, autoPts + (ult.valorFinal - (ult.baseAuto ?? autoPts)));
+    } else {
+      ajustes.forEach(a => { pts += Number(a.pontos) || 0; });
     }
-    if(encerrados.length) {
-      html+='<div style="font-size:0.72rem;letter-spacing:2px;color:rgba(255,255,255,0.4);font-family:Barlow Condensed,sans-serif;text-transform:uppercase;margin:1rem 0 0.6rem">Resultados</div>';
-      encerrados.forEach(j=>{
-        const p=palpitesCache.find(x=>x.jogoId===j.id&&x.usuarioId===usuarioLogado.id);
-        const exact=p&&p.casa===j.golsCasa&&p.fora===j.golsFora;
-        const todosPalpites = palpitesCache.filter(x=>x.jogoId===j.id);
-        html+=`<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:1.2rem;margin-bottom:0.8rem">
-          <div style="font-family:Barlow Condensed,sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.5rem;text-align:center">⚽ ${j.casa} ${j.golsCasa} × ${j.golsFora} ${j.fora}</div>
-          ${p?`<div style="text-align:center;font-size:0.82rem;padding:7px;border-radius:8px;background:${exact?'#14532d55':'#1a1a2e'};color:${exact?'#4ade80':'#9ca3af'};margin-bottom:0.8rem">Seu palpite: ${p.casa}–${p.fora} · ${exact?"🎯 3 pontos!":"😅 0 pts"}</div>`:""}
-          ${todosPalpites.length?`<div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:0.8rem"><div style="font-size:0.68rem;letter-spacing:1.5px;color:rgba(255,255,255,0.4);font-family:Barlow Condensed,sans-serif;text-transform:uppercase;margin-bottom:0.5rem">Palpites da rodada</div><div style="overflow-x:auto"><table class="palpites-tabela"><thead><tr><th>Membro</th><th style="text-align:center">Palpite</th><th style="text-align:center">Resultado</th></tr></thead><tbody>${todosPalpites.map(pp=>{ const nome = usuariosMap.get(pp.usuarioId) || pp.nomeUsuario || 'Membro'; const ok = pp.casa===j.golsCasa&&pp.fora===j.golsFora; return `<tr><td>${nome}</td><td style="text-align:center;font-family:Bebas Neue,sans-serif">${pp.casa} × ${pp.fora}</td><td style="text-align:center">${ok?"🎯":"❌"}</td></tr>`; }).join("")}</tbody></table></div></div>`:""}
-        </div>`;
-      });
-    }
-    box.innerHTML = html||'<p class="loading">Nenhum jogo disponível.</p>';
   }
-  const usuarios = usuariosSnap.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.aprovado);
-  const ranked = usuarios.map(u=>{
-    let pts = 0;
-    jogosCache.forEach(j=>{ if(!j.encerrado) return; const p = palpitesCache.find(x=>x.jogoId===j.id&&x.usuarioId===u.id); if(p&&p.casa===j.golsCasa&&p.fora===j.golsFora) pts+=3; });
-    pontosManualCache.forEach(pm=>{ if(pm.membroId === u.id) pts += pm.pontos; });
-    return {id:u.id, nome:u.nome, pts};
-  }).sort((a,b)=>b.pts-a.pts);
-  const posStyles=["#b8860b","#9ca3af","#92400e"]; const posEmoji=["🥇","🥈","🥉"];
-  if(ranked.length) {
-    rank.innerHTML = ranked.map((u,i)=>`<div style="display:flex;align-items:center;gap:0.7rem;padding:0.7rem 0;border-bottom:1px solid rgba(255,255,255,0.08)"><div style="width:28px;height:28px;border-radius:50%;background:${posStyles[i]||'rgba(255,255,255,0.12)'};display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:0.85rem;flex-shrink:0">${i<3?posEmoji[i]:i+1}</div><div style="flex:1;font-weight:600;font-size:0.88rem">${u.nome}</div>${adminLogado?`<div class="edit-pts-wrap"><input class="edit-pts-inp" type="number" id="pts-inline-${u.id}" value="${u.pts}" min="0"><button class="edit-pts-btn" onclick="salvarPontosInline('${u.id}','${u.nome}')">✓</button></div>`:`<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;color:var(--vermelho)">${u.pts} pts</div>`}</div>`).join("");
-  } else rank.innerHTML = '<p style="color:rgba(255,255,255,0.3);font-size:0.82rem;font-family:Barlow Condensed,sans-serif">Ninguém pontuou ainda.</p>';
+  return Math.max(0, pts);
 }
-window.salvarPontosInline = async function(uid, nomeUsuario) {
-  const inp = document.getElementById("pts-inline-"+uid);
-  if(!inp) return;
-  const novoPts = parseInt(inp.value);
-  if(isNaN(novoPts)||novoPts<0) { toast("⚠️ Valor inválido","err"); return; }
+const fmtData = d => { if (!d) return ""; const x = new Date(d + "T00:00:00"); return isNaN(x) ? "" : x.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }); };
+const tituloDia = d => {
+  const x = d ? new Date(d + "T00:00:00") : null;
+  if (!x || isNaN(x)) return '<div class="dia-titulo">Sem data definida</div>';
+  const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+  const dif = Math.round((x - hoje) / 86400000);
+  let txt = x.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" });
+  txt = txt.charAt(0).toUpperCase() + txt.slice(1);
+  const marca = dif === 0 ? " · Hoje" : dif === 1 ? " · Amanhã" : "";
+  return `<div class="dia-titulo${dif === 0 ? " hoje" : ""}">${esc(txt + marca)}</div>`;
+};
+window.trocarAbaBolao = function(t) { bolaoAba = t; renderBolao(); };
+async function renderBolao() {
+  const box = $("bolao-conteudo"), rank = $("ranking"); if (!box || !rank) return;
   await carregarJogosEPalpites();
-  let ptsAtuais = 0;
-  jogosCache.forEach(j=>{ if(!j.encerrado) return; const p = palpitesCache.find(x=>x.jogoId===j.id&&x.usuarioId===uid); if(p&&p.casa===j.golsCasa&&p.fora===j.golsFora) ptsAtuais+=3; });
-  pontosManualCache.forEach(pm=>{ if(pm.membroId === uid) ptsAtuais += pm.pontos; });
-  const diferenca = novoPts - ptsAtuais;
-  if(diferenca===0) { toast("Sem alteração"); return; }
-  await addDoc(collection(db,"pontosManual"), { membroId: uid, nomeMembro: nomeUsuario, pontos: diferenca, motivo: "Edição direta no ranking", data: new Date().toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"}), ts: Date.now() });
-  toast(`✅ Pontos de ${nomeUsuario} atualizados para ${novoPts}!`); renderBolao();
+  let usuarios = [];
+  try {
+    const usuariosSnap = await getDocs(collection(db, "usuarios"));
+    usuarios = usuariosSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(u => u.aprovado);
+  } catch (e) {}
+  const nomes = new Map(usuarios.map(u => [u.id, u.nome]));
+
+  if (!usuarioLogado) {
+    box.innerHTML = `<div class="vazio"><div class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 01-8 0V4zM8 6H4v1a3 3 0 003 3M16 6h4v1a3 3 0 01-3 3M12 13v4M8 20h8M10 17h4"/></svg></div><h3>Entre para participar</h3><p>Faça login para enviar seus palpites e aparecer no ranking.</p><button class="btn-v" onclick="abrirModal()">Entrar ou criar conta</button></div>`;
+  } else {
+    const porData = (x, y) => (x.data || "9999-99-99").localeCompare(y.data || "9999-99-99") || (Number(x.rodada) || 0) - (Number(y.rodada) || 0);
+    const abertos = jogosCache.filter(j => !j.encerrado).sort(porData);
+    const encerrados = jogosCache.filter(j => j.encerrado).sort((x, y) => porData(y, x));
+    const escudo = n => /bahia/i.test(n || "") ? `<img class="escudo" src="https://i.ibb.co/21rb1B4J/IMG-20251226-204138-593.webp" alt="">` : `<div class="escudo">${esc((n || "?").trim().charAt(0).toUpperCase())}</div>`;
+    const time = n => `<div class="time">${escudo(n)}<div class="time-nome">${esc(n)}</div></div>`;
+    const palpitesDet = (lista, j, comResultado) => lista.length ? `<details class="palpites-det"><summary>Palpites dos membros (${lista.length})</summary><div style="overflow-x:auto"><table class="palpites-tabela"><thead><tr><th>Membro</th><th style="text-align:center">Palpite</th>${comResultado ? '<th style="text-align:center">Resultado</th>' : ""}</tr></thead><tbody>${lista.map(pp => { const ok = comResultado && pp.casa === j.golsCasa && pp.fora === j.golsFora; return `<tr><td>${esc(nomes.get(pp.usuarioId) || pp.nomeUsuario || "Membro")}</td><td style="text-align:center" class="display">${pp.casa} × ${pp.fora}</td>${comResultado ? `<td style="text-align:center">${ok ? "Acertou" : "Errou"}</td>` : ""}</tr>`; }).join("")}</tbody></table></div></details>` : "";
+    const cardAberto = j => {
+      const p = palpitesCache.find(x => x.jogoId === j.id && x.usuarioId === usuarioLogado.id);
+      const outros = palpitesCache.filter(x => x.jogoId === j.id);
+      const fechado = !!j.palpitesFechados;
+      const meio = fechado ? '<div class="vs">×</div>' : `<div class="placar-inputs"><input type="number" inputmode="numeric" min="0" id="j${j.id}c" value="${p ? p.casa : ""}" aria-label="Gols ${esc(j.casa)}"><span>×</span><input type="number" inputmode="numeric" min="0" id="j${j.id}f" value="${p ? p.fora : ""}" aria-label="Gols ${esc(j.fora)}"></div>`;
+      const rodape = fechado
+        ? (p ? `<div class="aviso">Seu palpite: <strong>${p.casa} × ${p.fora}</strong></div>` : '<div class="aviso" style="background:rgba(0,0,0,.2);color:var(--txt3)">Você não enviou palpite</div>')
+        : `<button class="btn-v" style="width:100%" onclick="salvarPalpite('${j.id}')">${p ? "Atualizar palpite" : "Confirmar palpite"}</button>`;
+      return `<div class="jogo${fechado ? " fechado" : ""}"><div class="jogo-topo"><span>Rodada ${esc(j.rodada)}</span>${fechado ? '<span class="badge trancado">Palpites fechados</span>' : '<span class="badge aberto">Aberto</span>'}</div><div class="confronto">${time(j.casa)}${meio}${time(j.fora)}</div>${rodape}${fechado ? palpitesDet(outros, j, false) : ""}</div>`;
+    };
+    const cardEncerrado = j => {
+      const p = palpitesCache.find(x => x.jogoId === j.id && x.usuarioId === usuarioLogado.id);
+      const exato = p && p.casa === j.golsCasa && p.fora === j.golsFora;
+      const todos = palpitesCache.filter(x => x.jogoId === j.id);
+      return `<div class="jogo fim"><div class="jogo-topo"><span>Rodada ${esc(j.rodada)}</span><span class="badge ok">Encerrado</span></div><div class="confronto">${time(j.casa)}<div class="placar-final">${j.golsCasa} × ${j.golsFora}</div>${time(j.fora)}</div>${p ? `<div class="aviso" style="background:${exato ? "rgba(20,83,45,.55)" : "rgba(0,0,0,.25)"};color:${exato ? "#4ade80" : "var(--txt2)"}">Seu palpite: ${p.casa}–${p.fora} · ${exato ? "3 pontos" : "0 pontos"}</div>` : ""}${palpitesDet(todos, j, true)}</div>`;
+    };
+    const emResultados = bolaoAba === "resultados";
+    const lista = emResultados ? encerrados : abertos;
+    let html = `<div class="seg"><button class="${emResultados ? "" : "ativo"}" onclick="trocarAbaBolao('proximos')">Próximos <span>${abertos.length}</span></button><button class="${emResultados ? "ativo" : ""}" onclick="trocarAbaBolao('resultados')">Resultados <span>${encerrados.length}</span></button></div>`;
+    let ultima = "__";
+    lista.forEach(j => {
+      const d = j.data || "";
+      if (d !== ultima) { ultima = d; html += tituloDia(d); }
+      html += emResultados ? cardEncerrado(j) : cardAberto(j);
+    });
+    if (!lista.length) html += emResultados
+      ? '<div class="vazio" style="margin-top:1rem"><div class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6v3H9zM7 5H5a1 1 0 00-1 1v14a1 1 0 001 1h14a1 1 0 001-1V6a1 1 0 00-1-1h-2M8 12h8M8 16h5"/></svg></div><h3>Nenhum resultado ainda</h3><p>Os jogos encerrados aparecem aqui, do mais recente para o mais antigo.</p></div>'
+      : '<div class="vazio" style="margin-top:1rem"><div class="ic"><svg class="svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1zM4 10h16M8 3v4M16 3v4"/></svg></div><h3>Sem jogos por enquanto</h3><p>Assim que o próximo jogo for cadastrado, ele aparece aqui.</p></div>';
+    box.innerHTML = html;
+  }
+
+  const ranked = usuarios.map(u => ({ id: u.id, nome: u.nome, pts: calcPontosUsuario(u.id) })).sort((a, b) => b.pts - a.pts);
+  rankNomes = Object.fromEntries(ranked.map(u => [u.id, u.nome]));
+  const cores = ["#b8860b", "#9ca3af", "#92400e"];
+  rank.innerHTML = ranked.length ? ranked.map((u, i) => `<div class="rank-item"><div class="rank-pos" style="${i < 3 ? "background:" + cores[i] : ""}">${i + 1}</div><div style="flex:1;font-weight:600">${esc(u.nome)}${usuarioLogado && usuarioLogado.id === u.id ? ' <span style="color:var(--txt3);font-weight:400">(você)</span>' : ""}</div>${adminLogado ? `<div class="edit-pts-wrap"><input class="edit-pts-inp" type="number" id="pts-inline-${u.id}" value="${u.pts}" min="0"><button class="edit-pts-btn" onclick="salvarPontosInline('${u.id}')">✓</button></div>` : `<div class="rank-pts">${u.pts} pts</div>`}</div>`).join("") : '<p class="loading">Ninguém pontuou ainda.</p>';
+}
+window.salvarPontosInline = async function(uid) {
+  const inp = $("pts-inline-" + uid); if (!inp) return;
+  const novo = parseInt(inp.value);
+  if (isNaN(novo) || novo < 0) { toast("Valor inválido", "err"); return; }
+  await carregarJogosEPalpites();
+  const atual = calcPontosUsuario(uid);
+  if (novo === atual) { toast("Sem alteração"); return; }
+  const nome = rankNomes[uid] || "Membro";
+  // Base automática (sem manuais): calcula e guarda para o ajuste ser determinístico
+  let baseAuto = 0;
+  jogosCache.forEach(j => { if (!j.encerrado) return; const p = palpitesCache.find(x => x.jogoId === j.id && x.usuarioId === uid); if (p && p.casa === j.golsCasa && p.fora === j.golsFora) baseAuto += 3; });
+  try {
+    await addDoc(collection(db, "pontosManual"), { membroId: uid, nomeMembro: nome, pontos: novo - atual, valorFinal: novo, baseAuto, motivo: "Edição direta no ranking", data: new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }), ts: Date.now() });
+    toast(`Pontos de ${nome} atualizados para ${novo}`); renderBolao();
+  } catch (e) { toast("Erro ao salvar pontos", "err"); }
 };
 window.salvarPalpite = async function(jogoId) {
-  if(!usuarioLogado) return;
-  const c=parseInt(document.getElementById("j"+jogoId+"c").value); const f=parseInt(document.getElementById("j"+jogoId+"f").value);
-  if(isNaN(c)||isNaN(f)) { toast("⚠️ Preencha o placar!","err"); return; }
-  const existente=palpitesCache.find(p=>p.jogoId===jogoId&&p.usuarioId===usuarioLogado.id);
-  if(existente) await updateDoc(doc(db,"palpites",existente.id),{casa:c,fora:f,nomeUsuario:usuarioLogado.nome});
-  else await addDoc(collection(db,"palpites"),{jogoId,usuarioId:usuarioLogado.id,nomeUsuario:usuarioLogado.nome,casa:c,fora:f});
-  toast("✅ Palpite salvo!"); renderBolao();
-};
-async function atualizarSelectJogos() {
-  const snap=await getDocs(collection(db,"jogos")); const jogos=snap.docs.map(d=>({id:d.id,...d.data()}));
-  const selF=document.getElementById("j-fechar"); if(selF) { const abertos=jogos.filter(j=>!j.encerrado&&!j.palpitesFechados); selF.innerHTML='<option value="">Selecione...</option>'+abertos.map(j=>`<option value="${j.id}">${j.casa} × ${j.fora} (Rd ${j.rodada})</option>`).join(""); }
-  const selE=document.getElementById("j-encerrar"); if(selE) { const naoEncerrados=jogos.filter(j=>!j.encerrado); selE.innerHTML='<option value="">Selecione...</option>'+naoEncerrados.map(j=>`<option value="${j.id}">${j.casa} × ${j.fora} (Rd ${j.rodada})${j.palpitesFechados?' 🔒':''}</option>`).join(""); }
-}
-async function renderAdmJogos() {
-  const el=document.getElementById("adm-jogos-lista"); if(!el) return;
-  const snap=await getDocs(collection(db,"jogos")); const jogos=snap.docs.map(d=>({id:d.id,...d.data()}));
-  el.innerHTML=jogos.length?jogos.map(j=>{ let badge; if(j.encerrado) badge=`<span style="background:#166534;padding:2px 6px;border-radius:6px;font-size:0.68rem">${j.golsCasa}–${j.golsFora} ✅</span>`; else if(j.palpitesFechados) badge=`<span style="background:#7e4f00;padding:2px 6px;border-radius:6px;font-size:0.68rem">🔒 FECHADO</span>`; else badge=`<span style="background:#b8860b;padding:2px 6px;border-radius:6px;font-size:0.68rem">🟡 ABERTO</span>`; return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)"><span style="font-size:0.88rem">${j.casa} × ${j.fora} <span style="opacity:0.5;font-size:0.75rem">Rd ${j.rodada}</span></span><div style="display:flex;gap:6px;align-items:center">${badge}<button onclick="deletarJogo('${j.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:3px 7px;cursor:pointer">✕</button></div></div>`; }).join(""):'<p class="loading">Nenhum jogo.</p>';
-}
-window.fecharPalpites = async function() { const id=document.getElementById("j-fechar").value; if(!id) { toast("⚠️ Selecione o jogo","err"); return; } await updateDoc(doc(db,"jogos",id),{palpitesFechados:true}); renderAdmJogos(); atualizarSelectJogos(); renderBolao(); toast("🔒 Palpites fechados!"); };
-window.adicionarJogo = async function() { const fora=document.getElementById("j-fora").value; const data=document.getElementById("j-data").value; if(!fora||!data) { toast("⚠️ Preencha visitante e data","err"); return; } await addDoc(collection(db,"jogos"),{casa:document.getElementById("j-casa").value||"Bahia",fora,data,rodada:Number(document.getElementById("j-rodada").value)||1,golsCasa:null,golsFora:null,encerrado:false}); document.getElementById("j-fora").value=""; renderAdmJogos(); atualizarSelectJogos(); toast("✅ Jogo adicionado!"); };
-window.encerrarJogo = async function() { const id=document.getElementById("j-encerrar").value; const gc=Number(document.getElementById("j-gols-casa").value); const gf=Number(document.getElementById("j-gols-fora").value); if(!id) { toast("⚠️ Selecione o jogo","err"); return; } await updateDoc(doc(db,"jogos",id),{golsCasa:gc,golsFora:gf,encerrado:true}); renderAdmJogos(); atualizarSelectJogos(); renderBolao(); toast("✅ Jogo encerrado!"); };
-window.deletarJogo = async function(id) { if(!confirm("Remover jogo?")) return; await deleteDoc(doc(db,"jogos",id)); renderAdmJogos(); atualizarSelectJogos(); toast("✅ Removido!"); };
-async function renderRelatorio() {
-  const statsEl=document.getElementById("rel-stats"); const tabelaEl=document.getElementById("rel-tabela"); const pontosEl=document.getElementById("rel-pontos"); if(!statsEl) return;
-  const [memSnap,usuSnap,pmSnap]=await Promise.all([getDocs(collection(db,"membros")),getDocs(collection(db,"usuarios")),getDocs(collection(db,"pontosManual"))]);
-  const membros=memSnap.docs.map(d=>({id:d.id,...d.data()})).filter(m=>m.status==="ativo");
-  const usuarios=usuSnap.docs.map(d=>({id:d.id,...d.data()}));
-  const pontosManual=pmSnap.docs.map(d=>d.data()).sort((a,b)=>(b.ts||0)-(a.ts||0));
-  const cidades={}; membros.forEach(m=>{ const c=m.cidade||"Não informado"; cidades[c]=(cidades[c]||0)+1; }); const cidadeTop=Object.entries(cidades).sort((a,b)=>b[1]-a[1])[0];
-  statsEl.innerHTML=`<div class="rel-stat"><div class="rel-stat-n">${membros.length}</div><div class="rel-stat-l">Membros ativos</div></div><div class="rel-stat"><div class="rel-stat-n">${Object.keys(cidades).length}</div><div class="rel-stat-l">Cidades</div></div><div class="rel-stat"><div class="rel-stat-n" style="font-size:1rem">${cidadeTop?cidadeTop[0]:'—'}</div><div class="rel-stat-l">Cidade nº1</div></div>`;
-  tabelaEl.innerHTML=membros.length?`<div style="overflow-x:auto"><table class="rel-table"><thead><tr><th>Nome</th><th>Cidade</th><th>Bairro</th><th>Postcode</th><th>Email</th><th>Desde</th></tr></thead><tbody>${membros.map(m=>{const u=usuarios.find(x=>x.email===m.email);return`<tr><td style="font-weight:700">${m.nome}</td><td>${m.cidade||'—'}</td><td>${m.bairro||u?.bairro||'—'}</td><td style="font-family:monospace;letter-spacing:1px">${m.postcode||u?.postcode||'—'}</td><td style="font-size:0.75rem;opacity:0.7">${m.email||'—'}</td><td style="font-size:0.75rem;opacity:0.6">${m.desde||'—'}</td></tr>`;}).join("")}</tbody></table></div>`:'<p class="loading">Nenhum membro ainda.</p>';
-  pontosEl.innerHTML=pontosManual.length?pontosManual.map(pm=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08)"><div><div style="font-weight:700;font-size:0.88rem">${pm.nomeMembro}</div><div style="font-size:0.75rem;opacity:0.6">${pm.motivo}</div><div style="font-size:0.7rem;opacity:0.4">${pm.data}</div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:${pm.pontos>0?'#4ade80':'#f87171'}">${pm.pontos>0?'+':''}${pm.pontos} pts</div></div>`).join(""):'<p style="color:rgba(255,255,255,0.35);font-size:0.82rem">Nenhum ajuste registrado.</p>';
-}
-window.exportarCSV = async function() {
-  const [memSnap,usuSnap]=await Promise.all([getDocs(collection(db,"membros")),getDocs(collection(db,"usuarios"))]);
-  const membros=memSnap.docs.map(d=>d.data()).filter(m=>m.status==="ativo");
-  const usuarios=usuSnap.docs.map(d=>d.data());
-  let csv="Nome,Email,Cidade,Bairro,Postcode,Desde\n";
-  membros.forEach(m=>{const u=usuarios.find(x=>x.email===m.email); csv+=`"${m.nome}","${m.email||""}","${m.cidade||""}","${m.bairro||u?.bairro||""}","${m.postcode||u?.postcode||""}","${m.desde||""}"\n`;});
-  const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="membros-uk-tricolor.csv"; a.click(); toast("✅ CSV exportado!");
+  if (!usuarioLogado) return;
+  const j = jogosCache.find(x => x.id === jogoId);
+  if (!j) { toast("Jogo não encontrado", "err"); return; }
+  if (j.encerrado) { toast("Este jogo já foi encerrado", "err"); return; }
+  if (j.palpitesFechados) { toast("Palpites fechados para este jogo", "err"); return; }
+  const c = parseInt($("j" + jogoId + "c").value), f = parseInt($("j" + jogoId + "f").value);
+  if (isNaN(c) || isNaN(f)) { toast("Preencha o placar dos dois times", "err"); return; }
+  const ex = palpitesCache.find(p => p.jogoId === jogoId && p.usuarioId === usuarioLogado.id);
+  try {
+    if (ex) await updateDoc(doc(db, "palpites", ex.id), { casa: c, fora: f, nomeUsuario: usuarioLogado.nome });
+    else await addDoc(collection(db, "palpites"), { jogoId, usuarioId: usuarioLogado.id, nomeUsuario: usuarioLogado.nome, casa: c, fora: f });
+    toast("Palpite salvo!"); renderBolao();
+  } catch (e) { toast("Erro ao salvar palpite", "err"); }
 };
 
-// INIT
+/* ============ JOGOS (ADMIN) ============ */
+const porDataAdm = (x, y) => (x.data || "9999-99-99").localeCompare(y.data || "9999-99-99") || (Number(x.rodada) || 0) - (Number(y.rodada) || 0);
+async function atualizarSelectJogos() {
+  try {
+    const snap = await getDocs(collection(db, "jogos"));
+    const jogos = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(porDataAdm);
+    const rot = j => `${j.data ? fmtData(j.data) + " · " : ""}${esc(j.casa)} × ${esc(j.fora)} (Rd ${esc(j.rodada)})`;
+    const selF = $("j-fechar");
+    if (selF) selF.innerHTML = '<option value="">Selecione...</option>' + jogos.filter(j => !j.encerrado).map(j => `<option value="${j.id}">${j.palpitesFechados ? "Trancado" : "Aberto"} · ${rot(j)}</option>`).join("");
+    const selE = $("j-encerrar");
+    if (selE) selE.innerHTML = '<option value="">Selecione...</option>' + jogos.filter(j => !j.encerrado).map(j => `<option value="${j.id}">${rot(j)}${j.palpitesFechados ? " (trancado)" : ""}</option>`).join("");
+  } catch (e) {}
+}
+async function renderAdmJogos() {
+  const el = $("adm-jogos-lista"); if (!el) return;
+  try {
+    const snap = await getDocs(collection(db, "jogos"));
+    const jogos = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(porDataAdm);
+    el.innerHTML = jogos.length ? jogos.map(j => {
+      let badge;
+      if (j.encerrado) badge = `<span style="background:#166534;padding:3px 8px;border-radius:6px;font-size:.72rem">Encerrado ${j.golsCasa}–${j.golsFora}</span>`;
+      else if (j.palpitesFechados) badge = `<span style="background:#7e4f00;padding:3px 8px;border-radius:6px;font-size:.72rem">Trancado</span>`;
+      else badge = `<span style="background:#b8860b;padding:3px 8px;border-radius:6px;font-size:.72rem">Aberto</span>`;
+      const trava = j.encerrado ? "" : `<button onclick="alternarTrava('${j.id}',${!!j.palpitesFechados})" title="${j.palpitesFechados ? "Destrancar palpites" : "Trancar palpites"}" style="background:rgba(255,255,255,.16);color:#fff;border:none;border-radius:6px;padding:5px 9px;cursor:pointer">${j.palpitesFechados ? "Destrancar" : "Trancar"}</button>`;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>${esc(j.casa)} × ${esc(j.fora)} <span style="opacity:.5;font-size:.78rem">${j.data ? fmtData(j.data) + " · " : ""}Rd ${esc(j.rodada)}</span></span><div style="display:flex;gap:6px;align-items:center">${badge}${trava}<button onclick="deletarJogo('${j.id}')" style="background:var(--vermelho);color:#fff;border:none;border-radius:6px;padding:5px 9px;cursor:pointer">Excluir</button></div></div>`;
+    }).join("") : '<p style="color:var(--txt3);font-size:.85rem">Nenhum jogo cadastrado.</p>';
+  } catch (e) { el.innerHTML = '<p style="color:var(--txt3);font-size:.85rem">Erro ao carregar jogos.</p>'; }
+}
+window.adicionarJogo = async function() {
+  const casa = $("j-casa").value.trim() || "Bahia";
+  const fora = $("j-fora").value.trim();
+  const data = $("j-data").value;
+  const rodada = $("j-rodada").value || 1;
+  if (!fora) { toast("Preencha o time visitante", "err"); return; }
+  try {
+    await addDoc(collection(db, "jogos"), { casa, fora, data, rodada: Number(rodada), encerrado: false, palpitesFechados: false });
+    ["j-fora", "j-data"].forEach(i => { const el = $(i); if (el) el.value = ""; });
+    $("j-rodada").value = 1; $("j-casa").value = "Bahia";
+    renderAdmJogos(); atualizarSelectJogos(); renderBolao(); toast("Jogo adicionado!");
+  } catch (e) { toast("Erro ao adicionar jogo", "err"); }
+};
+window.fecharPalpites = async function() {
+  const id = $("j-fechar").value;
+  if (!id) { toast("Selecione o jogo", "err"); return; }
+  try {
+    await updateDoc(doc(db, "jogos", id), { palpitesFechados: true });
+    renderAdmJogos(); atualizarSelectJogos(); renderBolao(); toast("Palpites trancados!");
+  } catch (e) { toast("Erro ao trancar", "err"); }
+};
+window.destrancarPalpites = async function() {
+  const id = $("j-fechar").value;
+  if (!id) { toast("Selecione o jogo", "err"); return; }
+  try {
+    await updateDoc(doc(db, "jogos", id), { palpitesFechados: false });
+    renderAdmJogos(); atualizarSelectJogos(); renderBolao(); toast("Palpites destrancados!");
+  } catch (e) { toast("Erro ao destrancar", "err"); }
+};
+window.alternarTrava = async function(id, estaFechado) {
+  try {
+    await updateDoc(doc(db, "jogos", id), { palpitesFechados: !estaFechado });
+    renderAdmJogos(); atualizarSelectJogos(); renderBolao();
+    toast(estaFechado ? "Palpites destrancados!" : "Palpites trancados!");
+  } catch (e) { toast("Erro ao alterar", "err"); }
+};
+window.encerrarJogo = async function() {
+  const id = $("j-encerrar").value;
+  const gc = parseInt($("j-gols-casa").value);
+  const gf = parseInt($("j-gols-fora").value);
+  if (!id) { toast("Selecione o jogo", "err"); return; }
+  if (isNaN(gc) || isNaN(gf) || gc < 0 || gf < 0) { toast("Preencha os gols corretamente", "err"); return; }
+  try {
+    await updateDoc(doc(db, "jogos", id), { encerrado: true, golsCasa: gc, golsFora: gf, palpitesFechados: true });
+    $("j-encerrar").value = ""; $("j-gols-casa").value = ""; $("j-gols-fora").value = "";
+    renderAdmJogos(); atualizarSelectJogos(); renderBolao(); toast("Jogo encerrado!");
+  } catch (e) { toast("Erro ao encerrar", "err"); }
+};
+window.deletarJogo = async function(id) {
+  if (!confirm("Excluir jogo? Os palpites relacionados NÃO serão apagados automaticamente.")) return;
+  try {
+    await deleteDoc(doc(db, "jogos", id));
+    renderAdmJogos(); atualizarSelectJogos(); renderBolao(); toast("Jogo excluído!");
+  } catch (e) { toast("Erro ao excluir", "err"); }
+};
+
+/* ============ RELATÓRIO ============ */
+async function renderRelatorio() {
+  try {
+    const [memSnap, userSnap, pmSnap] = await Promise.all([
+      getDocs(collection(db, "membros")),
+      getDocs(collection(db, "usuarios")),
+      getDocs(collection(db, "pontosManual"))
+    ]);
+    const membros = memSnap.docs.map(d => d.data()).filter(m => m.status === "ativo");
+    const usuarios = userSnap.docs.map(d => d.data());
+    const pm = pmSnap.docs.map(d => d.data()).sort((a, b) => (b.ts || 0) - (a.ts || 0));
+
+    if ($("rel-stats")) $("rel-stats").innerHTML = `
+      <div class="rel-stat"><div class="rel-stat-n">${membros.length}</div><div class="rel-stat-l">Membros ativos</div></div>
+      <div class="rel-stat"><div class="rel-stat-n">${usuarios.length}</div><div class="rel-stat-l">Contas</div></div>
+      <div class="rel-stat"><div class="rel-stat-n">${new Set(membros.map(m => (m.cidade || "").toLowerCase()).filter(Boolean)).size}</div><div class="rel-stat-l">Cidades</div></div>`;
+
+    if ($("rel-tabela")) {
+      $("rel-tabela").innerHTML = membros.length ? `<table class="rel-table"><thead><tr><th>Nome</th><th>Cidade</th><th>Bairro</th><th>Postcode</th></tr></thead><tbody>${membros.map(m => `<tr><td>${esc(m.nome)}</td><td>${esc(m.cidade || "")}</td><td>${esc(m.bairro || "")}</td><td>${esc(m.postcode || "")}</td></tr>`).join("")}</tbody></table>` : '<p style="color:var(--txt3);font-size:.85rem">Nenhum membro ativo.</p>';
+    }
+    if ($("rel-pontos")) {
+      $("rel-pontos").innerHTML = pm.length ? `<table class="rel-table"><thead><tr><th>Membro</th><th>Pontos</th><th>Motivo</th><th>Data</th></tr></thead><tbody>${pm.map(a => `<tr><td>${esc(a.nomeMembro || "")}</td><td>${esc(a.pontos)}</td><td>${esc(a.motivo || "")}</td><td>${esc(a.data || "")}</td></tr>`).join("")}</tbody></table>` : '<p style="color:var(--txt3);font-size:.85rem">Nenhum ajuste manual.</p>';
+    }
+  } catch (e) {
+    if ($("rel-tabela")) $("rel-tabela").innerHTML = '<p style="color:var(--txt3);font-size:.85rem">Erro ao gerar relatório.</p>';
+  }
+}
+window.exportarCSV = async function() {
+  try {
+    const memSnap = await getDocs(collection(db, "membros"));
+    const membros = memSnap.docs.map(d => d.data()).filter(m => m.status === "ativo");
+    const linhas = [["Nome","Cidade","Bairro","Postcode","Cargo","Desde","Email"]];
+    membros.forEach(m => linhas.push([m.nome||"",m.cidade||"",m.bairro||"",m.postcode||"",m.cargo||"",m.desde||"",m.email||""]));
+    const csv = linhas.map(l => l.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "membros-uk-tricolor.csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast("CSV exportado!");
+  } catch (e) { toast("Erro ao exportar", "err"); }
+};
+
+/* ============ INIT ============ */
 async function init() {
-  await carregarConfig();
-  await carregarVideoConfig();
-  await renderGaleria();
-  await renderLoja();
-  await renderNoticias();
-  renderMembros();
-  renderBolao();
+  try { await carregarVideoConfig(); } catch (e) {}
+  try { await carregarConfig(); } catch (e) {}
+  try { await restaurarSessao(); } catch (e) {}
+  try { renderAuth(); } catch (e) {}
+  try { await renderNoticias(); } catch (e) {}
+  try { await renderLoja(); } catch (e) {}
+  try { await renderGaleria(); } catch (e) {}
+  try { await renderMembros(); } catch (e) {}
+  try { await renderReunioes(); } catch (e) {}
+  const h = location.hash.slice(1);
+  if (h && $(h) && $(h).classList.contains("page")) ir(h, true);
 }
 init();
 </script>
 </body>
-        </html>
+</html>
